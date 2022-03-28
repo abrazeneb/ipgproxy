@@ -73,7 +73,11 @@ public class CardPaymentService implements PayWithCardUseCase {
             shared
          */
 
-
+    // merchantId -> tenantId
+        //try access details
+        //
+        //memberid/partnerid
+    //in port merchant identifier -> inner -> out port
 
         //Orika mapper
 
