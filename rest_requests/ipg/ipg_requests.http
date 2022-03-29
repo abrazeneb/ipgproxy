@@ -1,0 +1,23 @@
+#### auth token
+
+POST https://tp.sepa-cyber.com/merchantServices/api/v1/authToken HTTP/1.1
+content-type: application/json
+
+{
+    "authentication.partnerId":4,
+	"merchant.username": "sepamuse3stg",
+	"authentication.sKey": "azL8AHD8D3nghiTY3bJTIFiL0uww6y8V"
+}
+
+#### or using transaction end point
+POST https://tp.sepa-cyber.com/transactionServices/REST/v1/authToken HTTP/1.1
+content-type: application/json
+
+{
+    "authentication.partnerId":4,
+	"merchant.username": "sepamuse3stg",
+	"authentication.sKey": "azL8AHD8D3nghiTY3bJTIFiL0uww6y8V"
+}
+
+#####
+
