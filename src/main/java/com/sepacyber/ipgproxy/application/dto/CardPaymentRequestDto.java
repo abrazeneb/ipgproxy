@@ -1,6 +1,6 @@
-package com.sepacyber.ipgproxy.application.ports.in;
+package com.sepacyber.ipgproxy.application.dto;
 
-import com.sepacyber.ipgproxy.application.dto.CardPaymentRequestDto;
+import com.sepacyber.ipgproxy.provideradapter.ipg.dto.AuthenticationDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,16 +11,17 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PayWithCardCommand {
+@Builder
+public class CardPaymentRequestDto implements Serializable {
     private static final long serialVersionUID = -7386611585973460668L;
 
     private String merchantTransactionId;
     private Double amount;
     private String currency;
     private String orderDescriptor;
-    private CardPaymentRequestDto.ShippingAddress shipping;
-    private CardPaymentRequestDto.Customer customer;
-    private CardPaymentRequestDto.Card card;
+    private ShippingAddress shipping;
+    private Customer customer;
+    private Card card;
     private String paymentBrand;
     private String paymentMode;
     private String paymentType;
@@ -77,5 +78,6 @@ public class PayWithCardCommand {
         private String expiryMonth;
         private String expiryYear;
         private String cvv;
+
     }
 }
