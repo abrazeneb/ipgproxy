@@ -1,0 +1,43 @@
+app:
+    service:
+        id: ${SERVICE_NAME}
+management:
+    endpoint:
+        health:
+            show-details: always
+    endpoints:
+        web:
+            exposure:
+                include: '*'
+server:
+    error:
+        whitelabel:
+            enabled: false
+    port: 8080
+    servlet:
+        context-path: /config
+        session:
+            timeout: 10m
+spring:
+    application:
+        name: config-sidecar
+    datasource:
+        driverClassName: org.postgresql.Driver
+        hikari:
+            password: ${DB_PASSWORD}
+            username: ${DB_USERNAME}
+        url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    flyway:
+        password: ${DB_PASSWORD}
+        url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+        user: ${DB_USERNAME}
+    jpa:
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQL81Dialect
+                format_sql: true
+        show-sql: true
+    redis:
+        database: 2
+        host: ${REDIS_HOST}
+        port: ${REDIS_PORT}
