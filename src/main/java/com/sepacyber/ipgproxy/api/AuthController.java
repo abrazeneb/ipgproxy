@@ -2,6 +2,7 @@ package com.sepacyber.ipgproxy.api;
 
 import com.sepacyber.ipgproxy.application.ports.in.AuthUseCases;
 import com.sepacyber.ipgproxy.application.ports.in.GetAuthTokenCommand;
+import com.sepacyber.ipgproxy.application.ports.in.RegenerateAuthTokenCommand;
 import com.sepacyber.ipgproxy.application.ports.in.responses.GetAuthTokenCommandResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,4 +24,12 @@ public class AuthController {
         log.info("Processing auth-token request, for request {}", command);
         return authUseCases.getAuthToken(command);
     }
+
+    @PostMapping("/regenerate-auth-token")
+    public GetAuthTokenCommandResponse regenerateAuthToken(@RequestBody RegenerateAuthTokenCommand command){
+        log.info("Processing regenerate auth-token request, for request {}", command);
+        return authUseCases.regenerateAuthToken(command);
+    }
+
+
 }
