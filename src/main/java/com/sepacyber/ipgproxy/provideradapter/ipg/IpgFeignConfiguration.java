@@ -16,5 +16,8 @@ public class IpgFeignConfiguration {
      * Set the Feign specific log level to log client REST requests.
      */
     @Bean
-    Logger.Level feignLoggerLevel() {return Logger.Level.BASIC;}
+    Logger.Level feignLoggerLevel() {return Logger.Level.FULL;}
 }
+
+
+

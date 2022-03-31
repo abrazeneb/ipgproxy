@@ -1,12 +1,13 @@
-package com.sepacyber.ipgproxy.application.ports.in.responses;
+package com.sepacyber.ipgproxy.provideradapter.ipg.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAuthTokenResponse {
-    private String authToken;
+public class MerchantDto {
+    private String username;
 }

@@ -1,18 +1,23 @@
 package com.sepacyber.ipgproxy.provideradapter.ipg.auth;
 
+import com.sepacyber.ipgproxy.application.ports.in.GetAuthTokenCommand;
+import com.sepacyber.ipgproxy.application.ports.in.responses.GetAuthTokenCommandResponse;
 import com.sepacyber.ipgproxy.application.ports.out.AuthPort;
 import lombok.RequiredArgsConstructor;
+import ma.glasnost.orika.MapperFacade;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class IpgAuthService implements AuthPort {
 
-    @Override
-    public String getAuthToken() {
-         // TODO method param to ipg request param
-        // send request to ipg
-        return null;
-    }
+    private final IpgAuthApiClient client;
+    private final MapperFacade mapper;
 
+    @Override
+    public GetAuthTokenCommandResponse getAuthToken(GetAuthTokenCommand command) {
+        var request = mapper.map(command, AuthTokenRequest.class);
+        var result = client.getAuthToken(request);
+        return mapper.map(result.getBody(), GetAuthTokenCommandResponse.class);
+    }
 }
