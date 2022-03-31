@@ -1,6 +1,7 @@
 package com.sepacyber.ipgproxy.provideradapter.ipg.auth;
 
-import com.sepacyber.ipgproxy.provideradapter.ipg.payment.response.Result;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sepacyber.ipgproxy.provideradapter.ipg.Result;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthTokenResponse {
-    private String LoginName;
-    private String AuthToken;
+
+    @JsonProperty("LoginName")
+    private String loginName;
+    @JsonProperty("AuthToken")
+    private String authToken;
     private long partnerId;
     private long memberId;
     private String timestamp;

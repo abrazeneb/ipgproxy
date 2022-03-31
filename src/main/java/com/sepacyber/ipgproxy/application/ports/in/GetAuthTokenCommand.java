@@ -6,4 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class GetAuthTokenCommand {
+    private long ipgPartnerId;
+    private String ipgSecureKey;
+    private String ipgUsername;
 }
