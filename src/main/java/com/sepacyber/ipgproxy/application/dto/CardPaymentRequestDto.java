@@ -1,6 +1,5 @@
 package com.sepacyber.ipgproxy.application.dto;
 
-import com.sepacyber.ipgproxy.provideradapter.ipg.dto.AuthenticationDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

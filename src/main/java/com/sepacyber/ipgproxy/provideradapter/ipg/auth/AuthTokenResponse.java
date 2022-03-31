@@ -1,6 +1,6 @@
 package com.sepacyber.ipgproxy.provideradapter.ipg.auth;
 
-import com.sepacyber.ipgproxy.provideradapter.ipg.Result;
+import com.sepacyber.ipgproxy.provideradapter.ipg.payment.response.Result;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

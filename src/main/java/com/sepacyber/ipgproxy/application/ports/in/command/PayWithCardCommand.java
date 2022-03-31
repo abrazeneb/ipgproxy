@@ -1,6 +1,5 @@
-package com.sepacyber.ipgproxy.application.ports.in;
+package com.sepacyber.ipgproxy.application.ports.in.command;
 
-import com.sepacyber.ipgproxy.application.dto.CardPaymentRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,15 +11,15 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PayWithCardCommand {
-    private static final long serialVersionUID = -7386611585973460668L;
+    private static final long serialVersionUID = -1857255447116994574L;
 
     private String merchantTransactionId;
     private Double amount;
     private String currency;
     private String orderDescriptor;
-    private CardPaymentRequestDto.ShippingAddress shipping;
-    private CardPaymentRequestDto.Customer customer;
-    private CardPaymentRequestDto.Card card;
+    private ShippingAddress shipping;
+    private Customer customer;
+    private CommandCard card;
     private String paymentBrand;
     private String paymentMode;
     private String paymentType;
@@ -37,7 +36,7 @@ public class PayWithCardCommand {
     @Builder
     public static class ShippingAddress implements Serializable {
 
-        private static final long serialVersionUID = 8146342246740707664L;
+        private static final long serialVersionUID = -7598944911317883991L;
         private String country;
         private String city;
         private String state;
@@ -54,7 +53,7 @@ public class PayWithCardCommand {
     @Builder
     public static class Customer implements Serializable {
 
-        private static final long serialVersionUID = -3649915172023934060L;
+        private static final long serialVersionUID = -7287232475033060675L;
         private Long customerId;
         private String telnocc;
         private String phone;
@@ -64,18 +63,5 @@ public class PayWithCardCommand {
         private String ip;
         private String birthDate;
 
-    }
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class Card implements Serializable {
-
-        private static final long serialVersionUID = 3422889931659967612L;
-        private String numbercc;
-        private String expiryMonth;
-        private String expiryYear;
-        private String cvv;
     }
 }

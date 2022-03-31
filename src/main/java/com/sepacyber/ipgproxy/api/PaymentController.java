@@ -1,6 +1,6 @@
 package com.sepacyber.ipgproxy.api;
 
-import com.sepacyber.ipgproxy.application.ports.in.PayWithCardCommand;
+import com.sepacyber.ipgproxy.application.ports.in.command.PayWithCardCommand;
 import com.sepacyber.ipgproxy.application.ports.in.PayWithCardUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +19,6 @@ public class PaymentController {
     @RequestMapping("/card")
     public void payWithCard(@RequestBody PayWithCardCommand payWithCardCommand) {
         log.debug("Precessing pay with card request for request {}", payWithCardCommand );
-        payWithCardUseCase.payWithCard(payWithCardCommand);
+        payWithCardUseCase.payWithCard(null, payWithCardCommand);
     }
 }

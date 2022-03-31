@@ -1,0 +1,36 @@
+package com.sepacyber.ipgproxy.provideradapter.ipg.payment.response;
+
+import com.sepacyber.ipgproxy.provideradapter.ipg.payment.Bankaccount;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+public class IpgCardsAndAccountsResponse extends IpgBaseResponseDto {
+    private Long partnerId;
+    private Long memberId;
+    private Long customerId;
+    private List<Card> cards;
+    private List<Bankaccount> bankaccounts;
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Card {
+        private String registrationId;
+        private String registrationStatus;
+        private String cardType;
+        private String bin;
+        private String last4Digits;
+        private String expiryMonth;
+        private String expiryYear;
+    }
+}
