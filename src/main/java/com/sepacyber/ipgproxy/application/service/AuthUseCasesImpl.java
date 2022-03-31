@@ -2,7 +2,7 @@ package com.sepacyber.ipgproxy.application.service;
 
 import com.sepacyber.ipgproxy.application.ports.in.AuthUseCases;
 import com.sepacyber.ipgproxy.application.ports.in.GetAuthTokenCommand;
-import com.sepacyber.ipgproxy.application.ports.in.responses.GetAuthTokenResponse;
+import com.sepacyber.ipgproxy.application.ports.in.responses.GetAuthTokenCommandResponse;
 import com.sepacyber.ipgproxy.application.ports.out.AuthPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,10 +15,11 @@ public class AuthUseCasesImpl implements AuthUseCases {
     private final AuthPort authPort;
 
     @Override
-    public GetAuthTokenResponse getAuthToken(GetAuthTokenCommand command) {
-
+    public GetAuthTokenCommandResponse getAuthToken(GetAuthTokenCommand command) {
         //TODO:
-        var authToken = this.authPort.getAuthToken();
-        return new GetAuthTokenResponse(authToken);
+        return this.authPort.getAuthToken(command);
     }
+
+
+
 }

@@ -1,8 +1,8 @@
 package com.sepacyber.ipgproxy.application.ports.in;
 
-import com.sepacyber.ipgproxy.application.ports.in.responses.GetAuthTokenResponse;
+import com.sepacyber.ipgproxy.application.ports.in.responses.GetAuthTokenCommandResponse;
 
 public interface AuthUseCases {
 
-    public GetAuthTokenResponse getAuthToken(GetAuthTokenCommand command);
+    public GetAuthTokenCommandResponse getAuthToken(GetAuthTokenCommand command);
 }
