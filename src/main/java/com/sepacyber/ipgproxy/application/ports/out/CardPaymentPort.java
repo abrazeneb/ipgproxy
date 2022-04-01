@@ -1,9 +1,10 @@
 package com.sepacyber.ipgproxy.application.ports.out;
 
-import com.sepacyber.ipgproxy.application.dto.CardPaymentRequestDto;
-import com.sepacyber.ipgproxy.application.ports.in.PayWithCardCommand;
-import com.sepacyber.ipgproxy.application.ports.in.PayWithCardCommandResult;
+import com.sepacyber.ipgproxy.application.ports.in.command.PayWithCardCommand;
+import com.sepacyber.ipgproxy.application.ports.in.responses.PayWithCardResponse;
+import com.sepacyber.ipgproxy.application.ports.in.result.PayWithCardCommandResponse;
 
 public interface CardPaymentPort {
-    PayWithCardCommandResult pay(PayWithCardCommand payWithCardCommand);
+    PayWithCardResponse pay(String authToken, PayWithCardCommand payWithCardCommand);
+    PayWithCardCommandResponse payAsync(PayWithCardCommand payWithCardCommand);
 }

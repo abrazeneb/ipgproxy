@@ -1,14 +1,15 @@
-package com.sepacyber.ipgproxy.provideradapter.ipg.dto;
+package com.sepacyber.ipgproxy.provideradapter.ipg.payment.response;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper=false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 public class IpgPaymentResponseDto extends IpgBaseResponseDto {
     private static final long serialVersionUID = -6974926602050926306L;
 
@@ -18,7 +19,7 @@ public class IpgPaymentResponseDto extends IpgBaseResponseDto {
     private String paymentMode;
     private String amount;
     private String descriptor;
-    private Card card;
+    private IpgCardResponse card;
     private String timestamp;
     private String transactionStatus;
     private String merchantTransactionId;
@@ -26,19 +27,7 @@ public class IpgPaymentResponseDto extends IpgBaseResponseDto {
     private String currency;
     private String tmplCurrency;
     private String tmplAmount;
+    private IpgPaymentRedirect redirect;
 
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class Card implements Serializable {
-
-        private static final long serialVersionUID = 1915074784035395178L;
-        private String bin;
-        private String last4Digits;
-        private String holder;
-        private String expiryMonth;
-        private String expiryYear;
-    }
 }
