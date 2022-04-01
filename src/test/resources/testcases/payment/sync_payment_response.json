@@ -1,0 +1,26 @@
+{
+  "paymentId": "54279",
+  "paymentBrand": "VISA",
+  "paymentType": "DB",
+  "paymentMode": "CC",
+  "amount": "50.00",
+  "descriptor": "RestTransDescriptor",
+  "result": {
+    "code": "00001",
+    "description": "Transaction succeeded"
+  },
+  "card": {
+    "bin": "400000",
+    "last4Digits": "0051",
+    "holder": "John Doe",
+    "expiryMonth": "07",
+    "expiryYear": "2022"
+  },
+  "timestamp": "2018-06-01 16:31:36",
+  "transactionStatus": "Y",
+  "merchantTransactionId": "Rest Transaction 01",
+  "remark": "AUTHORIZATION SUCCESS",
+  "currency": "EUR",
+  "tmpl_currency": "EUR",
+  "tmpl_amount": "50.00"
+}

@@ -1,0 +1,45 @@
+
+{
+  "authentication": {
+    "memberId" : 50001,
+    "accountId" : null,
+    "checksum": "9842f7a8d8dd797e026a92cf70aa0431",
+    "terminalId": null
+  },
+  "merchantTransactionId" : "12346",
+  "amount" : 50.10,
+  "currency" : "EUR",
+  "orderDescriptor": "Test Transaction",
+  "shipping": {
+    "country" : "UK",
+    "city" : "Aston",
+    "stat": "NA",
+    "postcode": "CH5 3LJ",
+    "street1" : "19 Scrimshire Lane"
+  },
+  "customer": {
+    "telnocc" : "+44",
+    "phone" : "07730432996",
+    "email" : "john.doe@xyz.com",
+    "givenName" : "John",
+    "surname" : "Doe",
+    "ip" : "192.168.13.107",
+    "birthDate" : 19890202
+  },
+  "card" : {
+    "number" : "4000000000000051",
+    "expiryMonth":	"07",
+    "expiryYear" : "2023",
+    "cvv" : "745"
+  },
+  "paymentBrand" : "VISA",
+  "paymentMode" : "CC",
+  "paymentType": "DB",
+  "merchantRedirectUrl" : "https://www.merchantRedirectUrl.com",
+  "notificationUrl" : "www.merchantNotificationUrl.com",
+  "tmpl_amount" : 50.00,
+  "tmpl_currency" : "EUR",
+  "recurringType" : "INITIAL",
+  "createRegistration" : true,
+  "customer.customerId" : 12345
+}
