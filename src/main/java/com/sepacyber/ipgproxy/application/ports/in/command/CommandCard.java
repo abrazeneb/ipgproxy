@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class CommandCard implements Serializable {
 
     private static final long serialVersionUID = -4928786568792283035L;
-    private String numbercc;
+    private String number;
     private String expiryMonth;
     private String expiryYear;
     private String cvv;

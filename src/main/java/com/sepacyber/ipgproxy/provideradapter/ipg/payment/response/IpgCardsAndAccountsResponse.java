@@ -1,14 +1,12 @@
 package com.sepacyber.ipgproxy.provideradapter.ipg.payment.response;
 
 import com.sepacyber.ipgproxy.provideradapter.ipg.payment.Bankaccount;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper=false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

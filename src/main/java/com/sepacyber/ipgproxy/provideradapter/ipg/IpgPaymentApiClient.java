@@ -24,7 +24,7 @@ public interface IpgPaymentApiClient {
 
     @PostMapping("/payments/{id}")
     ResponseEntity<IpgPaymentStatusResponseDto> paymentStatus(
-            @RequestHeader(value = "AuthToken") final String token,
+            @RequestHeader(value = "authtoken") final String token,
             @PathVariable("id") String id,
             @RequestBody final IpgPaymentStatusRequest requestDto);
 

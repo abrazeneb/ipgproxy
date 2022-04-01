@@ -2,11 +2,12 @@ package com.sepacyber.ipgproxy.api;
 
 import com.sepacyber.ipgproxy.application.ports.in.command.PayWithCardCommand;
 import com.sepacyber.ipgproxy.application.ports.in.PayWithCardUseCase;
+import com.sepacyber.ipgproxy.application.ports.in.responses.PayWithCardResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -16,9 +17,14 @@ public class PaymentController {
 
     private final PayWithCardUseCase payWithCardUseCase;
 
-    @RequestMapping("/card")
-    public void payWithCard(@RequestBody PayWithCardCommand payWithCardCommand) {
+    @PostMapping("/card")
+    public PayWithCardResponse payWithCard(@RequestHeader("authToken") String authtoken,
+                                           @RequestBody PayWithCardCommand payWithCardCommand,
+                                           HttpServletRequest request) {
         log.debug("Precessing pay with card request for request {}", payWithCardCommand );
-        payWithCardUseCase.payWithCard(null, payWithCardCommand);
+        PayWithCardCommand.Customer customer= payWithCardCommand.getCustomer();
+        customer.setIp(request.getRemoteAddr());
+        payWithCardCommand.setCustomer(customer);
+        return payWithCardUseCase.payWithCard(authtoken, payWithCardCommand);
     }
 }

@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class AuthenticationDto implements Serializable {
 
     private static final long serialVersionUID = -8705921699496882791L;
-    private long partnerId;
+    private Long partnerId;
     private Long memberId;
     private String sKey;
     private Long accountId;

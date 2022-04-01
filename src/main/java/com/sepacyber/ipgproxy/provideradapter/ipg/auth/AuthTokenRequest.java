@@ -1,8 +1,6 @@
 package com.sepacyber.ipgproxy.provideradapter.ipg.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sepacyber.ipgproxy.provideradapter.ipg.dto.AuthenticationDto;
-import com.sepacyber.ipgproxy.provideradapter.ipg.dto.MerchantDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

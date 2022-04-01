@@ -29,7 +29,7 @@ public class CardPaymentRequestDto implements Serializable {
     private String recurringType;
     private Double tmpl_amount;
     private String tmpl_currency;
-    private Double createRegistration;
+    private Boolean createRegistration;
 
     @Data
     @AllArgsConstructor

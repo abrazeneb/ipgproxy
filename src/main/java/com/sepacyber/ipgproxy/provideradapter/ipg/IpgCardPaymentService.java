@@ -1,8 +1,10 @@
 package com.sepacyber.ipgproxy.provideradapter.ipg;
 
 import com.sepacyber.ipgproxy.application.ports.in.command.PayWithCardCommand;
+import com.sepacyber.ipgproxy.application.ports.in.responses.PayWithCardResponse;
 import com.sepacyber.ipgproxy.application.ports.in.result.PayWithCardCommandResponse;
 import com.sepacyber.ipgproxy.application.ports.out.CardPaymentPort;
+import com.sepacyber.ipgproxy.provideradapter.ipg.payment.request.AuthenticationDto;
 import com.sepacyber.ipgproxy.provideradapter.ipg.payment.request.IpgSyncPaymentRequestDto;
 import com.sepacyber.ipgproxy.provideradapter.ipg.payment.response.IpgPaymentResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -19,17 +21,15 @@ public class IpgCardPaymentService  implements CardPaymentPort {
     private final IpgPaymentApiClient ipgPaymentApiClient;
     private final MapperFacade mapper;
 
-
     @Override
-    public PayWithCardCommandResponse pay(String authToken, PayWithCardCommand payWithCardCommand) {
-       //Add mapping here to convert from in port dto to out port dto
+    public PayWithCardResponse pay(String authToken, PayWithCardCommand payWithCardCommand) {
         log.debug("Processing ipg card payment");
         IpgSyncPaymentRequestDto requestDto = mapper.map(payWithCardCommand, IpgSyncPaymentRequestDto.class);
-      /*  IpgChecksumUtil.generateSyncTransactionAmd5Checksum(requestDto.getAuthentication().getMemberId(),
-                requestDto.get)*/
+        AuthenticationDto authenticationDto = mapper.map(payWithCardCommand, AuthenticationDto.class);
+        requestDto.setAuthentication(authenticationDto);
         ResponseEntity<IpgPaymentResponseDto> response = ipgPaymentApiClient.pay(authToken, requestDto);
         log.debug("Received response from ipg client {}", response);
-        return mapper.map(response.getBody(), PayWithCardCommandResponse.class);
+        return mapper.map(response.getBody(), PayWithCardResponse.class);
     }
 
     @Override

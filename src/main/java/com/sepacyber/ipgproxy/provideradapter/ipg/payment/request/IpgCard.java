@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class IpgCard implements Serializable {
 
     private static final long serialVersionUID = 4019594936981535772L;
-    private String numbercc;
+    private String number;
     private String expiryMonth;
     private String expiryYear;
     private String cvv;
