@@ -47,5 +47,17 @@ content-type: application/json
 }
 
 
+####
+
+POST http://localhost:8080/auth/regenerate-auth-token HTTP/1.1
+content-type: application/json
+
+{
+    "ipgPartnerId":4,
+	"authToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTZXBhTWVyY2hhbnQiLCJyb2xlIjoibWVyY2hhbnQiLCJpc3MiOiJQWiIsImV4cCI6MTY0ODcyNzkyNH0.K6XXncHLX2OBX2gwSzY_PphacmE8fWag6zEWxGDQatM"
+}
+
+
+
 ###
 
