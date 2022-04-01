@@ -1,6 +1,7 @@
 package com.sepacyber.ipgproxy.provideradapter.ipg.auth;
 
 import com.sepacyber.ipgproxy.application.ports.in.GetAuthTokenCommand;
+import com.sepacyber.ipgproxy.application.ports.in.RegenerateAuthTokenCommand;
 import com.sepacyber.ipgproxy.application.ports.in.responses.GetAuthTokenCommandResponse;
 import com.sepacyber.ipgproxy.application.ports.out.AuthPort;
 import lombok.RequiredArgsConstructor;
@@ -20,4 +21,13 @@ public class IpgAuthService implements AuthPort {
         var result = client.getAuthToken(request);
         return mapper.map(result.getBody(), GetAuthTokenCommandResponse.class);
     }
+
+    @Override
+    public GetAuthTokenCommandResponse regenerateAuthToken(RegenerateAuthTokenCommand command) {
+        var request = mapper.map(command, RegenerateAuthTokenRequest.class);
+        var result = client.regenerateAuthToken(request);
+        return mapper.map(result.getBody(), GetAuthTokenCommandResponse.class);
+    }
+
+
 }

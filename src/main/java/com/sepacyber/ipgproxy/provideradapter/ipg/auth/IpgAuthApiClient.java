@@ -13,4 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface IpgAuthApiClient {
     @PostMapping(value="/authToken")
     ResponseEntity<AuthTokenResponse> getAuthToken(AuthTokenRequest request);
+
+    @PostMapping("/regenerateToken")
+    ResponseEntity<AuthTokenResponse> regenerateAuthToken(RegenerateAuthTokenRequest request);
 }

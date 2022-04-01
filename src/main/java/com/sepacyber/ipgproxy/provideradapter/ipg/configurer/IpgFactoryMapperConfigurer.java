@@ -1,11 +1,12 @@
 package com.sepacyber.ipgproxy.provideradapter.ipg.configurer;
 
 import com.sepacyber.ipgproxy.application.ports.in.GetAuthTokenCommand;
+import com.sepacyber.ipgproxy.application.ports.in.RegenerateAuthTokenCommand;
 import com.sepacyber.ipgproxy.application.ports.in.command.PayWithCardCommand;
 import com.sepacyber.ipgproxy.provideradapter.ipg.IpgChecksumUtil;
 import com.sepacyber.ipgproxy.provideradapter.ipg.auth.AuthTokenRequest;
+import com.sepacyber.ipgproxy.provideradapter.ipg.auth.RegenerateAuthTokenRequest;
 import com.sepacyber.ipgproxy.provideradapter.ipg.payment.request.AuthenticationDto;
-import com.sepacyber.ipgproxy.provideradapter.ipg.payment.request.IpgSyncPaymentRequestDto;
 import com.sepacyber.ipgproxy.shared.mapper.ConfigurableMapperConfigurer;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.CustomMapper;
@@ -22,8 +23,18 @@ public class IpgFactoryMapperConfigurer implements ConfigurableMapperConfigurer 
                 .customize(new CustomMapper<GetAuthTokenCommand, AuthTokenRequest>() {
                     @Override
                     public void mapAtoB(GetAuthTokenCommand source, AuthTokenRequest destination, MappingContext context) {
-                        destination.setAuthentication(mapperFacade.map(source, AuthTokenRequest.Authentication.class));
-                        destination.setMerchant(mapperFacade.map(source, AuthTokenRequest.Merchant.class));
+                    destination.setAuthentication(mapperFacade.map(source, AuthTokenRequest.Authentication.class));
+                    destination.setMerchant(mapperFacade.map(source, AuthTokenRequest.Merchant.class));
+                    }
+                }).register();
+
+
+        factory.classMap(RegenerateAuthTokenCommand.class, RegenerateAuthTokenRequest.class)
+                .customize(new CustomMapper<RegenerateAuthTokenCommand, RegenerateAuthTokenRequest>() {
+                    @Override
+                    public void mapAtoB(RegenerateAuthTokenCommand source, RegenerateAuthTokenRequest destination, MappingContext context) {
+                       destination.setAuthentication(mapperFacade.map(source, RegenerateAuthTokenRequest.Authentication.class));
+                       destination.setAuthToken(source.getAuthToken());
                     }
                 }).register();
 
@@ -31,8 +42,8 @@ public class IpgFactoryMapperConfigurer implements ConfigurableMapperConfigurer 
                 .customize(new CustomMapper<GetAuthTokenCommand, AuthTokenRequest.Authentication>() {
                     @Override
                     public void mapAtoB(GetAuthTokenCommand source, AuthTokenRequest.Authentication destination, MappingContext context) {
-                        destination.setSKey(source.getIpgSecureKey());
-                        destination.setPartnerId(source.getIpgPartnerId());
+                    destination.setSKey(source.getIpgSecureKey());
+                    destination.setPartnerId(source.getIpgPartnerId());
                     }
                 }).register();
 
@@ -41,9 +52,18 @@ public class IpgFactoryMapperConfigurer implements ConfigurableMapperConfigurer 
                 .customize(new CustomMapper<GetAuthTokenCommand, AuthTokenRequest.Merchant>() {
                     @Override
                     public void mapAtoB(GetAuthTokenCommand source, AuthTokenRequest.Merchant destination, MappingContext context) {
-                        destination.setUsername(source.getIpgUsername());
+                    destination.setUsername(source.getIpgUsername());
                     }
                 }).register();
+
+        factory.classMap(RegenerateAuthTokenCommand.class, RegenerateAuthTokenRequest.Authentication.class)
+                .customize(new CustomMapper<RegenerateAuthTokenCommand, RegenerateAuthTokenRequest.Authentication>() {
+                    @Override
+                    public void mapAtoB(RegenerateAuthTokenCommand source, RegenerateAuthTokenRequest.Authentication destination, MappingContext context) {
+                        destination.setPartnerId(source.getIpgPartnerId());
+                    }
+                }).register();
+
 
         factory.classMap(PayWithCardCommand.class, AuthenticationDto.class)
                 .customize(new CustomMapper<>() {
@@ -57,6 +77,5 @@ public class IpgFactoryMapperConfigurer implements ConfigurableMapperConfigurer 
                                 source.getAmount()));
                     }
                 }).register();
-
     }
 }
