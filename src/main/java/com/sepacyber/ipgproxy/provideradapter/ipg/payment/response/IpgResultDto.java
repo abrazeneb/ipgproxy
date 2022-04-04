@@ -1,4 +1,4 @@
-package com.sepacyber.ipgproxy.provideradapter.ipg.dto;
+package com.sepacyber.ipgproxy.provideradapter.ipg.payment.response;
 
 
 import lombok.AllArgsConstructor;

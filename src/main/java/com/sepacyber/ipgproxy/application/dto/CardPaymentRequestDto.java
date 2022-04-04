@@ -1,6 +1,5 @@
 package com.sepacyber.ipgproxy.application.dto;
 
-import com.sepacyber.ipgproxy.provideradapter.ipg.dto.AuthenticationDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +29,7 @@ public class CardPaymentRequestDto implements Serializable {
     private String recurringType;
     private Double tmpl_amount;
     private String tmpl_currency;
-    private Double createRegistration;
+    private Boolean createRegistration;
 
     @Data
     @AllArgsConstructor
