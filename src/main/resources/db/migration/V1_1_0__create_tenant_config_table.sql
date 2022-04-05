@@ -1,21 +1,15 @@
-DO
-$$
-    BEGIN
+DELIMITER $$
+CREATE TABLE tenant_config
+(
+    tenant_config_id  BINARY(16) NOT NULL,
+    tenant_id        VARCHAR(50) not null unique,
+    meta_data        JSON       NOT NULL,
+    remark           VARCHAR(500),
+    created_by       VARCHAR(20) DEFAULT 'SYSTEM',
+    created_date     DATE DEFAULT (CURRENT_DATE),
+    updated_by       VARCHAR(20) DEFAULT 'SYSTEM',
+    updated_date     DATE DEFAULT (CURRENT_DATE),
+    PRIMARY KEY (tenant_config_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8$$
 
-        CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
-        -- #################  table - tenant_config #################
-        CREATE TABLE IF NOT EXISTS tenant_config
-        (
-            tenant_config_id UUID PRIMARY KEY DEFAULT UUID_GENERATE_V4(),
-            tenant_id        varchar(50) not null unique,
-            meta_data        jsonb       NOT NULL,
-            remark           VARCHAR(500),
-            created_by       VARCHAR(20),
-            created_date     TIMESTAMPTZ,
-            updated_by       VARCHAR(20),
-            updated_date     TIMESTAMPTZ
-        );
-
-    END
-$$;
+DELIMITER ;

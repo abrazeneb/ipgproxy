@@ -1,10 +1,14 @@
 package com.sepacyber.services.sidecar.configsidecar.domain.entity.sql;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,38 +16,29 @@ import java.util.UUID;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class TenantConfigEntity extends Audited {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "tenant_config_id")
+    @Column(name = "tenant_config_id" , columnDefinition = "BINARY(16)")
+    @ColumnTransformer(write="uuid_to_bin(?)")
     private UUID tenantConfigId;
 
     @Column(name = "tenant_id", unique = true, nullable = false)
     private String tenantId;
 
     @Type(type = "json")
-    @Column(name = "meta_data", columnDefinition = "jsonb", nullable = false)
+    @Column(name = "meta_data", columnDefinition = "JSON", nullable = false)
     private Map<String, Object> metaData;
-
-    @Column(name = "created_by")
-    private String createdBy;
-
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
-
-    @Column(name = "updated_by")
-    private String updatedBy;
-
-    @Column(name = "updated_date")
-    private LocalDateTime updatedDate;
 
     @Column(name = "remark")
     private String remark;
 
+    public TenantConfigEntity() {
+        super();
+    }
 }
 
 

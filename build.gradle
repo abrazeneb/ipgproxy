@@ -48,7 +48,7 @@ dependencies {
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.3'
 	implementation 'com.vladmihalcea:hibernate-types-52:2.12.1' /* includes useful hibernate types to map postgres jsonb column to java objects  */
 
-	runtimeOnly 'org.postgresql:postgresql'
+	implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.4'
 
 	implementation 'org.apache.commons:commons-lang3:3.0'
 	implementation 'com.google.code.gson:gson:2.8.6'

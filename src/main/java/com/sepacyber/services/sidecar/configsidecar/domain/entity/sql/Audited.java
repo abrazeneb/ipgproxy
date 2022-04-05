@@ -3,7 +3,11 @@ package com.sepacyber.services.sidecar.configsidecar.domain.entity.sql;
 import com.vladmihalcea.hibernate.type.array.IntArrayType;
 import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonType;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 import org.springframework.util.StringUtils;
@@ -21,23 +25,33 @@ import java.time.LocalDateTime;
         @TypeDef(name = "int-array", typeClass = IntArrayType.class),
         @TypeDef(name = "json", typeClass = JsonType.class)})
 @MappedSuperclass
+@SuperBuilder
 @Data
 public abstract class Audited implements Serializable {
 
     @Column(name = "created_by")
+    @Getter(AccessLevel.PUBLIC)
+    @Setter(AccessLevel.PUBLIC)
     private String createdBy;
 
     @Column(name = "created_date")
+    @Getter(AccessLevel.PUBLIC)
+    @Setter(AccessLevel.PUBLIC)
     private LocalDateTime createdDate;
 
     @Column(name = "updated_by")
+    @Getter(AccessLevel.PUBLIC)
+    @Setter(AccessLevel.PUBLIC)
     private String updatedBy;
 
     @Column(name = "updated_date")
+    @Getter(AccessLevel.PUBLIC)
+    @Setter(AccessLevel.PUBLIC)
     private LocalDateTime updatedDate;
 
+    public Audited(){}
     @PrePersist
-    private void setAuditInfo() {
+    public void setAuditInfo() {
 
         if (!StringUtils.hasText(createdBy)) {
             this.createdBy = "system";//fixme (current user)
