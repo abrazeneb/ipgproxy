@@ -18,13 +18,12 @@ public class PaymentController {
     private final PayWithCardUseCase payWithCardUseCase;
 
     @PostMapping("/card")
-    public PayWithCardResponse payWithCard(@RequestHeader("authToken") String authtoken,
-                                           @RequestBody PayWithCardCommand payWithCardCommand,
+    public PayWithCardResponse payWithCard(@RequestBody PayWithCardCommand payWithCardCommand,
                                            HttpServletRequest request) {
         log.debug("Precessing pay with card request for request {}", payWithCardCommand );
         PayWithCardCommand.Customer customer= payWithCardCommand.getCustomer();
         customer.setIp(request.getRemoteAddr());
         payWithCardCommand.setCustomer(customer);
-        return payWithCardUseCase.payWithCard(authtoken, payWithCardCommand);
+        return payWithCardUseCase.payWithCard(payWithCardCommand);
     }
 }

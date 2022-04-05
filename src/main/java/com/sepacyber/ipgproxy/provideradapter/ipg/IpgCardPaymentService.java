@@ -22,12 +22,12 @@ public class IpgCardPaymentService  implements CardPaymentPort {
     private final MapperFacade mapper;
 
     @Override
-    public PayWithCardResponse pay(String authToken, PayWithCardCommand payWithCardCommand) {
+    public PayWithCardResponse pay(PayWithCardCommand payWithCardCommand) {
         log.debug("Processing ipg card payment");
         IpgSyncPaymentRequestDto requestDto = mapper.map(payWithCardCommand, IpgSyncPaymentRequestDto.class);
         AuthenticationDto authenticationDto = mapper.map(payWithCardCommand, AuthenticationDto.class);
         requestDto.setAuthentication(authenticationDto);
-        ResponseEntity<IpgPaymentResponseDto> response = ipgPaymentApiClient.pay(authToken, requestDto);
+        ResponseEntity<IpgPaymentResponseDto> response = ipgPaymentApiClient.pay(requestDto);
         log.debug("Received response from ipg client {}", response);
         return mapper.map(response.getBody(), PayWithCardResponse.class);
     }
@@ -37,7 +37,7 @@ public class IpgCardPaymentService  implements CardPaymentPort {
        //Add mapping here to convert from in port dto to out port dto
         log.debug("Processing ipg card payment");
         IpgSyncPaymentRequestDto requestDto = mapper.map(payWithCardCommand, IpgSyncPaymentRequestDto.class);
-        ResponseEntity<IpgPaymentResponseDto> response = ipgPaymentApiClient.pay(null, requestDto);
+        ResponseEntity<IpgPaymentResponseDto> response = ipgPaymentApiClient.pay(requestDto);
         log.debug("Received response from ipg client {}", response);
         return mapper.map(response.getBody(), PayWithCardCommandResponse.class);
     }
