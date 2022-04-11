@@ -12,9 +12,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class PayWithCardCommand {
     private static final long serialVersionUID = -1857255447116994574L;
-    private Long merchantId;
-    private Long accountId;
-    private String secureKey;
     private String merchantTransactionId;
     private Double amount;
     private String currency;

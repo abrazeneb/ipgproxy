@@ -19,12 +19,6 @@ public class IpgFactoryMapperConfigurer implements ConfigurableMapperConfigurer 
                 .customize(new CustomMapper<>() {
                     @Override
                     public void mapAtoB(PayWithCardCommand source, AuthenticationDto destination, MappingContext context) {
-                        destination.setAccountId(source.getAccountId());
-                        destination.setMemberId(source.getMerchantId());
-                        destination.setChecksum(IpgChecksumUtil.generateSyncTransactionAmd5Checksum(source.getMerchantId(),
-                                source.getSecureKey(),
-                                source.getMerchantTransactionId(),
-                                source.getAmount()));
                     }
                 }).register();
     }

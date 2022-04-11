@@ -1,12 +1,6 @@
-package com.sepacyber.ipgproxy.provideradapter.ipg.payment.request;
+package com.sepacyber.ipgproxy.application.ports.in.command;
 
-import com.sepacyber.ipgproxy.application.ports.in.command.CommandCard;
-import com.sepacyber.ipgproxy.application.ports.in.command.CommandCustomer;
-import com.sepacyber.ipgproxy.application.ports.in.command.CommandDeviceDetail;
-import com.sepacyber.ipgproxy.application.ports.in.command.CommandShippingAddress;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -14,8 +8,10 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Ipg3DPaymentRequest implements Serializable {
-    private static final long serialVersionUID = 2854914801239496908L;
+@Builder
+public class SynchronousPaymentCommand implements Serializable {
+
+    private static final long serialVersionUID = -1332472943724078727L;
     private String merchantTransactionId;
     private Double amount;
     private String currency;
@@ -33,11 +29,7 @@ public class Ipg3DPaymentRequest implements Serializable {
     private Boolean createRegistration;
     private String paymentId;
     private String registrationId;
-    private CommandDeviceDetail deviceDetails;
     private CommandCard card;
-    private String attemptThreeD;
-    private String paymentProvider;
-    private String virtualPrivateAddress;
     private Map<String, String> paymentAdditionalData;
     private Long accountId;
     private Long terminalId;
