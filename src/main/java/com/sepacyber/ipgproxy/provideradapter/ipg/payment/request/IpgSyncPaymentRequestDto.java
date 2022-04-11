@@ -3,11 +3,12 @@ package com.sepacyber.ipgproxy.provideradapter.ipg.payment.request;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Map;
+
 @EqualsAndHashCode(callSuper=false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
 public class IpgSyncPaymentRequestDto extends IpgPaymentBaseRequest{
     private static final long serialVersionUID = 3847017387618139364L;
 
@@ -17,4 +18,5 @@ public class IpgSyncPaymentRequestDto extends IpgPaymentBaseRequest{
     private String tmpl_currency;
     private boolean createRegistration;
     private IpgCard card;
+    private DeviceDetails deviceDetails;
 }

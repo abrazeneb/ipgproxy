@@ -1,19 +1,13 @@
-package com.sepacyber.ipgproxy.provideradapter.ipg.payment.request;
+package com.sepacyber.ipgproxy.application.ports.in.command;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
 import java.util.Map;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class IpgPaymentBaseRequest  implements Serializable {
-    private static final long serialVersionUID = -5055405477580209608L;
-
+public class AsyncPaymentCommand {
     private String merchantTransactionId;
     private Double amount;
     private String currency;
@@ -21,9 +15,16 @@ public class IpgPaymentBaseRequest  implements Serializable {
     private String paymentMode;
     private String paymentType;
     private String merchantRedirectUrl;
+    private String orderDescriptor;
+    private CommandShippingAddress shipping;
+    private CommandCustomer customer;
     private String notificationUrl;
-    private IpgShippingAddress shipping;
-    private IpgCustomer customer;
+    private String recurringType;
+    private Double tmpl_amount;
+    private String tmpl_currency;
+    private Boolean createRegistration;
+    private String paymentId;
+    private String registrationId;
     private Map<String, String> paymentAdditionalData;
     private Long accountId;
     private Long terminalId;

@@ -1,45 +1,50 @@
-
 {
-  "authentication": {
-    "memberId" : 50001,
-    "accountId" : null,
-    "checksum": "9842f7a8d8dd797e026a92cf70aa0431",
-    "terminalId": null
+  "authentication":{
+    "partnerId":null,
+    "memberId":50001,
+    "accountId":null,
+    "terminalId":null,
+    "checksum":"e7913c8dbbc847243e7da46afc95360e",
+    "skey":null
   },
-  "merchantTransactionId" : "12346",
-  "amount" : 50.10,
-  "currency" : "EUR",
-  "orderDescriptor": "Test Transaction",
-  "shipping": {
-    "country" : "UK",
-    "city" : "Aston",
-    "stat": "NA",
-    "postcode": "CH5 3LJ",
-    "street1" : "19 Scrimshire Lane"
+  "merchantTransactionId":"12345",
+  "amount":30.2,
+  "currency":"EUR",
+  "paymentBrand":"VISA",
+  "paymentMode":"CC",
+  "paymentType":"DB",
+  "merchantRedirectUrl":"https://www.merchantRedirectUrl.com",
+  "notificationUrl":"www.merchantNotificationUrl.com",
+  "shipping":{
+    "country":"UAE",
+    "city":"Dubai",
+    "state":"Dubai",
+    "postcode":"971",
+    "street1":"19th",
+    "telnocc":"+971",
+    "phone":"0524719097",
+    "email":"abraham@gmail.com"
   },
-  "customer": {
-    "telnocc" : "+44",
-    "phone" : "07730432996",
-    "email" : "john.doe@xyz.com",
-    "givenName" : "John",
-    "surname" : "Doe",
-    "ip" : "192.168.13.107",
-    "birthDate" : 19890202
+  "customer":{
+    "customerId":10,
+    "telnocc":"+971",
+    "phone":"0524719097",
+    "email":"abraham@gmail.com",
+    "givenName":"Abraham",
+    "surname":"zen",
+    "ip":"0:0:0:0:0:0:0:1",
+    "birthDate":null
   },
-  "card" : {
-    "number" : "4000000000000051",
-    "expiryMonth":	"07",
-    "expiryYear" : "2023",
-    "cvv" : "745"
-  },
-  "paymentBrand" : "VISA",
-  "paymentMode" : "CC",
-  "paymentType": "DB",
-  "merchantRedirectUrl" : "https://www.merchantRedirectUrl.com",
-  "notificationUrl" : "www.merchantNotificationUrl.com",
-  "tmpl_amount" : 50.00,
-  "tmpl_currency" : "EUR",
-  "recurringType" : "INITIAL",
-  "createRegistration" : true,
-  "customer.customerId" : 12345
+  "orderDescriptor":"Test Transaction",
+  "recurringType":"INITIAL",
+  "tmpl_amount":30.2,
+  "tmpl_currency":"EUR",
+  "createRegistration":true,
+  "card":{
+    "number":"4000000000000051",
+    "expiryMonth":"07",
+    "expiryYear":"2023",
+    "cvv":"745"
+  }
+
 }

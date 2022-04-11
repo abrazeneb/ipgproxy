@@ -1,4 +1,4 @@
-package com.sepacyber.ipgproxy.application.dto;
+package com.sepacyber.ipgproxy.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +16,6 @@ public class IpgPaymentWithTokenRequest implements Serializable {
 
     private static final long serialVersionUID = 3104870602479732483L;
 
-    private AuthenticationDto authentication;
     private Double amount;
     private String currency;
     private IpgTokenPaymentCard card;
@@ -23,6 +23,9 @@ public class IpgPaymentWithTokenRequest implements Serializable {
     private String merchantRedirectUrl;
     private String redirectMethod;
     private Double installment;
+    private Map<String, String> paymentAdditionalData;
+    private Long accountId;
+    private Long terminalId;
 
     @Data
     @AllArgsConstructor

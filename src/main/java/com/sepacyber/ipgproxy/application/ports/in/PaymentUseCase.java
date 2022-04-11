@@ -1,4 +1,4 @@
-package com.sepacyber.ipgproxy.application.ports.out;
+package com.sepacyber.ipgproxy.application.ports.in;
 
 import com.sepacyber.ipgproxy.application.ports.in.command.AsyncPaymentCommand;
 import com.sepacyber.ipgproxy.application.ports.in.command.SynchronousPaymentCommand;
@@ -7,8 +7,9 @@ import com.sepacyber.ipgproxy.application.ports.in.result.AsynchronousPaymentRes
 import com.sepacyber.ipgproxy.application.ports.in.result.SynchronousPaymentResult;
 import com.sepacyber.ipgproxy.application.ports.in.result.ThreeDSecurePaymentResult;
 
-public interface CardPaymentPort {
+public interface PaymentUseCase {
+
     AsynchronousPaymentResult payAsync(AsyncPaymentCommand asyncPaymentCommand);
-    SynchronousPaymentResult paySync(SynchronousPaymentCommand synchronousPaymentCommand);
+    SynchronousPaymentResult paySynchronous(SynchronousPaymentCommand synchronousPaymentCommand);
     ThreeDSecurePaymentResult pay3DSecure(ThreeDSecurPaymentCommand threeDSecurPaymentCommand);
 }

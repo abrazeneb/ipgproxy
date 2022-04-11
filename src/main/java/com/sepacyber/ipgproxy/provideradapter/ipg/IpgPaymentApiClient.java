@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 url = "${ipg.provider.base.url:https://tp.sepa-cyber.com}/transactionServices/REST/v1")
 public interface IpgPaymentApiClient {
     @PostMapping("/payments")
-    ResponseEntity<IpgPaymentResponseDto> pay(
+    ResponseEntity<IpgPaymentResponseDto> paySync(
             @RequestBody final IpgSyncPaymentRequestDto requestDto);
 
     @PostMapping("/payments")
