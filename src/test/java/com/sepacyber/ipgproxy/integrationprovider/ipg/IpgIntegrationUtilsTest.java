@@ -1,6 +1,6 @@
 package com.sepacyber.ipgproxy.integrationprovider.ipg;
 
-import com.sepacyber.ipgproxy.provideradapter.ipg.IpgChecksumUtil;
+import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.IpgChecksumUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
