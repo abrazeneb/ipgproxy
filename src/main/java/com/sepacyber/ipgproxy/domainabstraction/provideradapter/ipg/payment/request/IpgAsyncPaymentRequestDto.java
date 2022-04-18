@@ -1,8 +1,9 @@
 package com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.request;
 
-import lombok.*;
-
-import java.util.Map;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode(callSuper=false)
 @Data
