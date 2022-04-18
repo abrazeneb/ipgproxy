@@ -3,12 +3,12 @@ package com.sepacyber.ipgproxy.applicationcore.ports.in;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.AsyncPaymentCommandDto;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.SynchronousPaymentCommandDto;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.ThreeDSecurPaymentCommandDto;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.result.AsynchronousPaymentResult;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.result.SynchronousPaymentResult;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.result.ThreeDSecurePaymentResult;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.AsynchronousPaymentResponse;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.SynchronousPaymentResponse;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ThreeDSecurePaymentResponse;
 
 public interface PaymentUseCase {
-    AsynchronousPaymentResult payAsync(AsyncPaymentCommandDto asyncPaymentCommand);
-    SynchronousPaymentResult paySynchronous(SynchronousPaymentCommandDto synchronousPaymentCommand);
-    ThreeDSecurePaymentResult pay3DSecure(ThreeDSecurPaymentCommandDto threeDSecurPaymentCommand);
+    AsynchronousPaymentResponse payAsync(AsyncPaymentCommandDto asyncPaymentCommand);
+    SynchronousPaymentResponse paySynchronous(SynchronousPaymentCommandDto synchronousPaymentCommand);
+    ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurPaymentCommandDto threeDSecurPaymentCommand);
 }

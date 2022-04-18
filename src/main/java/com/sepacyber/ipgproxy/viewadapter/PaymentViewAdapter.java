@@ -1,7 +1,7 @@
 package com.sepacyber.ipgproxy.viewadapter;
 
-import com.sepacyber.ipgproxy.applicationcore.ports.in.result.PaymentResult;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.PaymentResponse;
 
 public interface PaymentViewAdapter {
-    PaymentResult processPayment(PaymentCommand paymentRequestDto);
+    PaymentResponse processPayment(PaymentCommand paymentRequestDto);
 }

@@ -1,4 +1,4 @@
-package com.sepacyber.ipgproxy.applicationcore.ports.in.result;
+package com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ThreeDSecureRedirectResult implements Serializable {
+public class ThreeDSecureRedirectResponse implements Serializable {
     private static final long serialVersionUID = -1062165879919546920L;
     private String url;
     private String method;

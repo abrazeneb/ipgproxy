@@ -1,0 +1,12 @@
+server:
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: ipg-proxy
+  profiles:
+    active: dev,swagger
+
+  config:
+    import: optional:configserver:https://sepa-cyber.com/api/production/config

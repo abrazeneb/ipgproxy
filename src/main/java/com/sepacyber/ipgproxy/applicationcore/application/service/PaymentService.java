@@ -5,9 +5,9 @@ import com.sepacyber.ipgproxy.applicationcore.ports.in.PaymentUseCase;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.AsyncPaymentCommandDto;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.SynchronousPaymentCommandDto;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.ThreeDSecurPaymentCommandDto;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.result.AsynchronousPaymentResult;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.result.SynchronousPaymentResult;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.result.ThreeDSecurePaymentResult;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.AsynchronousPaymentResponse;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.SynchronousPaymentResponse;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ThreeDSecurePaymentResponse;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.CardPaymentPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,17 +21,17 @@ public class PaymentService implements PaymentUseCase {
     private final Pipeline pipeline;
 
     @Override
-    public AsynchronousPaymentResult payAsync(AsyncPaymentCommandDto asyncPaymentCommand) {
+    public AsynchronousPaymentResponse payAsync(AsyncPaymentCommandDto asyncPaymentCommand) {
         return cardPaymentPort.payAsync(asyncPaymentCommand);
     }
 
     @Override
-    public SynchronousPaymentResult paySynchronous(SynchronousPaymentCommandDto synchronousPaymentCommand) {
+    public SynchronousPaymentResponse paySynchronous(SynchronousPaymentCommandDto synchronousPaymentCommand) {
         return cardPaymentPort.paySync(synchronousPaymentCommand);
     }
 
     @Override
-    public ThreeDSecurePaymentResult pay3DSecure(ThreeDSecurPaymentCommandDto threeDSecurPaymentCommand) {
+    public ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurPaymentCommandDto threeDSecurPaymentCommand) {
         return cardPaymentPort.pay3DSecure(threeDSecurPaymentCommand);
     }
 

@@ -1,4 +1,4 @@
-package com.sepacyber.ipgproxy.applicationcore.ports.in.result;
+package com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response;
 
 import java.io.Serializable;
 

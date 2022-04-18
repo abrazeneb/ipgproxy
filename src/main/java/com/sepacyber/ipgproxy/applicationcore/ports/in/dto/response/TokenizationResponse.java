@@ -1,4 +1,4 @@
-package com.sepacyber.ipgproxy.applicationcore.ports.in.result;
+package com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TokenizationResult implements Serializable {
+public class TokenizationResponse implements Serializable {
     private static final long serialVersionUID = -4308276522518985855L;
     private Long memberId;
     private String registrationId;

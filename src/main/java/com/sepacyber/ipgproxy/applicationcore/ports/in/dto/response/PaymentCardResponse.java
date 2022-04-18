@@ -1,4 +1,4 @@
-package com.sepacyber.ipgproxy.applicationcore.ports.in.result;
+package com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PaymentCardResult {
+public class PaymentCardResponse {
     public String bin;
     public String last4Digits;
     public String holder;

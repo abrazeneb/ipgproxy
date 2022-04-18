@@ -1,4 +1,4 @@
-package com.sepacyber.ipgproxy.applicationcore.ports.in.result;
+package com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AsynchronousPaymentResult implements Serializable {
+public class AsynchronousPaymentResponse implements Serializable {
     private static final long serialVersionUID = -1082669989318920381L;
     private String paymentId;
     private String status;
@@ -20,7 +20,7 @@ public class AsynchronousPaymentResult implements Serializable {
     private String amount;
     private String descriptor;
     private String currency;
-    private PaymentCardResult card;
+    private PaymentCardResponse card;
     private String timestamp;
     private String transactionStatus;
     private String merchantTransactionId;

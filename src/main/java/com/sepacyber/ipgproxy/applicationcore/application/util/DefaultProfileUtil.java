@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Util class to load a Spring profile to be used as default
  * when there is no {@code spring.profiles.active} set in the environment or as command line argument.
- * If the value is not available in {@code application.properties} then {@code dev}  profile will be used as default.
+ * If the value is not available in {@code application.yml} then {@code dev}  profile will be used as default.
  */
 public class DefaultProfileUtil {
 

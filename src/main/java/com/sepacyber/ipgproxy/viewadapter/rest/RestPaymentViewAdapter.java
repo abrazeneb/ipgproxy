@@ -7,7 +7,7 @@ import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.AbstractPaymentComman
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.AsyncPaymentCommandDto;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.SynchronousPaymentCommandDto;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.ThreeDSecurPaymentCommandDto;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.result.PaymentResult;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.PaymentResponse;
 import com.sepacyber.ipgproxy.applicationcore.application.service.CoreBean;
 import com.sepacyber.ipgproxy.viewadapter.PaymentCommand;
 import com.sepacyber.ipgproxy.viewadapter.PaymentViewAdapter;
@@ -23,25 +23,25 @@ public class RestPaymentViewAdapter implements PaymentViewAdapter {
     private final PaymentUseCase paymentUseCase;
 
     @Override
-    public PaymentResult processPayment(PaymentCommand paymentRequestDto) {
+    public PaymentResponse processPayment(PaymentCommand paymentRequestDto) {
         try {
             AbstractPaymentCommandDto command = objectMapper.readValue( ((RestPaymentCommand)paymentRequestDto).getData(), AbstractPaymentCommandDto.class);
-            if(command instanceof SynchronousPaymentCommandDto) {;
-                return PaymentResult.builder()
+            if(command instanceof SynchronousPaymentCommandDto) {
+                return PaymentResponse.builder()
                         .data(objectMapper.writeValueAsString(
                                 paymentUseCase.paySynchronous((SynchronousPaymentCommandDto) command)
                         ))
                         .build();
             }
             if(command instanceof AsyncPaymentCommandDto) {
-                return PaymentResult.builder()
+                return PaymentResponse.builder()
                         .data(objectMapper.writeValueAsString(
                                 paymentUseCase.payAsync((AsyncPaymentCommandDto) command)
                         ))
                         .build();
             }
             if(command instanceof ThreeDSecurPaymentCommandDto) {
-                return PaymentResult.builder()
+                return PaymentResponse.builder()
                         .data(objectMapper.writeValueAsString(
                                 paymentUseCase.pay3DSecure((ThreeDSecurPaymentCommandDto) command)
                         ))

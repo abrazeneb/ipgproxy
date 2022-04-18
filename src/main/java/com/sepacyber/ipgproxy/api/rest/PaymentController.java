@@ -1,7 +1,7 @@
 package com.sepacyber.ipgproxy.api.rest;
 
 import com.sepacyber.ipgproxy.viewadapter.rest.command.RestPaymentCommand;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.result.PaymentResult;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.PaymentResponse;
 import com.sepacyber.ipgproxy.viewadapter.PaymentViewAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +20,8 @@ public class PaymentController {
     private final PaymentViewAdapter paymentViewAdapter;
 
     @PostMapping
-    public PaymentResult syncPay(@RequestBody RestPaymentCommand restPaymentCommand,
-                                 HttpServletRequest request) {
+    public PaymentResponse syncPay(@RequestBody RestPaymentCommand restPaymentCommand,
+                                   HttpServletRequest request) {
         log.debug("Precessing pay with card request for request {}", restPaymentCommand );
         return paymentViewAdapter.processPayment(restPaymentCommand);
     }

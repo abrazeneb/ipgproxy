@@ -1,4 +1,4 @@
-package com.sepacyber.ipgproxy.applicationcore.ports.in.result;
+package com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SynchronousPaymentResult {
+public class SynchronousPaymentResponse {
     private String paymentId;
     private String status;
     private String paymentBrand;
@@ -17,7 +17,7 @@ public class SynchronousPaymentResult {
     private String amount;
     private String descriptor;
     private String currency;
-    private PaymentCardResult card;
+    private PaymentCardResponse card;
     private String timestamp;
     private String transactionStatus;
     private String merchantTransactionId;
