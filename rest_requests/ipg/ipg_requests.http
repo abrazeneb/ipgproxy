@@ -1,13 +1,13 @@
 #### auth token
 
 #### or using transaction end point
-POST https://tp.sepa-cyber.com/transactionServices/REST/v1/authToken HTTP/1.1
+POST https: //tp.sepa-cyber.com/transactionServices/REST/v1/authToken HTTP/1.1
 content-type: application/json
 
 {
-    "authentication": {
-		"partnerId":4,
-		"sKey" : "azL8AHD8D3nghiTY3bJTIFiL0uww6y8V"	
+	"authentication": {
+		"partnerId": 4,
+		"sKey": "azL8AHD8D3nghiTY3bJTIFiL0uww6y8V"
 	},
 	"merchant": {
 		"username": "SepaMerchant"
@@ -16,7 +16,7 @@ content-type: application/json
 
 #####
 
-POST https://tp.sepa-cyber.com/transactionServices/REST/v1/authToken HTTP/1.1
+POST https: //tp.sepa-cyber.com/transactionServices/REST/v1/authToken HTTP/1.1
 content-type: application/json
 
 {
@@ -24,7 +24,7 @@ content-type: application/json
 		"partnerId": 4,
 		"sKey": "azL8AHD8D3nghiTY3bJTIFiL0uww6y8V"
 	},
-	"merchant":	{
+	"merchant": {
 		"username": "SepaMerchant"
 	}
 }
@@ -32,32 +32,69 @@ content-type: application/json
 
 ####
 
-curl -k  https://tp.sepa-cyber.com/transactionServices/REST/v1/authToken -d "authentication.partnerId=4" -d "merchant.username=SepaMerchant" -d "authentication.sKey=azL8AHD8D3nghiTY3bJTIFiL0uww6y8V"
-{"partnerId":"4","memberId":"50001","result":{"code":"200","description":"Token generated successfully"},"timestamp":"2022-03-30 11:31:58","LoginName":"SepaMerchant","AuthToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTZXBhTWVyY2hhbnQiLCJyb2xlIjoibWVyY2hhbnQiLCJpc3MiOiJQWiIsImV4cCI6MTY0ODYzMjcxOH0._WCvPeAbLfIaelk5yO_vDFmE7__seuKffXhb7dMtzOg"}
+curl -k  https: //tp.sepa-cyber.com/transactionServices/REST/v1/authToken -d "authentication.partnerId=4" -d "merchant.username=SepaMerchant" -d "authentication.sKey=azL8AHD8D3nghiTY3bJTIFiL0uww6y8V"
+{
+	"partnerId": "4",
+	"memberId": "50001",
+	"result": {
+		"code": "200",
+		"description": "Token generated successfully"
+	},
+	"timestamp": "2022-03-30 11:31:58",
+	"LoginName": "SepaMerchant",
+	"AuthToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTZXBhTWVyY2hhbnQiLCJyb2xlIjoibWVyY2hhbnQiLCJpc3MiOiJQWiIsImV4cCI6MTY0ODYzMjcxOH0._WCvPeAbLfIaelk5yO_vDFmE7__seuKffXhb7dMtzOg"
+}
 
 ####
 
-POST http://localhost:8080/auth/auth-token HTTP/1.1
+POST http: //localhost:8080/auth/auth-token HTTP/1.1
 content-type: application/json
 
 {
-    "ipgPartnerId":4,
-	"ipgSecureKey" : "azL8AHD8D3nghiTY3bJTIFiL0uww6y8V",
-	"ipgUsername":  "SepaMerchant"
+	"ipgPartnerId": 4,
+	"ipgSecureKey": "azL8AHD8D3nghiTY3bJTIFiL0uww6y8V",
+	"ipgUsername": "SepaMerchant"
 }
 
 
 ####
 
-POST http://localhost:8080/auth/regenerate-auth-token HTTP/1.1
+POST http: //localhost:8080/auth/regenerate-auth-token HTTP/1.1
 content-type: application/json
 
 {
-    "ipgPartnerId":4,
-	"authToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTZXBhTWVyY2hhbnQiLCJyb2xlIjoibWVyY2hhbnQiLCJpc3MiOiJQWiIsImV4cCI6MTY0ODcyNzkyNH0.K6XXncHLX2OBX2gwSzY_PphacmE8fWag6zEWxGDQatM"
+	"ipgPartnerId": 4,
+	"authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTZXBhTWVyY2hhbnQiLCJyb2xlIjoibWVyY2hhbnQiLCJpc3MiOiJQWiIsImV4cCI6MTY0ODcyNzkyNH0.K6XXncHLX2OBX2gwSzY_PphacmE8fWag6zEWxGDQatM"
 }
 
 
 
-###
+### request token form vendor integrator
+POST http://localhost:8290/vendor/ipg/pay HTTP/2
+content-type: application/json; charset=UTF-8;
+
+{
+	"amount": 50.5,
+	"organization_id": 1,
+	"credit_card_number": "",
+	"additional_data": {
+		"ipg_secure_key": "azL8AHD8D3nghiTY3bJTIFiL0uww6y8V",
+		"ipg_partner_id": 4,
+		"ipg_super_merchant_username": "SepaMerchant",
+		"ipg_merchant_id": 50001
+	}
+}
+
+## sample response from ipg
+{
+	"partnerId":"4",
+	"memberId":"50001",
+	"result":{
+		"code":"200",
+		"description":"Token generated successfully"
+		},
+		"timestamp":"2022-04-10 15:25:31",
+		"LoginName":"SepaMerchant",
+		"AuthToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTZXBhTWVyY2hhbnQiLCJyb2xlIjoibWVyY2hhbnQiLCJpc3MiOiJQWiIsImV4cCI6MTY0OTU5NzEzMX0.0oTHwHRHcxqkn2RRN07IABCeyEEIk5tSwrGrqyuPddE"
+}
 

@@ -3,3 +3,12 @@ server:
 
 springdoc:
   packagesToScan: com.sepacyber.ipgproxy.api
+
+
+spring:
+  redis:
+      host: localhost
+      port: 6379
+      password:
+
+# TODO: payment stream name

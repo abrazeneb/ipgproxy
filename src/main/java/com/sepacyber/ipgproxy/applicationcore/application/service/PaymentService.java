@@ -9,8 +9,12 @@ import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.Asynchronous
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.SynchronousPaymentResponse;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ThreeDSecurePaymentResponse;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.CardPaymentPort;
+import com.sepacyber.ipgproxy.applicationcore.ports.out.PaymentProcessedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
+
+import java.util.Date;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -19,10 +23,18 @@ public class PaymentService implements PaymentUseCase {
 
     private final CardPaymentPort cardPaymentPort;
     private final Pipeline pipeline;
+    private final MapperFacade mapper;
 
     @Override
     public AsynchronousPaymentResponse payAsync(AsyncPaymentCommandDto asyncPaymentCommand) {
-        return cardPaymentPort.payAsync(asyncPaymentCommand);
+
+        var response = cardPaymentPort.payAsync(asyncPaymentCommand);
+
+        var paymentProcessedEvent = mapper.map(asyncPaymentCommand, PaymentProcessedEvent.class);
+        paymentProcessedEvent.setProcessedAt(System.currentTimeMillis());
+        pipeline.send(paymentProcessedEvent);
+
+        return response;
     }
 
     @Override
@@ -34,6 +46,11 @@ public class PaymentService implements PaymentUseCase {
     public ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurPaymentCommandDto threeDSecurPaymentCommand) {
         return cardPaymentPort.pay3DSecure(threeDSecurPaymentCommand);
     }
+
+
+/*    private void notifyPaymentProcessed(){
+        pipeline.send(new PaymentProcessedEvent());
+    }*/
 
 
 }
