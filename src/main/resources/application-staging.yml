@@ -1,10 +1,3 @@
-server:
-  port: 8080
-
-springdoc:
-  packagesToScan: com.sepacyber.ipgproxy.api
-
-
 spring:
   redis:
       host: ${REDIS_SERVER:192.168.13.132}
