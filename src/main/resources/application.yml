@@ -2,11 +2,20 @@ server:
   servlet:
     context-path: /
 
+
+springdoc:
+  packagesToScan: com.sepacyber.ipgproxy.api
+
 spring:
   application:
     name: ipg-proxy
   profiles:
     active: dev,swagger
+
+  redis:
+    host: ${REDIS_SERVER:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:""}
 
   config:
     import: optional:configserver:https://sepa-cyber.com/api/production/config

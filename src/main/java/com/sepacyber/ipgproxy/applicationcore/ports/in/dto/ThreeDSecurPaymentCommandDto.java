@@ -21,7 +21,7 @@ public class ThreeDSecurPaymentCommandDto extends AbstractPaymentCommandDto {
     private Boolean createRegistration;
     private String paymentId;
     private String registrationId;
-   private CommandDeviceDetail deviceDetails;
+    private CommandDeviceDetail deviceDetails;
     private CardCommandDto card;
     private String attemptThreeD;
     private String paymentProvider;
