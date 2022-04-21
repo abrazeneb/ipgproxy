@@ -5,7 +5,7 @@ import com.sepacyber.ipgproxy.applicationcore.domain.AggregateRoot;
 import java.util.Date;
 
 
-public class Payment extends AggregateRoot  {
+public class PaymentAggregate extends AggregateRoot  {
     private String merchantTransactionId;
     private Double amount;
     private String currency;
@@ -24,4 +24,7 @@ public class Payment extends AggregateRoot  {
     private Customer customer;
 
     private Date createdDate;
+
+
+
 }

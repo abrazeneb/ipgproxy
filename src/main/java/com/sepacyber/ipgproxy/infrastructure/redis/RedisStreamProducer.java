@@ -1,4 +1,4 @@
-package com.sepacyber.ipgproxy.domainabstraction.integrationhandler;
+package com.sepacyber.ipgproxy.infrastructure.redis;
 
 import com.sepacyber.ipgproxy.applicationcore.ports.out.PaymentProcessedEvent;
 import com.sepacyber.ipgproxy.shared.Constants;

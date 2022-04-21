@@ -33,7 +33,7 @@ public class PaymentProcessedEvent implements Notification {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    static class Card {
+    public static class Card {
         private String number;
         private String expiryMonth;
         private String expiryYear;
@@ -43,7 +43,7 @@ public class PaymentProcessedEvent implements Notification {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    static class Customer {
+    public static class Customer {
         private String email;
         private String givenName;
         private String surname;

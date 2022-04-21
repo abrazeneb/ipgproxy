@@ -2,6 +2,7 @@ package com.sepacyber.ipgproxy.applicationcore.application.service;
 
 import an.awesome.pipelinr.Pipeline;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.PaymentUseCase;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.AbstractPaymentCommandDto;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.AsyncPaymentCommandDto;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.SynchronousPaymentCommandDto;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.ThreeDSecurPaymentCommandDto;
@@ -25,32 +26,42 @@ public class PaymentService implements PaymentUseCase {
     private final Pipeline pipeline;
     private final MapperFacade mapper;
 
+
+    //TODO: PaymentFailedEvent
+
     @Override
     public AsynchronousPaymentResponse payAsync(AsyncPaymentCommandDto asyncPaymentCommand) {
 
         var response = cardPaymentPort.payAsync(asyncPaymentCommand);
 
-        var paymentProcessedEvent = mapper.map(asyncPaymentCommand, PaymentProcessedEvent.class);
-        paymentProcessedEvent.setProcessedAt(System.currentTimeMillis());
-        pipeline.send(paymentProcessedEvent);
+        notifyPaymentProcessed(asyncPaymentCommand);
 
         return response;
     }
 
     @Override
     public SynchronousPaymentResponse paySynchronous(SynchronousPaymentCommandDto synchronousPaymentCommand) {
-        return cardPaymentPort.paySync(synchronousPaymentCommand);
+
+        var response = cardPaymentPort.paySync(synchronousPaymentCommand);
+
+        notifyPaymentProcessed(synchronousPaymentCommand);
+
+        return new SynchronousPaymentResponse();
     }
 
     @Override
     public ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurPaymentCommandDto threeDSecurPaymentCommand) {
-        return cardPaymentPort.pay3DSecure(threeDSecurPaymentCommand);
+        var response = cardPaymentPort.pay3DSecure(threeDSecurPaymentCommand);
+
+        notifyPaymentProcessed(threeDSecurPaymentCommand);
+
+        return response;
     }
 
 
-/*    private void notifyPaymentProcessed(){
-        pipeline.send(new PaymentProcessedEvent());
-    }*/
-
-
+    private void notifyPaymentProcessed(AbstractPaymentCommandDto paymentCommandDto){
+        var paymentProcessedEvent = mapper.map(paymentCommandDto, PaymentProcessedEvent.class);
+        paymentProcessedEvent.setProcessedAt(System.currentTimeMillis());
+        pipeline.send(paymentProcessedEvent);
+    }
 }
