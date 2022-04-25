@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 public class IpgAsyncPaymentResponseDto extends IpgBaseResponseDto {
-    private static final long serialVersionUID = 4006959194882608628L;
+    private static final long serialVersionUID = 8682210838712924861L;
 
     private Integer amount;
     private String paymentMode;

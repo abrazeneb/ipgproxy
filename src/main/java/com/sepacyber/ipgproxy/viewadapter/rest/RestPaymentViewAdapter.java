@@ -7,8 +7,10 @@ import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.AbstractPaymentComman
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.AsyncPaymentCommandDto;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.SynchronousPaymentCommandDto;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.ThreeDSecurPaymentCommandDto;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ExistingPaymentActionResponse;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.PaymentResponse;
 import com.sepacyber.ipgproxy.applicationcore.application.service.CoreBean;
+import com.sepacyber.ipgproxy.viewadapter.ActionOnExistingPaymentCommand;
 import com.sepacyber.ipgproxy.viewadapter.PaymentCommand;
 import com.sepacyber.ipgproxy.viewadapter.PaymentViewAdapter;
 import com.sepacyber.ipgproxy.viewadapter.rest.command.RestPaymentCommand;
@@ -50,6 +52,11 @@ public class RestPaymentViewAdapter implements PaymentViewAdapter {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @Override
+    public ExistingPaymentActionResponse takeActionOnExistingPayment(ActionOnExistingPaymentCommand actionOnExistingPaymentCommand) {
         return null;
     }
 }

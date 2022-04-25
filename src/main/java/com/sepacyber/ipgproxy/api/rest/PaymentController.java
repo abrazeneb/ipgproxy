@@ -20,8 +20,8 @@ public class PaymentController {
     private final PaymentViewAdapter paymentViewAdapter;
 
     @PostMapping
-    public PaymentResponse syncPay(@RequestBody RestPaymentCommand restPaymentCommand,
-                                   HttpServletRequest request) {
+    public PaymentResponse pay(@RequestBody RestPaymentCommand restPaymentCommand,
+                               HttpServletRequest request) {
         log.debug("Precessing pay with card request for request {}", restPaymentCommand );
         return paymentViewAdapter.processPayment(restPaymentCommand);
     }

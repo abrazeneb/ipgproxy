@@ -13,8 +13,6 @@ import java.io.Serializable;
 @Builder
 public class IpgPaymentCaptureRequest implements Serializable {
     private static final long serialVersionUID = 9208778230243083902L;
-
-    private AuthenticationDto authentication;
     private String paymentType;
     private Long paymentId;
     private Double amount;
