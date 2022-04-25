@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class IpgPaymentWithTokenResponse  extends IpgBaseResponseDto {
     private static final long serialVersionUID = 4288451086428314967L;
     private Long paymentId;

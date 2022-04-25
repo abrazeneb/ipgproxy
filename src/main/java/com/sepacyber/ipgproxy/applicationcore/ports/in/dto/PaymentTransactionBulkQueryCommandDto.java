@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class PaymentTransactionBulkQueryCommandDto extends AbstractActionOnPaymentCommandDto {
 
     private static final long serialVersionUID = -3995912404084505770L;

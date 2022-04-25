@@ -6,7 +6,7 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 
 @AllArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public abstract class ActionOnExistingPaymentCommand implements Serializable {
     private static final long serialVersionUID = -1402496870962761215L;
 }

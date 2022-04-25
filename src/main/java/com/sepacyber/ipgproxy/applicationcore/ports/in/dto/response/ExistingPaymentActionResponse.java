@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExistingPaymentActionResponse {
+public class ExistingPaymentActionResponse implements Serializable {
+    private static final long serialVersionUID = 3656768601597785556L;
     private String paymentId;
     private String status;
     private String paymentBrand;

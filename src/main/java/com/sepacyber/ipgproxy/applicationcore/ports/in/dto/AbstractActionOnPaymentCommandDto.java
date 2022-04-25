@@ -7,12 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @JsonTypeInfo(use= JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PaymentCaptureCommandDto.class, name = "capture"),
@@ -22,4 +23,6 @@ import java.io.Serializable;
 })
 public abstract class AbstractActionOnPaymentCommandDto implements Serializable {
     private static final long serialVersionUID = -5512952739561463672L;
+    @NotBlank
+    private String transactionId;
 }

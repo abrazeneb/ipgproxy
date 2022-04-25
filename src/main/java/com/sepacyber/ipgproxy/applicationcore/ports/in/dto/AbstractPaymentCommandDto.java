@@ -13,8 +13,9 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
-@JsonTypeInfo(use= JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@SuperBuilder(toBuilder = true)
+@JsonTypeInfo(use= JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY,
+        property = "type", defaultImpl = SynchronousPaymentCommandDto.class, visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = AsyncPaymentCommandDto.class, name = "async"),
         @JsonSubTypes.Type(value = SynchronousPaymentCommandDto.class, name = "sync"),

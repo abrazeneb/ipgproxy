@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class IpgPayoutCardResponse extends IpgBaseResponseDto{
     private static final long serialVersionUID = 3196458371101144146L;
 

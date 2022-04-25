@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class PaymentCaptureCommandDto extends AbstractActionOnPaymentCommandDto {
     private static final long serialVersionUID = -9066120264819960596L;
     private String paymentType;

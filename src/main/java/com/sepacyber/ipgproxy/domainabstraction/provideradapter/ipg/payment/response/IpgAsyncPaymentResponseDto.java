@@ -7,7 +7,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class IpgAsyncPaymentResponseDto extends IpgBaseResponseDto {
     private static final long serialVersionUID = 8682210838712924861L;
 
