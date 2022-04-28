@@ -18,8 +18,7 @@ import java.io.Serializable;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PaymentCaptureCommandDto.class, name = "capture"),
         @JsonSubTypes.Type(value = PaymentReversalCommandDto.class, name = "reverse"),
-        @JsonSubTypes.Type(value = PaymentStatusCommandDto.class, name = "status"),
-        @JsonSubTypes.Type(value = PaymentTransactionBulkQueryCommandDto.class, name = "query")
+        @JsonSubTypes.Type(value = PaymentStatusCommandDto.class, name = "status")
 })
 public abstract class AbstractActionOnPaymentCommandDto implements Serializable {
     private static final long serialVersionUID = -5512952739561463672L;

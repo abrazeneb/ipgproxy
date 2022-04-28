@@ -7,10 +7,9 @@ import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.SynchronousP
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ThreeDSecurePaymentResponse;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.CardPaymentPort;
 import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.request.*;
-import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.response.IpgPaymentResponseDto;
-import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.response.IpgAsyncPaymentResponseDto;
-import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.response.IpgPaymentStatusResponseDto;
-import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.response.IpgPaymentTransactionQueryResponse;
+import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.response.*;
+import com.sepacyber.ipgproxy.infrastructure.ipg.IpgPropertiesConfig;
+import com.sepacyber.ipgproxy.shared.exception.IntegrationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -18,6 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class IpgCardPaymentService  implements CardPaymentPort {
 
     private final IpgPaymentApiClient ipgPaymentApiClient;
     private final MapperFacade mapper;
+    private final IpgPropertiesConfig ipgPropertiesConfig;
 
     @Override
     public SynchronousPaymentResponse paySync(SynchronousPaymentCommandDto payWithCardCommand) {
@@ -33,7 +37,7 @@ public class IpgCardPaymentService  implements CardPaymentPort {
         IpgSyncPaymentRequestDto requestDto = mapper.map(payWithCardCommand, IpgSyncPaymentRequestDto.class);
         ResponseEntity<IpgPaymentResponseDto> response = ipgPaymentApiClient.paySync(requestDto);
         log.debug("Received response from ipg client {}", response);
-        return mapper.map(response.getBody(), SynchronousPaymentResponse.class);
+        return mapper.map(getResponse(response), SynchronousPaymentResponse.class);
     }
 
     @Override
@@ -43,7 +47,7 @@ public class IpgCardPaymentService  implements CardPaymentPort {
         IpgAsyncPaymentRequestDto requestDto = mapper.map(synchronousPaymentCommand, IpgAsyncPaymentRequestDto.class);
         ResponseEntity<IpgAsyncPaymentResponseDto> response = ipgPaymentApiClient.payAsync(requestDto);
         log.debug("Received response from ipg client {}", response);
-        return mapper.map(response.getBody(), AsynchronousPaymentResponse.class);
+        return mapper.map(getResponse(response), AsynchronousPaymentResponse.class);
     }
 
     @Override
@@ -52,7 +56,7 @@ public class IpgCardPaymentService  implements CardPaymentPort {
         IpgSyncPaymentRequestDto requestDto = mapper.map(threeDSecurPaymentCommand, IpgSyncPaymentRequestDto.class);
         ResponseEntity<IpgPaymentResponseDto> response = ipgPaymentApiClient.paySync(requestDto);
         log.debug("Received response from ipg client {}", response);
-        return mapper.map(response.getBody(), ThreeDSecurePaymentResponse.class);
+        return mapper.map(getResponse(response), ThreeDSecurePaymentResponse.class);
     }
 
     @Override
@@ -61,7 +65,7 @@ public class IpgCardPaymentService  implements CardPaymentPort {
         IpgPaymentStatusRequest requestDto = mapper.map(paymentStatusCommandDto, IpgPaymentStatusRequest.class);
         ResponseEntity<IpgPaymentStatusResponseDto> response = ipgPaymentApiClient.paymentStatus(transactionId, requestDto);
         log.debug("Received response from ipg client {}", response);
-        return mapper.map(response.getBody(), ExistingPaymentActionResponse.class);
+        return mapper.map(getResponse(response), ExistingPaymentActionResponse.class);
     }
 
     @Override
@@ -70,7 +74,7 @@ public class IpgCardPaymentService  implements CardPaymentPort {
         IpgPaymentTransactionQueryRequest requestDto = mapper.map(paymentTransactionBulkQueryCommandDto, IpgPaymentTransactionQueryRequest.class);
         ResponseEntity<IpgPaymentTransactionQueryResponse> response = ipgPaymentApiClient.queryTransactions(requestDto);
         log.debug("Received response from ipg client {}", response);
-        return mapper.mapAsList(response.getBody().getTransaction(), ExistingPaymentActionResponse.class);
+        return mapper.mapAsList(getResponse(response).getTransaction(), ExistingPaymentActionResponse.class);
     }
 
     @Override
@@ -79,7 +83,7 @@ public class IpgCardPaymentService  implements CardPaymentPort {
         IpgPaymentCaptureRequest requestDto = mapper.map(captureCommandDto, IpgPaymentCaptureRequest.class);
         ResponseEntity<IpgPaymentStatusResponseDto> response = ipgPaymentApiClient.capturePayment(transactionId, requestDto);
         log.debug("Received response from ipg client {}", response);
-        return mapper.map(response.getBody(), ExistingPaymentActionResponse.class);
+        return mapper.map(getResponse(response), ExistingPaymentActionResponse.class);
     }
 
     @Override
@@ -88,6 +92,24 @@ public class IpgCardPaymentService  implements CardPaymentPort {
         IpgPaymentReversalRequest requestDto = mapper.map(reversalCommandDto, IpgPaymentReversalRequest.class);
         ResponseEntity<IpgPaymentStatusResponseDto> response = ipgPaymentApiClient.reversePayment(transactionId, requestDto);
         log.debug("Received response from ipg client {}", response);
-        return mapper.map(response.getBody(), ExistingPaymentActionResponse.class);
+        return mapper.map(getResponse(response), ExistingPaymentActionResponse.class);
+    }
+
+
+    private <T extends IpgBaseResponseDto> T getResponse(ResponseEntity<T> responseEntity, String... params) {
+        if (isNull(responseEntity) || !responseEntity.getStatusCode().is2xxSuccessful()
+                || isNull(responseEntity.getBody()) ) {
+            throw new IntegrationException("Response is not successful."
+                    + ", with params: " + String.join(",", params),
+                    nonNull(responseEntity) ? responseEntity.getStatusCodeValue() : 400);
+        }
+
+        IpgBaseResponseDto responseBody = responseEntity.getBody();
+        if(!ipgPropertiesConfig.getSuccessResponseCodes().contains(responseBody.getResult().getCode())) {
+            throw new IntegrationException(responseBody.getResult().getDescription()
+                    + ", with params: " + String.join(",", params),
+                    nonNull(responseEntity) ? responseEntity.getStatusCodeValue() : 400);
+        }
+        return (T) responseBody;
     }
 }

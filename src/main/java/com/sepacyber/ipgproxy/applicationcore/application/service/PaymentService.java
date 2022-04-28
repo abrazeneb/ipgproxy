@@ -63,7 +63,7 @@ public class PaymentService implements PaymentUseCase {
 
     @Override
     public List<ExistingPaymentActionResponse> getPaymentStatusList(PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto) {
-        return null;
+        return cardPaymentPort.getPaymentStatusList(paymentTransactionBulkQueryCommandDto);
     }
 
     @Override
