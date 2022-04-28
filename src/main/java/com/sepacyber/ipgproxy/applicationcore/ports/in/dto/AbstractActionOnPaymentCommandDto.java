@@ -14,7 +14,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-@JsonTypeInfo(use= JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use= JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY,
+        property = "type", defaultImpl = PaymentStatusCommandDto.class, visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PaymentCaptureCommandDto.class, name = "capture"),
         @JsonSubTypes.Type(value = PaymentReversalCommandDto.class, name = "reverse"),
@@ -23,5 +24,5 @@ import java.io.Serializable;
 public abstract class AbstractActionOnPaymentCommandDto implements Serializable {
     private static final long serialVersionUID = -5512952739561463672L;
     @NotBlank
-    private String transactionId;
+    private String paymentId;
 }

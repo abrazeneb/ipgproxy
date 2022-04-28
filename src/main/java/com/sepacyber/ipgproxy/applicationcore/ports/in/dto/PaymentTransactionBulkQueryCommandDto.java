@@ -1,26 +1,21 @@
 package com.sepacyber.ipgproxy.applicationcore.ports.in.dto;
 
-import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.IpgPaginationUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper=false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class PaymentTransactionBulkQueryCommandDto extends AbstractActionOnPaymentCommandDto {
+public class PaymentTransactionBulkQueryCommandDto implements Serializable {
 
     private static final long serialVersionUID = -3995912404084505770L;
-    private Integer pageno;
-    private Integer records;
-    private LocalDate fromdate;
-    private LocalDate todate;
     private String status;
-    private IpgPaginationUtil.IpgPagination pagination;
+    private PaginationUtil.Pagination pagination;
 }

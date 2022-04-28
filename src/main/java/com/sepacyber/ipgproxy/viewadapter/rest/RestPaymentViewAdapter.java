@@ -70,7 +70,7 @@ public class RestPaymentViewAdapter implements PaymentViewAdapter {
     }
 
     @Override
-    public List<ExistingPaymentActionResponse> getPaymentStatusList(RestActionOnExistingPaymentCommand paymentTransactionBulkQueryCommandDto) {
-        return paymentUseCase.getPaymentStatusList((PaymentTransactionBulkQueryCommandDto)paymentTransactionBulkQueryCommandDto.getData());
+    public List<ExistingPaymentActionResponse> getPaymentStatusList(PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto) {
+        return paymentUseCase.getPaymentStatusList(paymentTransactionBulkQueryCommandDto);
     }
 }

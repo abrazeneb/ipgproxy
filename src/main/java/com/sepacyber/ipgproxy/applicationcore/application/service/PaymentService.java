@@ -32,7 +32,7 @@ public class PaymentService implements PaymentUseCase {
 
         var response = cardPaymentPort.payAsync(asyncPaymentCommand);
 
-        notifyPaymentProcessed(asyncPaymentCommand);
+        //notifyPaymentProcessed(asyncPaymentCommand);
 
         return response;
     }
@@ -42,16 +42,16 @@ public class PaymentService implements PaymentUseCase {
 
         var response = cardPaymentPort.paySync(synchronousPaymentCommand);
 
-        notifyPaymentProcessed(synchronousPaymentCommand);
+        //notifyPaymentProcessed(synchronousPaymentCommand);
 
-        return new SynchronousPaymentResponse();
+        return response;
     }
 
     @Override
     public ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurPaymentCommandDto threeDSecurPaymentCommand) {
         var response = cardPaymentPort.pay3DSecure(threeDSecurPaymentCommand);
 
-        notifyPaymentProcessed(threeDSecurPaymentCommand);
+        //notifyPaymentProcessed(threeDSecurPaymentCommand);
 
         return response;
     }

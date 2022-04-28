@@ -14,6 +14,5 @@ import lombok.experimental.SuperBuilder;
 public class PaymentCaptureCommandDto extends AbstractActionOnPaymentCommandDto {
     private static final long serialVersionUID = -9066120264819960596L;
     private String paymentType;
-    private Long paymentId;
     private Double amount;
 }

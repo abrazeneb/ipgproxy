@@ -16,5 +16,4 @@ public class PaymentReversalCommandDto extends AbstractActionOnPaymentCommandDto
     private static final long serialVersionUID = -5060265581173496893L;
 
     private String paymentType;
-    private Long paymentId;
 }
