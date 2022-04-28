@@ -26,7 +26,7 @@ public class IpgPaymentStatusResponseDto extends IpgBaseResponseDto {
     private String tmplCurrency;
     private String merchantTransactionId;
     private String eci;
-    private IpgCardResponse card;
+    private PaymentCardResponse card;
     private String timestamp;
     private String transactionStatus;
     private String remark;

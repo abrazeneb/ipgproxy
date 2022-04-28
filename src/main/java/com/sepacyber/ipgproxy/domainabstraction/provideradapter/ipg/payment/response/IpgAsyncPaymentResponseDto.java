@@ -23,7 +23,7 @@ public class IpgAsyncPaymentResponseDto extends IpgBaseResponseDto {
     private String merchantTransactionId;
     private String currency;
     private Integer tmpl_amount;
-    private IpgCardResponse card;
+    private PaymentCardResponse card;
     private String timestamp;
 
 }

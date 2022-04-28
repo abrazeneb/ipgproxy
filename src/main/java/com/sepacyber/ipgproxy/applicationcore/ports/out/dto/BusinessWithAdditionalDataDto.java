@@ -1,15 +1,16 @@
-package com.sepacyber.ipgproxy.applicationcore.domain.payment;
+package com.sepacyber.ipgproxy.applicationcore.ports.out.dto;
 
-import com.sepacyber.ipgproxy.applicationcore.domain.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 import java.util.UUID;
 
-
-public class Business implements Entity {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class BusinessWithAdditionalDataDto {
     private UUID id;
     private String name;
     private UUID tenantId;

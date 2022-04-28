@@ -5,55 +5,44 @@ import com.sepacyber.ipgproxy.applicationcore.ports.in.PaymentUseCase;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.AbstractPaymentCommandDto;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.AsyncPaymentCommandDto;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.SynchronousPaymentCommandDto;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.ThreeDSecurPaymentCommandDto;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.AsynchronousPaymentResponse;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.SynchronousPaymentResponse;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ThreeDSecurePaymentResponse;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.ThreeDSecurePaymentCommandDto;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.AbstractPaymentResponse;
+import com.sepacyber.ipgproxy.applicationcore.ports.out.BusinessServicePort;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.CardPaymentPort;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.PaymentProcessedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 
-import java.util.Date;
-
 @Slf4j
 @RequiredArgsConstructor
 @CoreBean
 public class PaymentService implements PaymentUseCase {
 
+    private final BusinessServicePort businessServicePort;
     private final CardPaymentPort cardPaymentPort;
     private final Pipeline pipeline;
     private final MapperFacade mapper;
 
-
-    //TODO: PaymentFailedEvent
-
-    @Override
-    public AsynchronousPaymentResponse payAsync(AsyncPaymentCommandDto asyncPaymentCommand) {
-
-        var response = cardPaymentPort.payAsync(asyncPaymentCommand);
-
-        notifyPaymentProcessed(asyncPaymentCommand);
-
-        return response;
-    }
+    //TODO: handle PaymentFailedEvent, Exceptions
 
     @Override
-    public SynchronousPaymentResponse paySynchronous(SynchronousPaymentCommandDto synchronousPaymentCommand) {
+    public AbstractPaymentResponse processPayment(AbstractPaymentCommandDto command){
+        var businessAdditionalData = businessServicePort.getBusinessAdditionalData(command.getBusinessId());
 
-        var response = cardPaymentPort.paySync(synchronousPaymentCommand);
+        AbstractPaymentResponse response = null;
 
-        notifyPaymentProcessed(synchronousPaymentCommand);
+        if(command instanceof AsyncPaymentCommandDto){
+            response = cardPaymentPort.payAsync((AsyncPaymentCommandDto) command, businessAdditionalData);
+        }
+        else if(command instanceof SynchronousPaymentCommandDto){
+            response = cardPaymentPort.paySync((SynchronousPaymentCommandDto) command, businessAdditionalData);
+        }
+        else if(command instanceof ThreeDSecurePaymentCommandDto){
+            response = cardPaymentPort.pay3DSecure((ThreeDSecurePaymentCommandDto) command,businessAdditionalData);
+        }
 
-        return new SynchronousPaymentResponse();
-    }
-
-    @Override
-    public ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurPaymentCommandDto threeDSecurPaymentCommand) {
-        var response = cardPaymentPort.pay3DSecure(threeDSecurPaymentCommand);
-
-        notifyPaymentProcessed(threeDSecurPaymentCommand);
+        notifyPaymentProcessed(command);
 
         return response;
     }
@@ -64,4 +53,9 @@ public class PaymentService implements PaymentUseCase {
         paymentProcessedEvent.setProcessedAt(System.currentTimeMillis());
         pipeline.send(paymentProcessedEvent);
     }
+
+
+
+
+
 }

@@ -2,26 +2,15 @@ package com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SynchronousPaymentResponse {
-    private String paymentId;
+public class SynchronousPaymentResponse extends AbstractPaymentResponse {
     private String status;
-    private String paymentBrand;
-    private String paymentMode;
     private String firstName;
     private String lastName;
-    private String amount;
-    private String descriptor;
-    private String currency;
-    private PaymentCardResponse card;
-    private String timestamp;
-    private String transactionStatus;
-    private String merchantTransactionId;
-    private String remark;
-    private String tmpl_currency;
-    private String tmpl_amount;
 }

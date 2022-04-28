@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class IpgCardResponse implements Serializable {
+public class PaymentCardResponse implements Serializable {
 
     private static final long serialVersionUID = 1915074784035395178L;
     private String bin;
