@@ -3,10 +3,12 @@ package com.sepacyber.ipgproxy.viewadapter.rest.command;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.AbstractActionOnPaymentCommandDto;
 import com.sepacyber.ipgproxy.viewadapter.ActionOnExistingPaymentCommand;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 
 import javax.validation.constraints.NotBlank;
 
+@EqualsAndHashCode(callSuper=false)
 @Data
 @SuperBuilder(toBuilder = true)
 public class RestActionOnExistingPaymentCommand  extends ActionOnExistingPaymentCommand {
