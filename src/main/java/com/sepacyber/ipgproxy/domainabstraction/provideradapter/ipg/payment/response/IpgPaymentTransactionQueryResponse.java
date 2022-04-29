@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class IpgPaymentTransactionQueryResponse extends IpgBaseResponseDto {
 
     private static final long serialVersionUID = -2836038795716614676L;

@@ -37,7 +37,6 @@ public interface IpgPaymentApiClient {
     ResponseEntity<IpgPaymentTransactionQueryResponse> queryTransactions(
             @RequestBody final IpgPaymentTransactionQueryRequest requestDto);
 
-
     @PostMapping("/registrations")
     ResponseEntity<IpgAsyncPaymentResponseDto> tokenizeTransaction(
             @RequestBody final IpgAsyncPaymentRequestDto requestDto);

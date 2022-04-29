@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -16,4 +17,5 @@ public class AsynchronousPaymentResponse extends AbstractPaymentResponse impleme
     private String status;
     private String firstName;
     private String lastName;
+    private List<NameValueParameter> parameters;
 }

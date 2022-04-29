@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class IpgPaymentWithTokenResponse  extends IpgBaseResponseDto {
-    private static final long serialVersionUID = -8055811504602753840L;
+    private static final long serialVersionUID = 4288451086428314967L;
     private Long paymentId;
     private String paymentType;
     private LocalDateTime timestamp;

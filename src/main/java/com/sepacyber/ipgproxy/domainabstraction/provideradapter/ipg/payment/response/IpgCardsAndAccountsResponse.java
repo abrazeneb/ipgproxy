@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class IpgCardsAndAccountsResponse extends IpgBaseResponseDto {
     private Long partnerId;
     private Long memberId;

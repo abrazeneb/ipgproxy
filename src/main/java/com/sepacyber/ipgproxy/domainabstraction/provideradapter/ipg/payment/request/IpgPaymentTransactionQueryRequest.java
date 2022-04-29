@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -16,11 +15,6 @@ import java.time.LocalDate;
 public class IpgPaymentTransactionQueryRequest implements Serializable {
 
     private static final long serialVersionUID = 8142777552640312968L;
-    private AuthenticationDto authentication;
-    private Integer pageno;
-    private Integer records;
-    private LocalDate fromdate;
-    private LocalDate todate;
     private String status;
     private IpgPaginationUtil.IpgPagination pagination;
 

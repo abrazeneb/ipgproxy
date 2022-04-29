@@ -7,7 +7,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class SynchronousPaymentCommandDto extends AbstractPaymentCommandDto {
     private static final long serialVersionUID = -1332472943724078727L;
     private String orderDescriptor;
