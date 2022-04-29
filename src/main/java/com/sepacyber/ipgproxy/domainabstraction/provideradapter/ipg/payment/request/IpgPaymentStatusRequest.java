@@ -16,7 +16,6 @@ public class IpgPaymentStatusRequest implements Serializable {
 
     private static final long serialVersionUID = -6422970862012994655L;
 
-    private AuthenticationDto authentication;
     private String paymentType;
     private String idType;
 }

@@ -4,6 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @AllArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public abstract class PaymentCommand {
 }

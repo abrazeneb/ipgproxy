@@ -5,13 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AsynchronousPaymentResponse implements Serializable {
-    private static final long serialVersionUID = -1082669989318920381L;
+public class ExistingPaymentActionResponse implements Serializable {
+    private static final long serialVersionUID = 3656768601597785556L;
     private String paymentId;
     private String status;
     private String paymentBrand;
@@ -28,5 +27,4 @@ public class AsynchronousPaymentResponse implements Serializable {
     private String remark;
     private String tmpl_currency;
     private String tmpl_amount;
-    private List<NameValueParameter> parameters;
 }
