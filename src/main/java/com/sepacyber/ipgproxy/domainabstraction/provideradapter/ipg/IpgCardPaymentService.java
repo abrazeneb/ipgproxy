@@ -6,6 +6,7 @@ import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ExistingPaym
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.SynchronousPaymentResponse;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ThreeDSecurePaymentResponse;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.CardPaymentPort;
+import com.sepacyber.ipgproxy.applicationcore.ports.out.dto.BusinessWithAdditionalDataDto;
 import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.request.*;
 import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.response.*;
 import com.sepacyber.ipgproxy.infrastructure.ipg.IpgPropertiesConfig;
@@ -17,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -32,28 +32,33 @@ public class IpgCardPaymentService  implements CardPaymentPort {
     private final IpgPropertiesConfig ipgPropertiesConfig;
 
     @Override
-    public SynchronousPaymentResponse paySync(SynchronousPaymentCommandDto payWithCardCommand) {
+    public SynchronousPaymentResponse paySync(SynchronousPaymentCommandDto payWithCardCommand, BusinessWithAdditionalDataDto businessAdditionalData) {
         log.debug("Processing ipg card payment");
         IpgSyncPaymentRequestDto requestDto = mapper.map(payWithCardCommand, IpgSyncPaymentRequestDto.class);
+        requestDto.getPaymentAdditionalData().putAll(businessAdditionalData.getAdditionalData());
         ResponseEntity<IpgPaymentResponseDto> response = ipgPaymentApiClient.paySync(requestDto);
         log.debug("Received response from ipg client {}", response);
         return mapper.map(getResponse(response), SynchronousPaymentResponse.class);
     }
 
     @Override
-    public AsynchronousPaymentResponse payAsync(AsyncPaymentCommandDto synchronousPaymentCommand) {
-       //Add mapping here to convert from in port dto to out port dto
+    public AsynchronousPaymentResponse payAsync(AsyncPaymentCommandDto synchronousPaymentCommand, BusinessWithAdditionalDataDto businessAdditionalData) {
+       //Add mapping here to convert from in po
+        //
+        // rt dto to out port dto
         log.debug("Processing ipg card payment");
         IpgAsyncPaymentRequestDto requestDto = mapper.map(synchronousPaymentCommand, IpgAsyncPaymentRequestDto.class);
+        requestDto.getPaymentAdditionalData().putAll(businessAdditionalData.getAdditionalData());
         ResponseEntity<IpgAsyncPaymentResponseDto> response = ipgPaymentApiClient.payAsync(requestDto);
         log.debug("Received response from ipg client {}", response);
         return mapper.map(getResponse(response), AsynchronousPaymentResponse.class);
     }
 
     @Override
-    public ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurPaymentCommandDto threeDSecurPaymentCommand) {
+    public ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurePaymentCommandDto threeDSecurePaymentCommand, BusinessWithAdditionalDataDto businessAdditionalData) {
         log.debug("Processing ipg card payment");
-        IpgSyncPaymentRequestDto requestDto = mapper.map(threeDSecurPaymentCommand, IpgSyncPaymentRequestDto.class);
+        IpgSyncPaymentRequestDto requestDto = mapper.map(threeDSecurePaymentCommand, IpgSyncPaymentRequestDto.class);
+        requestDto.getPaymentAdditionalData().putAll(businessAdditionalData.getAdditionalData());
         ResponseEntity<IpgPaymentResponseDto> response = ipgPaymentApiClient.paySync(requestDto);
         log.debug("Received response from ipg client {}", response);
         return mapper.map(getResponse(response), ThreeDSecurePaymentResponse.class);

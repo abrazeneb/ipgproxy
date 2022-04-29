@@ -1,0 +1,16 @@
+{
+  "business-with-additional-data": [
+    {
+      "id": "94c94184-eee9-4b42-9f0b-3ad426a8f476",
+      "name": "The Coffee Connection",
+      "tenantId": "b4af8b80-e3f1-4c1a-b9f0-8fba2bf892b3",
+      "tenantName": "The Super Coffee Connection",
+      "additionalData": {
+        "ipgSecureKey": "azL8AHD8D3nghiTY3bJTIFiL0uww6y8V",
+        "ipgPartnerId": 4,
+        "ipgSuperMerchantUsername": "SepaMerchant",
+        "ipgMerchantId": 50001
+      }
+    }
+  ]
+}

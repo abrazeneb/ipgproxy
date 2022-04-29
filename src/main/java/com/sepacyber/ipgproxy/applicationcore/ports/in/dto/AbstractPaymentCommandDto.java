@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -19,10 +20,11 @@ import java.util.Map;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = AsyncPaymentCommandDto.class, name = "async"),
         @JsonSubTypes.Type(value = SynchronousPaymentCommandDto.class, name = "sync"),
-        @JsonSubTypes.Type(value = ThreeDSecurPaymentCommandDto.class, name = "3DSecure")
+        @JsonSubTypes.Type(value = ThreeDSecurePaymentCommandDto.class, name = "3DSecure")
 })
 public abstract class AbstractPaymentCommandDto implements Serializable {
     private static final long serialVersionUID = 2909665394413315747L;
+    private UUID businessId;
     private String merchantTransactionId;
     private Double amount;
     private String currency;
@@ -30,7 +32,9 @@ public abstract class AbstractPaymentCommandDto implements Serializable {
     private String paymentMode;
     private String paymentType;
     private String merchantRedirectUrl;
-    private Map<String, String> paymentAdditionalData; //paymentAddtionalData.get(secKey)
+    private Map<String, Object> vendorAdditionalData; //paymentAdditionalData.get(secKey)
     private Long accountId;
     private Long terminalId;
+
+
 }

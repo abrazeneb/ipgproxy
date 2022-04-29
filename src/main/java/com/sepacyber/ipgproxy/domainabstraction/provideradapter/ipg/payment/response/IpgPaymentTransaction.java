@@ -24,7 +24,7 @@ public class IpgPaymentTransaction implements Serializable {
     private String transactionDate;
     private String remark;
     private Customer customer;
-    private IpgCardResponse card;
+    private PaymentCardResponse card;
     private String transactionReceiptImg;
     private String bankReferenceId;
     private String terminalid;

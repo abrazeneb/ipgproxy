@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class ThreeDSecurPaymentCommandDto extends AbstractPaymentCommandDto {
+public class ThreeDSecurePaymentCommandDto extends AbstractPaymentCommandDto {
     private static final long serialVersionUID = 952810596026829096L;
     private String orderDescriptor;
     private CommandShippingAddress shipping;

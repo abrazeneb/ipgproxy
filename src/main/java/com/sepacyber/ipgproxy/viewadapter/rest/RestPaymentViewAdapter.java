@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.PaymentUseCase;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.*;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ExistingPaymentActionResponse;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.PaymentResponse;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.PaymentCardResponse;
 import com.sepacyber.ipgproxy.applicationcore.application.service.CoreBean;
 import com.sepacyber.ipgproxy.viewadapter.ActionOnExistingPaymentCommand;
 import com.sepacyber.ipgproxy.viewadapter.PaymentCommand;
@@ -23,31 +23,16 @@ import java.util.List;
 public class RestPaymentViewAdapter implements PaymentViewAdapter {
     private final ObjectMapper objectMapper;
     private final PaymentUseCase paymentUseCase;
+
     @Override
-    public PaymentResponse processPayment(PaymentCommand paymentRequestDto) {
+    public PaymentCardResponse.PaymentResponse processPayment(PaymentCommand paymentRequestDto) {
         try {
             AbstractPaymentCommandDto command = ((RestPaymentCommand)paymentRequestDto).getData();
-            if(command instanceof SynchronousPaymentCommandDto) {
-                return PaymentResponse.builder()
-                        .data(objectMapper.writeValueAsString(
-                                paymentUseCase.paySynchronous((SynchronousPaymentCommandDto) command)
-                        ))
-                        .build();
-            }
-            if(command instanceof AsyncPaymentCommandDto) {
-                return PaymentResponse.builder()
-                        .data(objectMapper.writeValueAsString(
-                                paymentUseCase.payAsync((AsyncPaymentCommandDto) command)
-                        ))
-                        .build();
-            }
-            if(command instanceof ThreeDSecurPaymentCommandDto) {
-                return PaymentResponse.builder()
-                        .data(objectMapper.writeValueAsString(
-                                paymentUseCase.pay3DSecure((ThreeDSecurPaymentCommandDto) command)
-                        ))
-                        .build();
-            }
+            return PaymentCardResponse.PaymentResponse.builder()
+                    .data(objectMapper.writeValueAsString(
+                       paymentUseCase.processPayment(command)
+                    ))
+                    .build();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

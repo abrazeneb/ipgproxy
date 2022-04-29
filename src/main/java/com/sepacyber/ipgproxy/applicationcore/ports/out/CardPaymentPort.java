@@ -5,13 +5,14 @@ import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.Asynchronous
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ExistingPaymentActionResponse;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.SynchronousPaymentResponse;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ThreeDSecurePaymentResponse;
+import com.sepacyber.ipgproxy.applicationcore.ports.out.dto.BusinessWithAdditionalDataDto;
 
 import java.util.List;
 
 public interface CardPaymentPort {
-    AsynchronousPaymentResponse payAsync(AsyncPaymentCommandDto asyncPaymentCommand);
-    SynchronousPaymentResponse paySync(SynchronousPaymentCommandDto synchronousPaymentCommand);
-    ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurPaymentCommandDto threeDSecurPaymentCommand);
+    AsynchronousPaymentResponse payAsync(AsyncPaymentCommandDto asyncPaymentCommand, BusinessWithAdditionalDataDto businessAdditionalData);
+    SynchronousPaymentResponse paySync(SynchronousPaymentCommandDto synchronousPaymentCommand, BusinessWithAdditionalDataDto businessAdditionalData);
+    ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurePaymentCommandDto threeDSecurPaymentCommand, BusinessWithAdditionalDataDto businessAdditionalData);
     ExistingPaymentActionResponse getPaymentStatus(final String transactionId, final PaymentStatusCommandDto paymentStatusCommandDto);
     List<ExistingPaymentActionResponse> getPaymentStatusList(PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto);
     ExistingPaymentActionResponse capturePayment(final String transactionId, final PaymentCaptureCommandDto captureCommandDto);
