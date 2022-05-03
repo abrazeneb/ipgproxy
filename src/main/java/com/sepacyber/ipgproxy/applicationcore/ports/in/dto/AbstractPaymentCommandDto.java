@@ -32,7 +32,6 @@ public abstract class AbstractPaymentCommandDto implements Serializable {
     private String paymentMode;
     private String paymentType;
     private String merchantRedirectUrl;
-    private Map<String, Object> vendorAdditionalData; //paymentAdditionalData.get(secKey)
     private Long accountId;
     private Long terminalId;
 
