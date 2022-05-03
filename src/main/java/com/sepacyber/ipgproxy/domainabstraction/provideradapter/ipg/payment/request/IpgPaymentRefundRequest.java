@@ -1,17 +1,15 @@
 package com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class IpgPaymentRefundRequest implements Serializable {
+@SuperBuilder(toBuilder = true)
+public class IpgPaymentRefundRequest extends IpgExistingPaymentActionBaseRequest{
     private static final long serialVersionUID = 3640695618036829670L;
 
     private String paymentType;
