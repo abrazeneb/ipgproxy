@@ -48,25 +48,25 @@ public class PaymentService implements PaymentUseCase {
     }
 
     @Override
-    public ExistingPaymentActionResponse getPaymentStatus(final String transactionId, final PaymentStatusCommandDto paymentStatusCommand) {
-        return cardPaymentPort.getPaymentStatus(transactionId, paymentStatusCommand);
+    public ExistingPaymentActionResponse processActionOnExistingPayment(AbstractActionOnPaymentCommandDto actionOnPaymentCommandDto) {
+        var businessAdditionalData = businessServicePort.getBusinessAdditionalData(actionOnPaymentCommandDto.getBusinessId());
+        if(actionOnPaymentCommandDto instanceof PaymentStatusCommandDto) {
+            return cardPaymentPort.getPaymentStatus(actionOnPaymentCommandDto.getPaymentId(), (PaymentStatusCommandDto) actionOnPaymentCommandDto, businessAdditionalData);
+        }
+        if(actionOnPaymentCommandDto instanceof PaymentCaptureCommandDto) {
+            return cardPaymentPort.capturePayment(actionOnPaymentCommandDto.getPaymentId(), (PaymentCaptureCommandDto) actionOnPaymentCommandDto, businessAdditionalData);
+        }
+        if(actionOnPaymentCommandDto instanceof PaymentReversalCommandDto) {
+            return cardPaymentPort.reversePayment(actionOnPaymentCommandDto.getPaymentId(), (PaymentReversalCommandDto) actionOnPaymentCommandDto, businessAdditionalData);
+        }
+        throw new RuntimeException("Error processing action request");
     }
 
     @Override
     public List<ExistingPaymentActionResponse> getPaymentStatusList(PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto) {
-        return cardPaymentPort.getPaymentStatusList(paymentTransactionBulkQueryCommandDto);
+        var businessAdditionalData = businessServicePort.getBusinessAdditionalData(paymentTransactionBulkQueryCommandDto.getBusinessId());
+        return cardPaymentPort.getPaymentStatusList(paymentTransactionBulkQueryCommandDto, businessAdditionalData);
     }
-
-    @Override
-    public ExistingPaymentActionResponse capturePayment(final String transactionId, final PaymentCaptureCommandDto captureCommandDto) {
-        return cardPaymentPort.capturePayment(transactionId, captureCommandDto);
-    }
-
-    @Override
-    public ExistingPaymentActionResponse reversePayment(final String transactionId, final PaymentReversalCommandDto reversalCommandDto) {
-        return cardPaymentPort.reversePayment(transactionId, reversalCommandDto);
-    }
-
 
     private void notifyPaymentProcessed(AbstractPaymentCommandDto paymentCommandDto){
         var paymentProcessedEvent = mapper.map(paymentCommandDto, PaymentProcessedEvent.class);

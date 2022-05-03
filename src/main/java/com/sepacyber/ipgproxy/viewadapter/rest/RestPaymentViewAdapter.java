@@ -40,18 +40,8 @@ public class RestPaymentViewAdapter implements PaymentViewAdapter {
     }
 
     @Override
-    public ExistingPaymentActionResponse takeActionOnExistingPayment(final String transactionId, final ActionOnExistingPaymentCommand actionOnExistingPaymentCommand) {
-        AbstractActionOnPaymentCommandDto command = ((RestActionOnExistingPaymentCommand)actionOnExistingPaymentCommand).getData();
-        if(command instanceof PaymentStatusCommandDto) {
-            return paymentUseCase.getPaymentStatus(transactionId, (PaymentStatusCommandDto) command);
-        }
-        if(command instanceof PaymentCaptureCommandDto) {
-            return paymentUseCase.capturePayment(transactionId, (PaymentCaptureCommandDto) command);
-        }
-        if(command instanceof PaymentReversalCommandDto) {
-            return paymentUseCase.reversePayment(transactionId, (PaymentReversalCommandDto) command);
-        }
-        throw new RuntimeException("Error processing action request");
+    public ExistingPaymentActionResponse takeActionOnExistingPayment(final ActionOnExistingPaymentCommand actionOnExistingPaymentCommand) {
+        return paymentUseCase.processActionOnExistingPayment(((RestActionOnExistingPaymentCommand)actionOnExistingPaymentCommand).getData());
     }
 
     @Override

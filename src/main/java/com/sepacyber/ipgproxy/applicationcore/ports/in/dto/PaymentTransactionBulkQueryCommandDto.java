@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @EqualsAndHashCode(callSuper=false)
 @Data
@@ -17,5 +18,6 @@ public class PaymentTransactionBulkQueryCommandDto implements Serializable {
 
     private static final long serialVersionUID = -3995912404084505770L;
     private String status;
+    private UUID businessId;
     private PaginationUtil.Pagination pagination;
 }
