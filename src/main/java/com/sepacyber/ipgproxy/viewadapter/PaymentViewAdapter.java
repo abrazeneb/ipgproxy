@@ -8,6 +8,6 @@ import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.PaymentCardR
 import java.util.List;
 public interface PaymentViewAdapter {
     PaymentCardResponse.PaymentResponse processPayment(PaymentCommand paymentRequestDto);
-    ExistingPaymentActionResponse takeActionOnExistingPayment(final String transactionId, final ActionOnExistingPaymentCommand actionOnExistingPaymentCommand);
+    ExistingPaymentActionResponse takeActionOnExistingPayment(final ActionOnExistingPaymentCommand actionOnExistingPaymentCommand);
     List<ExistingPaymentActionResponse> getPaymentStatusList(PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto);
 }

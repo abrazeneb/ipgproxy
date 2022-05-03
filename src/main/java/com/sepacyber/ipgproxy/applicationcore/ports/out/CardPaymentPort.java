@@ -13,8 +13,8 @@ public interface CardPaymentPort {
     AsynchronousPaymentResponse payAsync(AsyncPaymentCommandDto asyncPaymentCommand, BusinessWithAdditionalDataDto businessAdditionalData);
     SynchronousPaymentResponse paySync(SynchronousPaymentCommandDto synchronousPaymentCommand, BusinessWithAdditionalDataDto businessAdditionalData);
     ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurePaymentCommandDto threeDSecurPaymentCommand, BusinessWithAdditionalDataDto businessAdditionalData);
-    ExistingPaymentActionResponse getPaymentStatus(final String transactionId, final PaymentStatusCommandDto paymentStatusCommandDto);
-    List<ExistingPaymentActionResponse> getPaymentStatusList(PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto);
-    ExistingPaymentActionResponse capturePayment(final String transactionId, final PaymentCaptureCommandDto captureCommandDto);
-    ExistingPaymentActionResponse reversePayment(final String transactionId, final PaymentReversalCommandDto reversalCommandDto);
+    ExistingPaymentActionResponse getPaymentStatus(final String transactionId, final PaymentStatusCommandDto paymentStatusCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
+    List<ExistingPaymentActionResponse> getPaymentStatusList(PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
+    ExistingPaymentActionResponse capturePayment(final String transactionId, final PaymentCaptureCommandDto captureCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
+    ExistingPaymentActionResponse reversePayment(final String transactionId, final PaymentReversalCommandDto reversalCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
 }

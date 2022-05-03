@@ -14,7 +14,6 @@ import java.io.Serializable;
 public class IpgPaymentRefundRequest implements Serializable {
     private static final long serialVersionUID = 3640695618036829670L;
 
-    private AuthenticationDto authentication;
     private String paymentType;
     private Long paymentId;
     private Double amount;

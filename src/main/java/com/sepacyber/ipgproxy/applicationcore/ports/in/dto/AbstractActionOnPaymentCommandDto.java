@@ -9,6 +9,8 @@ import lombok.experimental.SuperBuilder;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Map;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -25,4 +27,6 @@ public abstract class AbstractActionOnPaymentCommandDto implements Serializable 
     private static final long serialVersionUID = -5512952739561463672L;
     @NotBlank
     private String paymentId;
+    private UUID businessId;
+    private Map<String, Object> paymentAdditionalData;
 }

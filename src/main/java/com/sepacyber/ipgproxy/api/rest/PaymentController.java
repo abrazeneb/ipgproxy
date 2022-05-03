@@ -27,12 +27,11 @@ public class PaymentController {
         return paymentViewAdapter.processPayment(restPaymentCommand);
     }
 
-    @PostMapping("/{paymentId}")
-    public ExistingPaymentActionResponse paymentAction(@PathVariable("paymentId") final String paymentId,
-                                                       final @RequestBody RestActionOnExistingPaymentCommand restActionOnExistingPaymentCommand,
+    @PostMapping("/existing")
+    public ExistingPaymentActionResponse paymentAction(final @RequestBody RestActionOnExistingPaymentCommand restActionOnExistingPaymentCommand,
                                                        HttpServletRequest request) {
         log.debug("Precessing pay with card request for request {}", restActionOnExistingPaymentCommand );
-        return paymentViewAdapter.takeActionOnExistingPayment(paymentId, restActionOnExistingPaymentCommand);
+        return paymentViewAdapter.takeActionOnExistingPayment(restActionOnExistingPaymentCommand);
     }
 
     @PostMapping("/status/list")

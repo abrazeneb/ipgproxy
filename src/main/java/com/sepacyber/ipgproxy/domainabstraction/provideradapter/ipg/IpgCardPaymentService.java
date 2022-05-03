@@ -35,7 +35,11 @@ public class IpgCardPaymentService  implements CardPaymentPort {
     public SynchronousPaymentResponse paySync(SynchronousPaymentCommandDto payWithCardCommand, BusinessWithAdditionalDataDto businessAdditionalData) {
         log.debug("Processing ipg card payment");
         IpgSyncPaymentRequestDto requestDto = mapper.map(payWithCardCommand, IpgSyncPaymentRequestDto.class);
-        requestDto.getPaymentAdditionalData().putAll(businessAdditionalData.getAdditionalData());
+        if (nonNull(requestDto.getPaymentAdditionalData())) {
+            requestDto.getPaymentAdditionalData().putAll(businessAdditionalData.getAdditionalData());
+        } else {
+            requestDto.setPaymentAdditionalData(businessAdditionalData.getAdditionalData());
+        }
         ResponseEntity<IpgPaymentResponseDto> response = ipgPaymentApiClient.paySync(requestDto);
         log.debug("Received response from ipg client {}", response);
         return mapper.map(getResponse(response), SynchronousPaymentResponse.class);
@@ -48,7 +52,11 @@ public class IpgCardPaymentService  implements CardPaymentPort {
         // rt dto to out port dto
         log.debug("Processing ipg card payment");
         IpgAsyncPaymentRequestDto requestDto = mapper.map(synchronousPaymentCommand, IpgAsyncPaymentRequestDto.class);
-        requestDto.getPaymentAdditionalData().putAll(businessAdditionalData.getAdditionalData());
+        if (nonNull(requestDto.getPaymentAdditionalData())) {
+            requestDto.getPaymentAdditionalData().putAll(businessAdditionalData.getAdditionalData());
+        } else {
+            requestDto.setPaymentAdditionalData(businessAdditionalData.getAdditionalData());
+        }
         ResponseEntity<IpgAsyncPaymentResponseDto> response = ipgPaymentApiClient.payAsync(requestDto);
         log.debug("Received response from ipg client {}", response);
         return mapper.map(getResponse(response), AsynchronousPaymentResponse.class);
@@ -58,43 +66,75 @@ public class IpgCardPaymentService  implements CardPaymentPort {
     public ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurePaymentCommandDto threeDSecurePaymentCommand, BusinessWithAdditionalDataDto businessAdditionalData) {
         log.debug("Processing ipg card payment");
         IpgSyncPaymentRequestDto requestDto = mapper.map(threeDSecurePaymentCommand, IpgSyncPaymentRequestDto.class);
-        requestDto.getPaymentAdditionalData().putAll(businessAdditionalData.getAdditionalData());
+        if (nonNull(requestDto.getPaymentAdditionalData())) {
+            requestDto.getPaymentAdditionalData().putAll(businessAdditionalData.getAdditionalData());
+        } else {
+            requestDto.setPaymentAdditionalData(businessAdditionalData.getAdditionalData());
+        }
         ResponseEntity<IpgPaymentResponseDto> response = ipgPaymentApiClient.paySync(requestDto);
         log.debug("Received response from ipg client {}", response);
         return mapper.map(getResponse(response), ThreeDSecurePaymentResponse.class);
     }
 
     @Override
-    public ExistingPaymentActionResponse getPaymentStatus(final String transactionId, final PaymentStatusCommandDto paymentStatusCommandDto) {
+    public ExistingPaymentActionResponse getPaymentStatus(final String transactionId, final PaymentStatusCommandDto paymentStatusCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto) {
         log.debug("Processing ipg get payment status");
         IpgPaymentStatusRequest requestDto = mapper.map(paymentStatusCommandDto, IpgPaymentStatusRequest.class);
+        if (nonNull(requestDto.getPaymentAdditionalData())) {
+            requestDto.getPaymentAdditionalData().putAll(businessWithAdditionalDataDto.getAdditionalData());
+        } else {
+            requestDto.setPaymentAdditionalData(businessWithAdditionalDataDto.getAdditionalData());
+        }
         ResponseEntity<IpgPaymentStatusResponseDto> response = ipgPaymentApiClient.paymentStatus(transactionId, requestDto);
         log.debug("Received response from ipg client {}", response);
         return mapper.map(getResponse(response), ExistingPaymentActionResponse.class);
     }
 
     @Override
-    public List<ExistingPaymentActionResponse> getPaymentStatusList(PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto) {
+    public List<ExistingPaymentActionResponse> getPaymentStatusList(
+            PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto,
+            BusinessWithAdditionalDataDto businessWithAdditionalDataDto) {
         log.debug("Processing ipg get payment status");
-        IpgPaymentTransactionQueryRequest requestDto = mapper.map(paymentTransactionBulkQueryCommandDto, IpgPaymentTransactionQueryRequest.class);
+        IpgPaymentTransactionQueryRequest requestDto = mapper.map(paymentTransactionBulkQueryCommandDto,
+                IpgPaymentTransactionQueryRequest.class);
+        if (nonNull(requestDto.getPaymentAdditionalData())) {
+            requestDto.getPaymentAdditionalData().putAll(businessWithAdditionalDataDto.getAdditionalData());
+        } else {
+            requestDto.setPaymentAdditionalData(businessWithAdditionalDataDto.getAdditionalData());
+        }
         ResponseEntity<IpgPaymentTransactionQueryResponse> response = ipgPaymentApiClient.queryTransactions(requestDto);
         log.debug("Received response from ipg client {}", response);
         return mapper.mapAsList(getResponse(response).getTransaction(), ExistingPaymentActionResponse.class);
     }
 
+    //Capture and Refund depending on value on paymentType
     @Override
-    public ExistingPaymentActionResponse capturePayment(final String transactionId, final PaymentCaptureCommandDto captureCommandDto) {
+    public ExistingPaymentActionResponse capturePayment(final String transactionId,
+                                                        final PaymentCaptureCommandDto captureCommandDto,
+                                                        BusinessWithAdditionalDataDto businessWithAdditionalDataDto) {
         log.debug("Processing ipg capture payment");
         IpgPaymentCaptureRequest requestDto = mapper.map(captureCommandDto, IpgPaymentCaptureRequest.class);
+        if (nonNull(requestDto.getPaymentAdditionalData())) {
+            requestDto.getPaymentAdditionalData().putAll(businessWithAdditionalDataDto.getAdditionalData());
+        } else {
+            requestDto.setPaymentAdditionalData(businessWithAdditionalDataDto.getAdditionalData());
+        }
         ResponseEntity<IpgPaymentStatusResponseDto> response = ipgPaymentApiClient.capturePayment(transactionId, requestDto);
         log.debug("Received response from ipg client {}", response);
         return mapper.map(getResponse(response), ExistingPaymentActionResponse.class);
     }
 
     @Override
-    public ExistingPaymentActionResponse reversePayment(final String transactionId, final PaymentReversalCommandDto reversalCommandDto) {
+    public ExistingPaymentActionResponse reversePayment(final String transactionId,
+                                                        final PaymentReversalCommandDto reversalCommandDto,
+                                                        BusinessWithAdditionalDataDto businessWithAdditionalDataDto) {
         log.debug("Processing ipg capture payment");
         IpgPaymentReversalRequest requestDto = mapper.map(reversalCommandDto, IpgPaymentReversalRequest.class);
+        if (nonNull(requestDto.getPaymentAdditionalData())) {
+            requestDto.getPaymentAdditionalData().putAll(businessWithAdditionalDataDto.getAdditionalData());
+        } else {
+            requestDto.setPaymentAdditionalData(businessWithAdditionalDataDto.getAdditionalData());
+        }
         ResponseEntity<IpgPaymentStatusResponseDto> response = ipgPaymentApiClient.reversePayment(transactionId, requestDto);
         log.debug("Received response from ipg client {}", response);
         return mapper.map(getResponse(response), ExistingPaymentActionResponse.class);
