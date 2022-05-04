@@ -33,10 +33,10 @@ public class PaymentService implements PaymentUseCase {
         AbstractPaymentResponse response = null;
 
         if(command instanceof AsyncPaymentCommandDto){
-            response = cardPaymentPort.payAsync((AsyncPaymentCommandDto) command, businessAdditionalData);
+            //response = cardPaymentPort.payAsync((AsyncPaymentCommandDto) command, businessAdditionalData);
         }
         else if(command instanceof SynchronousPaymentCommandDto){
-            response = cardPaymentPort.paySync((SynchronousPaymentCommandDto) command, businessAdditionalData);
+            // response = cardPaymentPort.paySync((SynchronousPaymentCommandDto) command, businessAdditionalData);
         }
         else if(command instanceof ThreeDSecurePaymentCommandDto){
             response = cardPaymentPort.pay3DSecure((ThreeDSecurePaymentCommandDto) command,businessAdditionalData);
