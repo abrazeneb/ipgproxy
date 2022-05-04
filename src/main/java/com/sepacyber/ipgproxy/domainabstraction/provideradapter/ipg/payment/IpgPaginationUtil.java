@@ -3,8 +3,6 @@ package com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment;
 import lombok.*;
 import lombok.experimental.UtilityClass;
 
-import java.time.LocalDate;
-
 @UtilityClass
 public class IpgPaginationUtil {
 
@@ -18,8 +16,10 @@ public class IpgPaginationUtil {
         private Integer pageno=1;
         @Builder.Default
         private Integer records = Integer.MAX_VALUE;
-        private LocalDate fromdate;
-        private LocalDate todate;
+        // date string in "dd/mm/yyyy" format
+        private String fromdate;
+        // date string in "dd/mm/yyyy" format
+        private String todate;
 
     }
 
