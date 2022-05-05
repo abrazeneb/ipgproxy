@@ -1,0 +1,4 @@
+CONSUMER vscode-kafka-redpandatest-bG9jYWxob3N0OjkwOTI-ipg.payment.processed
+topic: ipg.payment.processed
+partitions: 0
+from: 1

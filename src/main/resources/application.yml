@@ -17,17 +17,18 @@ spring:
     port: ${REDIS_PORT:6379}
     password: ${REDIS_PASSWORD:""}
 
-  cloud:
-    stream:
-      kafka:
-        binder:
-          brokers: ${KAFKA_BROKERS:localhost:9092}
-      bindings:
-        payment-processed-out:
-          destination: ${KAFKA_IPG_PAYMENT_PROCESSED_TOPIC:ipg-payment-processed-stream} #topic name
-        payment-processed-in:
-          destination: ${KAFKA_IPG_PAYMENT_PROCESSED_TOPIC:ipg-payment-processed-stream}
+  cloud.stream:
+    bindings:
+      payment-processed-out:
+        destination: ${KAFKA_IPG_PAYMENT_PROCESSED_TOPIC:ipg.payment.processed} #topic name
+      payment-processed-in:
+        destination: ${KAFKA_IPG_PAYMENT_PROCESSED_TOPIC:ipg.payment.processed}
+    kafka.streams:
+      binder:
+        brokers: ${KAFKA_BROKERS:localhost:9092}
 
+
+      #TODO: number of partitions for each topic
 
   config:
     import: optional:configserver:https://sepa-cyber.com/api/production/config

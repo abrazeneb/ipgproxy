@@ -4,3 +4,14 @@ server:
 business:
   service:
     url: http://localhost:3000
+
+spring:
+  cloud.stream:
+    bindings:
+      payment-processed-out:
+        destination: ${KAFKA_IPG_PAYMENT_PROCESSED_TOPIC:ipg.payment.processed} #topic name
+      payment-processed-in:
+        destination: ${KAFKA_IPG_PAYMENT_PROCESSED_TOPIC:ipg.payment.processed}
+    kafka.streams:
+      binder:
+        brokers: ${KAFKA_BROKERS:odc-mqd01.local.sepa-cyber.com:9092}

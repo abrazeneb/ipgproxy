@@ -6,7 +6,6 @@ import an.awesome.pipelinr.Pipeline;
 import an.awesome.pipelinr.Pipelinr;
 import com.sepacyber.ipgproxy.applicationcore.application.util.ApplicationConstants;
 import com.sepacyber.ipgproxy.applicationcore.application.util.DefaultProfileUtil;
-import com.sepacyber.ipgproxy.domainabstraction.integrationhandler.KafkaPaymentEventBinder;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.function.context.config.ContextFunctionCatalogAutoConfiguration;
-import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
