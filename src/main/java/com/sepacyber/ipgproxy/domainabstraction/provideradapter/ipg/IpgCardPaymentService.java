@@ -125,6 +125,20 @@ public class IpgCardPaymentService  implements CardPaymentPort {
     }
 
     @Override
+    public ExistingPaymentActionResponse refundPayment(String transactionId, PaymentRefundCommandDto refundCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto) {
+        log.debug("Processing ipg capture payment");
+        IpgPaymentRefundRequest requestDto = mapper.map(refundCommandDto, IpgPaymentRefundRequest.class);
+        if (nonNull(requestDto.getPaymentAdditionalData())) {
+            requestDto.getPaymentAdditionalData().putAll(businessWithAdditionalDataDto.getAdditionalData());
+        } else {
+            requestDto.setPaymentAdditionalData(businessWithAdditionalDataDto.getAdditionalData());
+        }
+        ResponseEntity<IpgPaymentStatusResponseDto> response = ipgPaymentApiClient.refundPayment(transactionId, requestDto);
+        log.debug("Received response from ipg client {}", response);
+        return mapper.map(getResponse(response), ExistingPaymentActionResponse.class);
+    }
+
+    @Override
     public ExistingPaymentActionResponse reversePayment(final String transactionId,
                                                         final PaymentReversalCommandDto reversalCommandDto,
                                                         BusinessWithAdditionalDataDto businessWithAdditionalDataDto) {

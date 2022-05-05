@@ -17,11 +17,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
 @JsonTypeInfo(use= JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY,
-        property = "type", defaultImpl = PaymentStatusCommandDto.class, visible = true)
+        property = "paymentType", defaultImpl = PaymentStatusCommandDto.class, visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = PaymentCaptureCommandDto.class, name = "capture"),
-        @JsonSubTypes.Type(value = PaymentReversalCommandDto.class, name = "reverse"),
-        @JsonSubTypes.Type(value = PaymentStatusCommandDto.class, name = "status")
+        @JsonSubTypes.Type(value = PaymentRefundCommandDto.class, name = "RF"),
+        @JsonSubTypes.Type(value = PaymentCaptureCommandDto.class, name = "CP"),
+        @JsonSubTypes.Type(value = PaymentReversalCommandDto.class, name = "RV"),
+        @JsonSubTypes.Type(value = PaymentStatusCommandDto.class, name = "IN")
 })
 public abstract class AbstractActionOnPaymentCommandDto implements Serializable {
     private static final long serialVersionUID = -5512952739561463672L;

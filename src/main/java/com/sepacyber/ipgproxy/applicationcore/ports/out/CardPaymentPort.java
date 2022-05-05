@@ -16,5 +16,6 @@ public interface CardPaymentPort {
     ExistingPaymentActionResponse getPaymentStatus(final String transactionId, final PaymentStatusCommandDto paymentStatusCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
     List<ExistingPaymentActionResponse> getPaymentStatusList(PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
     ExistingPaymentActionResponse capturePayment(final String transactionId, final PaymentCaptureCommandDto captureCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
+    ExistingPaymentActionResponse refundPayment(final String transactionId, final PaymentRefundCommandDto captureCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
     ExistingPaymentActionResponse reversePayment(final String transactionId, final PaymentReversalCommandDto reversalCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
 }

@@ -1,4 +1,4 @@
-package com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.request;
+package com.sepacyber.ipgproxy.applicationcore.ports.in.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,10 +11,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class IpgPaymentRefundRequest extends IpgExistingPaymentActionBaseRequest{
-    private static final long serialVersionUID = 3640695618036829670L;
-
+public class PaymentRefundCommandDto extends AbstractActionOnPaymentCommandDto {
+    private static final long serialVersionUID = -9066120264819960596L;
     private String paymentType;
-    private Long paymentId;
     private Double amount;
 }

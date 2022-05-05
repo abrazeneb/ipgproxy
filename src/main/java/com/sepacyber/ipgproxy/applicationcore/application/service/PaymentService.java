@@ -59,6 +59,9 @@ public class PaymentService implements PaymentUseCase {
         if(actionOnPaymentCommandDto instanceof PaymentReversalCommandDto) {
             return cardPaymentPort.reversePayment(actionOnPaymentCommandDto.getPaymentId(), (PaymentReversalCommandDto) actionOnPaymentCommandDto, businessAdditionalData);
         }
+        if(actionOnPaymentCommandDto instanceof PaymentRefundCommandDto) {
+            return cardPaymentPort.refundPayment(actionOnPaymentCommandDto.getPaymentId(), (PaymentRefundCommandDto) actionOnPaymentCommandDto, businessAdditionalData);
+        }
         throw new RuntimeException("Error processing action request");
     }
 

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "${ipg.provider.base.name:IpgPaymentApiClient}",
-url = "${ipg.provider.base.url:https://tp.sepa-cyber.com}/transactionServices/REST/v1")
+url = "${ipg.provider.base.url:http://localhost:8290}/vendor/ipg")
 public interface IpgPaymentApiClient {
     @PostMapping("/payments")
     ResponseEntity<IpgPaymentResponseDto> paySync(
@@ -24,12 +24,16 @@ public interface IpgPaymentApiClient {
             @PathVariable("id") String id,
             @RequestBody final IpgPaymentStatusRequest requestDto);
 
-    @PostMapping("/payments/{id}")
+    @PostMapping("/capture/{id}")
     ResponseEntity<IpgPaymentStatusResponseDto> capturePayment(
             @PathVariable("id") String id,
             @RequestBody final IpgPaymentCaptureRequest requestDto);
+    @PostMapping("/refund/{id}")
+    ResponseEntity<IpgPaymentStatusResponseDto> refundPayment(
+            @PathVariable("id") String id,
+            @RequestBody final IpgPaymentRefundRequest requestDto);
 
-    @PostMapping("/payments/{id}")
+    @PostMapping("/reverse/{id}")
     ResponseEntity<IpgPaymentStatusResponseDto> reversePayment(
             @PathVariable("id") String id,
             @RequestBody final IpgPaymentReversalRequest requestDto);
