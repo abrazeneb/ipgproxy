@@ -6,10 +6,10 @@
       "tenantId": "b4af8b80-e3f1-4c1a-b9f0-8fba2bf892b3",
       "tenantName": "The Super Coffee Connection",
       "additionalData": {
-        "ipgSecureKey": "azL8AHD8D3nghiTY3bJTIFiL0uww6y8V",
-        "ipgPartnerId": 4,
-        "ipgSuperMerchantUsername": "SepaMerchant",
-        "ipgMerchantId": 50001
+        "ipg_partner_id": 4,
+        "ipg_secure_key": "azL8AHD8D3nghiTY3bJTIFiL0uww6y8V",
+        "ipg_super_merchant_username": "SepaMerchant",
+        "memberId" : 50001
       }
     }
   ]
