@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "${ipg.provider.base.name:IpgPaymentApiClient}",
-url = "${ipg.provider.base.url:http://localhost:8290}/vendor/ipg")
+url = "${ipg.provider.base.url:https://wso2-gw-staging.local.sepa-cyber.com}/vendor/ipg/1.0.0")
 public interface IpgPaymentApiClient {
 
     @PostMapping("/syncPay")
