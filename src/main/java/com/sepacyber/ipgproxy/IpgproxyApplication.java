@@ -6,6 +6,7 @@ import an.awesome.pipelinr.Pipeline;
 import an.awesome.pipelinr.Pipelinr;
 import com.sepacyber.ipgproxy.applicationcore.application.util.ApplicationConstants;
 import com.sepacyber.ipgproxy.applicationcore.application.util.DefaultProfileUtil;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,10 @@ import org.springframework.cloud.function.context.config.ContextFunctionCatalogA
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
+import javax.net.ssl.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -33,6 +36,24 @@ public class IpgproxyApplication  implements InitializingBean {
         loadApplicationStartup(env);
     }
 
+    @SneakyThrows
+    public static void ignoreSSL(){
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() { return null; }
+            public void checkClientTrusted(X509Certificate[] certs, String authType) { }
+            public void checkServerTrusted(X509Certificate[] certs, String authType) { }
+
+        } };
+
+        SSLContext sc = SSLContext.getInstance("SSL");
+        sc.init(null, trustAllCerts, new java.security.SecureRandom());
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+        HostnameVerifier allHostsValid = (hostname, session) -> true;
+        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+    }
+
+
     private static final Logger log = LoggerFactory.getLogger(IpgproxyApplication.class);
 
     private final Environment env;
@@ -40,7 +61,7 @@ public class IpgproxyApplication  implements InitializingBean {
     public IpgproxyApplication(Environment env) {this.env = env;}
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
         if (activeProfiles.contains(ApplicationConstants.SPRING_PROFILE_DEVELOPMENT)
                 && activeProfiles.contains(ApplicationConstants.SPRING_PROFILE_PRODUCTION)) {
@@ -54,7 +75,10 @@ public class IpgproxyApplication  implements InitializingBean {
                     "run with both the 'prod' and 'test' profiles at the same time.");
         }
 
+        if(activeProfiles.contains(ApplicationConstants.SPRING_PROFILE_DEVELOPMENT))
+            ignoreSSL();
     }
+
 
     public static void loadApplicationStartup(Environment env) {
         Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
