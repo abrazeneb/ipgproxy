@@ -18,6 +18,7 @@ public class PaymentTransactionBulkQueryCommandDto implements Serializable {
 
     private static final long serialVersionUID = -3995912404084505770L;
     private String status;
-    private UUID businessId;
+    private long tenantId;
+    private String organizationId;
     private PaginationUtil.Pagination pagination;
 }

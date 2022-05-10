@@ -25,6 +25,10 @@ spring:
 #    username: root
 #    password: rootpw
 
+business:
+  service:
+    url: ${BUSINESS_MS_API_URL:http://localhost:3000}
+
 
 application:
   ipg:

@@ -15,5 +15,5 @@ import java.util.Map;
 public abstract class IpgExistingPaymentActionBaseRequest implements Serializable {
     private static final long serialVersionUID = -6422970862012994655L;
 
-    private Map<String, Object> paymentAdditionalData;
+    private Map<String, String> paymentAdditionalData;
 }

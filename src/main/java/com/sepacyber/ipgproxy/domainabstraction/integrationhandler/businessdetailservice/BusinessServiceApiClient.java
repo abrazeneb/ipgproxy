@@ -4,6 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.UUID;
 
@@ -11,6 +12,6 @@ import java.util.UUID;
         url = "${business.service.url}")
 public interface BusinessServiceApiClient {
 
-    @GetMapping("/business-with-additional-data/{id}")
-    ResponseEntity<BusinessWithAdditionalDataResponse> getBusinessAdditionalData(@PathVariable("id") UUID id);
+    @GetMapping("/organization/getById/{id}")
+    ResponseEntity<OrganizationResponse> getOrganizationById(@RequestHeader("tenantId") long tenantId, @PathVariable("id") String id);
 }
