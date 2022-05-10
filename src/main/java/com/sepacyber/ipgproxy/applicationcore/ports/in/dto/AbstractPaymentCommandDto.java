@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.UUID;
 
 @Data
@@ -24,7 +23,8 @@ import java.util.UUID;
 })
 public abstract class AbstractPaymentCommandDto implements Serializable {
     private static final long serialVersionUID = 2909665394413315747L;
-    private UUID businessId;
+    private long tenantId;
+    private String organizationId;
     private String merchantTransactionId;
     private Double amount;
     private String currency;
@@ -34,6 +34,4 @@ public abstract class AbstractPaymentCommandDto implements Serializable {
     private String merchantRedirectUrl;
     private Long accountId;
     private Long terminalId;
-
-
 }
