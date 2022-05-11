@@ -19,48 +19,48 @@ spring:
 
   config:
     import: optional:configserver:https://sepa-cyber.com/api/production/config
-#  datasource:
-#    driver-class-name: org.mariadb.jdbc.Driver
-#    url: jdbc:mariadb://localhost:3306/ipg_proxy
-#    username: root
-#    password: rootpw
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${MARIADB_HOST:localhost}:${MARIADB_PORT:3306}/ipg_proxy
+    username: ${MARIADB_USERNAME:root}
+    password: ${MARIADB_USERNAME:rootpw}
 
 
 application:
   ipg:
     success-response-codes:
-      - 200
-      - 10004
-      - 90026
-      - 00008
-      - 00009
-      - 00002
-      - 00024
-      - 00003
-      - 00025
-      - 00022
-      - 00001
-      - 00023
-      - 00006
-      - 00028
-      - 00007
-      - 00029
-      - 00004
-      - 00026
-      - 00005
-      - 00027
-      - 00020
-      - 00019
-      - 00013
-      - 00035
-      - 00014
-      - 00011
-      - 00012
-      - 00034
-      - 00017
-      - 00018
-      - 00015
-      - 00016
-      - 00031
-      - 00010
-      - 00030
+      - "200"
+      - "10004"
+      - "90026"
+      - "00008"
+      - "00009"
+      - "00002"
+      - "00024"
+      - "00003"
+      - "00025"
+      - "00022"
+      - "00001"
+      - "00023"
+      - "00006"
+      - "00028"
+      - "00007"
+      - "00029"
+      - "00004"
+      - "00026"
+      - "00005"
+      - "00027"
+      - "00020"
+      - "00019"
+      - "00013"
+      - "00035"
+      - "00014"
+      - "00011"
+      - "00012"
+      - "00034"
+      - "00017"
+      - "00018"
+      - "00015"
+      - "00016"
+      - "00031"
+      - "00010"
+      - "00030"

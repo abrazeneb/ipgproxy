@@ -33,15 +33,21 @@ public class PaymentService implements PaymentUseCase {
         AbstractPaymentResponse response = null;
 
         if(command instanceof AsyncPaymentCommandDto){
+            //other than failed
             response = cardPaymentPort.payAsync((AsyncPaymentCommandDto) command, businessAdditionalData);
+
+            // persisted transaction -> status
         }
         else if(command instanceof SynchronousPaymentCommandDto){
+            //success or failure
             response = cardPaymentPort.paySync((SynchronousPaymentCommandDto) command, businessAdditionalData);
         }
         else if(command instanceof ThreeDSecurePaymentCommandDto){
             response = cardPaymentPort.pay3DSecure((ThreeDSecurePaymentCommandDto) command,businessAdditionalData);
+            //redirect {url
         }
-
+        //response -> status
+        //
         notifyPaymentProcessed(command);
 
         return response;
@@ -51,6 +57,7 @@ public class PaymentService implements PaymentUseCase {
     public ExistingPaymentActionResponse processActionOnExistingPayment(AbstractActionOnPaymentCommandDto actionOnPaymentCommandDto) {
         var businessAdditionalData = businessServicePort.getBusinessAdditionalData(actionOnPaymentCommandDto.getBusinessId());
         if(actionOnPaymentCommandDto instanceof PaymentStatusCommandDto) {
+            // failed/success/pending
             return cardPaymentPort.getPaymentStatus(actionOnPaymentCommandDto.getPaymentId(), (PaymentStatusCommandDto) actionOnPaymentCommandDto, businessAdditionalData);
         }
         if(actionOnPaymentCommandDto instanceof PaymentCaptureCommandDto) {
