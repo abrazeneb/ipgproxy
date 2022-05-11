@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "${ipg.provider.base.name:IpgPaymentApiClient}",
-url = "${ipg.provider.base.url:http://localhost:8290}/vendor/ipg")
+url = "${ipg.provider.base.url:https://wso2-mi-staging.local.sepa-cyber.com}/vendor/ipg")
 public interface IpgPaymentApiClient {
-    @PostMapping("/payments")
+
+    @PostMapping("/syncPay")
     ResponseEntity<IpgPaymentResponseDto> paySync(
             @RequestBody final IpgSyncPaymentRequestDto requestDto);
 
@@ -19,7 +20,7 @@ public interface IpgPaymentApiClient {
     ResponseEntity<IpgAsyncPaymentResponseDto> payAsync(
             @RequestBody final IpgAsyncPaymentRequestDto requestDto);
 
-    @PostMapping("/payments/{id}")
+    @PostMapping("/getStatus/{id}")
     ResponseEntity<IpgPaymentStatusResponseDto> paymentStatus(
             @PathVariable("id") String id,
             @RequestBody final IpgPaymentStatusRequest requestDto);
@@ -28,15 +29,17 @@ public interface IpgPaymentApiClient {
     ResponseEntity<IpgPaymentStatusResponseDto> capturePayment(
             @PathVariable("id") String id,
             @RequestBody final IpgPaymentCaptureRequest requestDto);
+
+    @PostMapping("/cancel/{id}")
+    ResponseEntity<IpgPaymentStatusResponseDto> reversePayment(
+            @PathVariable("id") String id,
+            @RequestBody final IpgPaymentReversalRequest requestDto);
+
     @PostMapping("/refund/{id}")
     ResponseEntity<IpgPaymentStatusResponseDto> refundPayment(
             @PathVariable("id") String id,
             @RequestBody final IpgPaymentRefundRequest requestDto);
 
-    @PostMapping("/reverse/{id}")
-    ResponseEntity<IpgPaymentStatusResponseDto> reversePayment(
-            @PathVariable("id") String id,
-            @RequestBody final IpgPaymentReversalRequest requestDto);
     @PostMapping("/getTransactionList")
     ResponseEntity<IpgPaymentTransactionQueryResponse> queryTransactions(
             @RequestBody final IpgPaymentTransactionQueryRequest requestDto);
