@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -23,7 +22,7 @@ public class PaymentProcessedEvent implements Notification {
     private Long terminalId;
 
     private UUID orderId;
-    private UUID businessId;
+    private Organization organization;
 
     private Card card;
     private Customer customer;
@@ -50,5 +49,16 @@ public class PaymentProcessedEvent implements Notification {
         private String ip;
         private String telnocc;
         private String phone;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Organization {
+        private String id;
+        private String legalName;
+        private String tradingName;
+        private long tenantId;
+        private String tenantName;
     }
 }

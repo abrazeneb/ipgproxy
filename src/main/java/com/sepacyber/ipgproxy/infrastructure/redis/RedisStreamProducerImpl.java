@@ -1,7 +1,6 @@
 package com.sepacyber.ipgproxy.infrastructure.redis;
 
-import com.sepacyber.ipgproxy.applicationcore.ports.out.PaymentProcessedEvent;
-import com.sepacyber.ipgproxy.shared.Constants;
+import com.sepacyber.ipgproxy.domainabstraction.integrationhandler.RedisStreamProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.stream.ObjectRecord;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class RedisStreamProducer<T> {
+public class RedisStreamProducerImpl<T> implements RedisStreamProducer<T> {
 
     private final RedisTemplate<String, T> redisTemplate;
 

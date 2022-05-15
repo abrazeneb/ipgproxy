@@ -8,6 +8,7 @@ import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ExistingPaym
 import com.sepacyber.ipgproxy.applicationcore.ports.out.BusinessServicePort;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.CardPaymentPort;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.PaymentProcessedEvent;
+import com.sepacyber.ipgproxy.applicationcore.ports.out.dto.OrganizationDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -28,36 +29,29 @@ public class PaymentService implements PaymentUseCase {
 
     @Override
     public AbstractPaymentResponse processPayment(AbstractPaymentCommandDto command){
-        var businessAdditionalData = businessServicePort.getBusinessAdditionalData(command.getBusinessId());
+        var organizationDto = businessServicePort.getOrganization(command.getTenantId(), command.getOrganizationId());
 
         AbstractPaymentResponse response = null;
 
         if(command instanceof AsyncPaymentCommandDto){
-            //other than failed
-            response = cardPaymentPort.payAsync((AsyncPaymentCommandDto) command, businessAdditionalData);
-
-            // persisted transaction -> status
+            response = cardPaymentPort.payAsync((AsyncPaymentCommandDto) command, organizationDto);
         }
         else if(command instanceof SynchronousPaymentCommandDto){
-            //success or failure
-            response = cardPaymentPort.paySync((SynchronousPaymentCommandDto) command, businessAdditionalData);
+            response = cardPaymentPort.paySync((SynchronousPaymentCommandDto) command, organizationDto);
         }
         else if(command instanceof ThreeDSecurePaymentCommandDto){
-            response = cardPaymentPort.pay3DSecure((ThreeDSecurePaymentCommandDto) command,businessAdditionalData);
-            //redirect {url
+            response = cardPaymentPort.pay3DSecure((ThreeDSecurePaymentCommandDto) command,organizationDto);
         }
-        //response -> status
-        //
-        notifyPaymentProcessed(command);
+
+        notifyPaymentProcessed(command, organizationDto);
 
         return response;
     }
 
     @Override
     public ExistingPaymentActionResponse processActionOnExistingPayment(AbstractActionOnPaymentCommandDto actionOnPaymentCommandDto) {
-        var businessAdditionalData = businessServicePort.getBusinessAdditionalData(actionOnPaymentCommandDto.getBusinessId());
+        var businessAdditionalData = businessServicePort.getOrganization(actionOnPaymentCommandDto.getTenantId(), actionOnPaymentCommandDto.getOrganizationId());
         if(actionOnPaymentCommandDto instanceof PaymentStatusCommandDto) {
-            // failed/success/pending
             return cardPaymentPort.getPaymentStatus(actionOnPaymentCommandDto.getPaymentId(), (PaymentStatusCommandDto) actionOnPaymentCommandDto, businessAdditionalData);
         }
         if(actionOnPaymentCommandDto instanceof PaymentCaptureCommandDto) {
@@ -74,12 +68,13 @@ public class PaymentService implements PaymentUseCase {
 
     @Override
     public List<ExistingPaymentActionResponse> getPaymentStatusList(PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto) {
-        var businessAdditionalData = businessServicePort.getBusinessAdditionalData(paymentTransactionBulkQueryCommandDto.getBusinessId());
+        var businessAdditionalData = businessServicePort.getOrganization(paymentTransactionBulkQueryCommandDto.getTenantId(), paymentTransactionBulkQueryCommandDto.getOrganizationId());
         return cardPaymentPort.getPaymentStatusList(paymentTransactionBulkQueryCommandDto, businessAdditionalData);
     }
 
-    private void notifyPaymentProcessed(AbstractPaymentCommandDto paymentCommandDto){
+    private void notifyPaymentProcessed(AbstractPaymentCommandDto paymentCommandDto, OrganizationDto organizationDto){
         var paymentProcessedEvent = mapper.map(paymentCommandDto, PaymentProcessedEvent.class);
+        paymentProcessedEvent.setOrganization(mapper.map(organizationDto, PaymentProcessedEvent.Organization.class));
         paymentProcessedEvent.setProcessedAt(System.currentTimeMillis());
         pipeline.send(paymentProcessedEvent);
     }

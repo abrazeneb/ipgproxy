@@ -5,17 +5,17 @@ import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.Asynchronous
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ExistingPaymentActionResponse;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.SynchronousPaymentResponse;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ThreeDSecurePaymentResponse;
-import com.sepacyber.ipgproxy.applicationcore.ports.out.dto.BusinessWithAdditionalDataDto;
+import com.sepacyber.ipgproxy.applicationcore.ports.out.dto.OrganizationDto;
 
 import java.util.List;
 
 public interface CardPaymentPort {
-    AsynchronousPaymentResponse payAsync(AsyncPaymentCommandDto asyncPaymentCommand, BusinessWithAdditionalDataDto businessAdditionalData);
-    SynchronousPaymentResponse paySync(SynchronousPaymentCommandDto synchronousPaymentCommand, BusinessWithAdditionalDataDto businessAdditionalData);
-    ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurePaymentCommandDto threeDSecurPaymentCommand, BusinessWithAdditionalDataDto businessAdditionalData);
-    ExistingPaymentActionResponse getPaymentStatus(final String transactionId, final PaymentStatusCommandDto paymentStatusCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
-    List<ExistingPaymentActionResponse> getPaymentStatusList(PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
-    ExistingPaymentActionResponse capturePayment(final String transactionId, final PaymentCaptureCommandDto captureCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
-    ExistingPaymentActionResponse refundPayment(final String transactionId, final PaymentRefundCommandDto captureCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
-    ExistingPaymentActionResponse reversePayment(final String transactionId, final PaymentReversalCommandDto reversalCommandDto, BusinessWithAdditionalDataDto businessWithAdditionalDataDto);
+    AsynchronousPaymentResponse payAsync(AsyncPaymentCommandDto asyncPaymentCommand, OrganizationDto organizationDto);
+    SynchronousPaymentResponse paySync(SynchronousPaymentCommandDto synchronousPaymentCommand, OrganizationDto organizationDto);
+    ThreeDSecurePaymentResponse pay3DSecure(ThreeDSecurePaymentCommandDto threeDSecurPaymentCommand, OrganizationDto organizationDto);
+    ExistingPaymentActionResponse getPaymentStatus(final String transactionId, final PaymentStatusCommandDto paymentStatusCommandDto, OrganizationDto organizationDto);
+    List<ExistingPaymentActionResponse> getPaymentStatusList(PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto, OrganizationDto organizationDto);
+    ExistingPaymentActionResponse capturePayment(final String transactionId, final PaymentCaptureCommandDto captureCommandDto, OrganizationDto organizationDto);
+    ExistingPaymentActionResponse refundPayment(final String transactionId, final PaymentRefundCommandDto captureCommandDto, OrganizationDto organizationDto);
+    ExistingPaymentActionResponse reversePayment(final String transactionId, final PaymentReversalCommandDto reversalCommandDto, OrganizationDto organizationDto);
 }

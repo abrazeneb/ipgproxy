@@ -10,10 +10,11 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BusinessWithAdditionalDataDto {
-    private UUID id;
-    private String name;
-    private UUID tenantId;
+public class OrganizationDto {
+    private String id;
+    private String legalName;
+    private String tradingName;
+    private long tenantId;
     private String tenantName;
-    private Map<String, Object> additionalData;
+    private Map<String, String> additionalData;
 }

@@ -23,7 +23,7 @@ public class IpgPaymentBaseRequest  implements Serializable {
     private String notificationUrl;
     private IpgShippingAddress shipping;
     private IpgCustomer customer;
-    private Map<String, Object> paymentAdditionalData;
+    private Map<String, String> paymentAdditionalData;
     private Long accountId;
     private Long terminalId;
 }

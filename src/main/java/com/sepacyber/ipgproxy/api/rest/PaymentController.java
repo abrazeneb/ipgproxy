@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/payments")
+@RequestMapping("/api/v1/payments")
 public class PaymentController {
     private final PaymentViewAdapter paymentViewAdapter;
 

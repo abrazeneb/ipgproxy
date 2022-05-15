@@ -2,7 +2,8 @@ package com.sepacyber.ipgproxy.domainabstraction.integrationhandler.paymentproce
 
 import an.awesome.pipelinr.Notification;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.PaymentProcessedEvent;
-import com.sepacyber.ipgproxy.infrastructure.redis.RedisStreamProducer;
+import com.sepacyber.ipgproxy.domainabstraction.integrationhandler.RedisStreamProducer;
+import com.sepacyber.ipgproxy.infrastructure.redis.RedisStreamProducerImpl;
 import com.sepacyber.ipgproxy.shared.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
