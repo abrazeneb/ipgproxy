@@ -27,7 +27,7 @@ public interface IpgPaymentApiClient {
     @PostMapping("/capture/{id}")
     ResponseEntity<IpgPaymentStatusResponseDto> capturePayment(
             @PathVariable("id") String id,
-            @RequestBody final IpgPaymentCaptureRequest requestDto);
+            @RequestBody final IpgOtherActionsPaymentCaptureRequest requestDto);
     @PostMapping("/refund/{id}")
     ResponseEntity<IpgPaymentStatusResponseDto> refundPayment(
             @PathVariable("id") String id,
@@ -53,5 +53,10 @@ public interface IpgPaymentApiClient {
     @PostMapping("/getCardsAndAccounts ")
     ResponseEntity<IpgCardsAndAccountsResponse> getCardsAndAccounts (
             @RequestBody final AuthenticationDto requestDto);
+
+
+    @PostMapping("/payments/register ")
+    ResponseEntity<IpgTokenizationPaymentResponse> registerPayment (
+            @RequestBody final IpgStandalonePaymentStoreRequest requestDto);
 
 }

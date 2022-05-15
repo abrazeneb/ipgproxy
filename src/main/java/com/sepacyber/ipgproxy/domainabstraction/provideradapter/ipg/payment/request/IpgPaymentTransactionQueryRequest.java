@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class IpgPaymentTransactionQueryRequest extends IpgExistingPaymentActionBaseRequest {
+public class IpgPaymentTransactionQueryRequest extends IpgOtherActionsBaseRequest {
 
     private static final long serialVersionUID = 8142777552640312968L;
     private String status;

@@ -5,13 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serializable;
+import java.util.Map;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class IpgPaymentCaptureRequest extends IpgExistingPaymentActionBaseRequest {
-    private static final long serialVersionUID = 9208778230243083902L;
-    private String paymentType;
-    private Long paymentId;
-    private Double amount;
+public abstract class IpgOtherActionsBaseRequest implements Serializable {
+    private static final long serialVersionUID = -6422970862012994655L;
+
+    private Map<String, Object> paymentAdditionalData;
 }

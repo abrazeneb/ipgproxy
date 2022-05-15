@@ -11,10 +11,14 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class IpgPaymentRefundRequest extends IpgOtherActionsBaseRequest {
-    private static final long serialVersionUID = 3640695618036829670L;
+public class IpgStandalonePaymentStoreRequest extends IpgOtherActionsBaseRequest {
+    private static final long serialVersionUID = -2169866764358841438L;
 
-    private String paymentType;
-    private Long paymentId;
-    private Double amount;
+    private IpgShippingAddress shipping;
+    private IpgCustomer customer;
+    private IpgCard card;
+    private String paymentBrand;
+    private String paymentMode;
+    private boolean createRegistration;
+
 }

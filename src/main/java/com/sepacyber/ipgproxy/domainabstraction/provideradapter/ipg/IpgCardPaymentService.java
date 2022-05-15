@@ -113,7 +113,7 @@ public class IpgCardPaymentService  implements CardPaymentPort {
                                                         final PaymentCaptureCommandDto captureCommandDto,
                                                         BusinessWithAdditionalDataDto businessWithAdditionalDataDto) {
         log.debug("Processing ipg capture payment");
-        IpgPaymentCaptureRequest requestDto = mapper.map(captureCommandDto, IpgPaymentCaptureRequest.class);
+        IpgOtherActionsPaymentCaptureRequest requestDto = mapper.map(captureCommandDto, IpgOtherActionsPaymentCaptureRequest.class);
         if (nonNull(requestDto.getPaymentAdditionalData())) {
             requestDto.getPaymentAdditionalData().putAll(businessWithAdditionalDataDto.getAdditionalData());
         } else {
@@ -154,6 +154,15 @@ public class IpgCardPaymentService  implements CardPaymentPort {
         return mapper.map(getResponse(response), ExistingPaymentActionResponse.class);
     }
 
+    public void tokenizePayment(PaymentTokenizationCommandDto paymentTokenizationCommandDto,
+                                final BusinessWithAdditionalDataDto businessWithAdditionalDataDto) {
+
+        IpgStandalonePaymentStoreRequest request = mapper.map(paymentTokenizationCommandDto, IpgStandalonePaymentStoreRequest.class);
+        request.setPaymentAdditionalData(businessWithAdditionalDataDto.getAdditionalData());
+
+        ResponseEntity<IpgTokenizationPaymentResponse> responseDto = ipgPaymentApiClient.registerPayment(request);
+
+    }
 
     private <T extends IpgBaseResponseDto> T getResponse(ResponseEntity<T> responseEntity, String... params) {
         if (isNull(responseEntity) || !responseEntity.getStatusCode().is2xxSuccessful()
