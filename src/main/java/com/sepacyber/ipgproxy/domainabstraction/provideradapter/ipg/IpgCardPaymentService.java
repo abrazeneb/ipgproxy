@@ -155,7 +155,7 @@ public class IpgCardPaymentService  implements CardPaymentPort {
     }
 
     public void tokenizePayment(PaymentTokenizationCommandDto paymentTokenizationCommandDto,
-                                final BusinessWithAdditionalDataDto businessWithAdditionalDataDto) {
+                                final OrganizationDto businessWithAdditionalDataDto) {
 
         IpgStandalonePaymentStoreRequest request = mapper.map(paymentTokenizationCommandDto, IpgStandalonePaymentStoreRequest.class);
         request.setPaymentAdditionalData(businessWithAdditionalDataDto.getAdditionalData());

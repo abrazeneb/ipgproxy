@@ -28,7 +28,7 @@ public interface IpgPaymentApiClient {
     @PostMapping("/capture/{id}")
     ResponseEntity<IpgPaymentStatusResponseDto> capturePayment(
             @PathVariable("id") String id,
-            @RequestBody final IpgPaymentCaptureRequest requestDto);
+            @RequestBody final IpgOtherActionsPaymentCaptureRequest requestDto);
 
     @PostMapping("/cancel/{id}")
     ResponseEntity<IpgPaymentStatusResponseDto> reversePayment(
