@@ -10,7 +10,9 @@ import com.sepacyber.ipgproxy.applicationcore.ports.out.dto.OrganizationDto;
 import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.request.*;
 import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.response.*;
 import com.sepacyber.ipgproxy.infrastructure.ipg.IpgPropertiesConfig;
-import com.sepacyber.ipgproxy.shared.exception.IntegrationException;
+import com.sepacyber.ipgproxy.shared.exception.IpgVendorIntegrationException;
+import com.sepacyber.ipgproxy.shared.exception.error.ErrorCode;
+import com.sepacyber.ipgproxy.shared.exception.error.ErrorDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -158,16 +160,30 @@ public class IpgCardPaymentService  implements CardPaymentPort {
     private <T extends IpgBaseResponseDto> T getResponse(ResponseEntity<T> responseEntity, String... params) {
         if (isNull(responseEntity) || !responseEntity.getStatusCode().is2xxSuccessful()
                 || isNull(responseEntity.getBody()) ) {
-            throw new IntegrationException("Response is not successful."
-                    + ", with params: " + String.join(",", params),
-                    nonNull(responseEntity) ? responseEntity.getStatusCodeValue() : 400);
+            var detailError = new ErrorDto.DetailError(
+                    nonNull(responseEntity) ? responseEntity.getStatusCodeValue() : ErrorCode.IPG_INTEGRATION_ISSUE);
+
+            var error = ErrorDto.builder()
+                    .code(ErrorCode.IPG_INTEGRATION_ISSUE)
+                    .message(nonNull(responseEntity) ? responseEntity.getStatusCode().getReasonPhrase() : "Error occurred while processing payment")
+                    .detailError(detailError)
+                    .build();
+
+            throw new IpgVendorIntegrationException(error);
         }
 
         IpgBaseResponseDto responseBody = responseEntity.getBody();
         if(!ipgPropertiesConfig.getSuccessResponseCodes().contains(responseBody.getResult().getCode())) {
-            throw new IntegrationException(responseBody.getResult().getDescription()
-                    + ", with params: " + String.join(",", params),
-                    nonNull(responseEntity) ? responseEntity.getStatusCodeValue() : 400);
+
+            var detailError = new ErrorDto.DetailError(responseEntity.getStatusCodeValue());
+
+            var error = ErrorDto.builder()
+                    .code(ErrorCode.IPG_INTEGRATION_ISSUE)
+                    .message(responseEntity.getStatusCode().getReasonPhrase())
+                    .detailError(detailError)
+                    .build();
+
+            throw new IpgVendorIntegrationException(error);
         }
         return (T) responseBody;
     }
