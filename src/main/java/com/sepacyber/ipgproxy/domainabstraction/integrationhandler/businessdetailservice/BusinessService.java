@@ -7,6 +7,7 @@ import com.sepacyber.ipgproxy.shared.exception.OrganizationNotFoundException;
 import com.sepacyber.ipgproxy.shared.exception.error.ErrorCode;
 import com.sepacyber.ipgproxy.shared.exception.error.ErrorDto;
 import feign.FeignException;
+import feign.RetryableException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -32,34 +33,31 @@ public class BusinessService implements BusinessServicePort {
     //TODO: feign client error handling
     public OrganizationDto getOrganization(long tenantId, String organizationId) {
         log.debug("Getting organization with id {}", organizationId);
-        //ResponseEntity response;
-        try{
-            var response = apiClient.getOrganizationById(tenantId, organizationId);
 
-            if(isNull(Objects.requireNonNull(response.getBody()).getValue())) {
+        var response = apiClient.getOrganizationById(tenantId, organizationId);
 
-                var error =  ErrorDto.builder()
-                        .code(ErrorCode.ORGANIZATION_NOT_FOUND)
-                        .message("Organization with id " + organizationId + " not found")
-                        .build();
-                throw new OrganizationNotFoundException(error);
-            }
+        if (isNull(Objects.requireNonNull(response.getBody()).getValue())) {
 
-            if(CollectionUtils.isEmpty(response.getBody().getValue().getAdditionalData())) {
-                var error =  ErrorDto.builder()
-                        .code(ErrorCode.ORGANIZATION_ADDITIONAL_DATA_NOT_FOUND)
-                        .message("No additional data found for organization with id: " + organizationId)
-                        .build();
-                throw new OrganizationAdditionalDataNotFoundException(error);
-            }
-
-            var payload = response.getBody().getValue();
-
-            log.debug("Received organization data with response {}", payload);
-            return mapper.map(payload, OrganizationDto.class);
-        }catch(FeignException e){
-            throw e;
+            var error = ErrorDto.builder()
+                    .code(ErrorCode.ORGANIZATION_NOT_FOUND)
+                    .message("Organization with id " + organizationId + " not found")
+                    .build();
+            throw new OrganizationNotFoundException(error);
         }
+
+        if (CollectionUtils.isEmpty(response.getBody().getValue().getAdditionalData())) {
+            var error = ErrorDto.builder()
+                    .code(ErrorCode.ORGANIZATION_ADDITIONAL_DATA_NOT_FOUND)
+                    .message("No additional data found for organization with id: " + organizationId)
+                    .build();
+            throw new OrganizationAdditionalDataNotFoundException(error);
+        }
+
+        var payload = response.getBody().getValue();
+
+        log.debug("Received organization data with response {}", payload);
+        return mapper.map(payload, OrganizationDto.class);
+
     }
 }
 

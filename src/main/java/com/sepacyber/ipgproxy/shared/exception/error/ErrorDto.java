@@ -4,22 +4,26 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
-@Builder
+@SuperBuilder
 public class ErrorDto {
 
     private int code;
     private String message;
     private DetailError detailError; //This is added in case we want to return ipg/integration specific error codes
-    private List<FieldError> fieldErrors;
+
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     @Builder.Default
     private Date timestamp = new Date();
+
+    private String path;
+
 
     @Data
     @Builder
@@ -33,14 +37,6 @@ public class ErrorDto {
         }
     }
 
-    //for multiple method argument validation error handling
-    @Data
-    @AllArgsConstructor
-    public static class FieldError{
-
-        private String filedName;
-        private String fieldError;
-    }
 
     @Override
     public String toString(){
