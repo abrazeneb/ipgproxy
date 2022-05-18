@@ -5,6 +5,8 @@ WORKDIR $APP_HOME
 COPY build.gradle settings.gradle gradlew $APP_HOME
 COPY gradle $APP_HOME/gradle
 COPY src $APP_HOME/src
+RUN chmod +x gradlew
+RUN ls -la
 RUN ./gradlew clean && ./gradlew build || return 0
 
 
