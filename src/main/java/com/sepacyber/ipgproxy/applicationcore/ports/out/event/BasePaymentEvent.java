@@ -1,16 +1,18 @@
-package com.sepacyber.ipgproxy.applicationcore.ports.out;
+package com.sepacyber.ipgproxy.applicationcore.ports.out.event;
 
-import an.awesome.pipelinr.Notification;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentProcessedEvent implements Notification {
+@SuperBuilder
+public abstract class BasePaymentEvent {
 
     private String merchantTransactionId;
     private Double amount;
@@ -22,12 +24,12 @@ public class PaymentProcessedEvent implements Notification {
     private Long terminalId;
 
     private UUID orderId;
-    private Organization organization;
+    private PaymentProcessedEvent.Organization organization;
 
-    private Card card;
-    private Customer customer;
+    private PaymentProcessedEvent.Card card;
+    private PaymentProcessedEvent.Customer customer;
 
-    private long processedAt;
+    private long timestamp;
 
     @Data
     @AllArgsConstructor

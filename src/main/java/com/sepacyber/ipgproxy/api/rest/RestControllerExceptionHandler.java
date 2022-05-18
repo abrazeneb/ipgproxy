@@ -1,4 +1,4 @@
-package com.sepacyber.ipgproxy.api.rest.errorhandler;
+package com.sepacyber.ipgproxy.api.rest;
 
 import com.sepacyber.ipgproxy.shared.exception.IpgVendorIntegrationException;
 import com.sepacyber.ipgproxy.shared.exception.OrganizationAdditionalDataNotFoundException;
@@ -7,6 +7,7 @@ import com.sepacyber.ipgproxy.shared.exception.error.ErrorCode;
 import com.sepacyber.ipgproxy.shared.exception.error.ErrorDto;
 import com.sepacyber.ipgproxy.shared.exception.error.ErrorWithFieldErrorsDto;
 import feign.FeignException;
+import feign.RetryableException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -42,6 +43,17 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
         return new ResponseEntity<>(ex.getError(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(RetryableException.class)
+    public ResponseEntity<Object> handleRetryableException(RetryableException ex) {
+
+        var error = ErrorDto.builder()
+                .code(ErrorCode.FEIGN_CLIENT_EXCEPTION)
+                .message(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(error, HttpStatus.REQUEST_TIMEOUT);
+    }
+
     //TODO: can be refined: for instance handling RetryableException for timeout
     @ExceptionHandler(FeignException.class)
     public ResponseEntity<Object> handleFeignException(FeignException ex) {
@@ -49,13 +61,13 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
        var detailError = new ErrorDto.DetailError(ErrorCode.FEIGN_CLIENT_EXCEPTION, ex.getMessage());
 
        var error = ErrorDto.builder()
-               .code(ex.status())
+               .code(ErrorCode.FEIGN_CLIENT_EXCEPTION)
                .message("Api client exception")
-               .path(ex.request().url())
+               //.path(ex.request().url())
                .detailError(detailError)
                .build();
 
-        return new ResponseEntity<Object>(error,  HttpStatus.valueOf(ex.status()));
+        return new ResponseEntity<Object>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(RuntimeException.class)
