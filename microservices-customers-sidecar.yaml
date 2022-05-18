@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   namespace: microservices-wallet
+   name: sidecar-microservices-wallet-customers
+   labels:
+     app: sidecar-microservices-wallet-customers
+spec:
+   replicas: 1
+   selector:
+     matchLabels:
+       app: sidecar-microservices-wallet-customers
+   template:
+     metadata:
+       namespace: microservices-wallet
+       labels:
+         app: sidecar-microservices-wallet-customers
+     spec:
+       containers:
+       - name: sidecar-microservices-wallet-customers
+         image: myregistry.sepa-cyber.com:5000/microservices/wallet/customers-sidecar:this-is-the-version-number-to-replace
+         imagePullPolicy: "Always"
+         ports:
+         - containerPort: 4000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: microservices-wallet
+  name:  sidecar-microservices-wallet-customers-service
+spec:
+  selector:
+    app: sidecar-microservices-wallet-customers
+  ports:
+    - protocol: TCP
+      nodePort: 30102
+      port: 4000
+  type: NodePort
