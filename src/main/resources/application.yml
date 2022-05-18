@@ -27,10 +27,6 @@ spring:
             password: ${DB_PASSWORD}
             username: ${DB_USERNAME}
         url: jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_NAME}
-    flyway:
-        password: ${DB_PASSWORD}
-        url: jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_NAME}
-        user: ${DB_USERNAME}
     jpa:
         properties:
             hibernate:
