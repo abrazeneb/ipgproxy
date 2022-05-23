@@ -158,28 +158,30 @@ public class IpgCardPaymentService  implements CardPaymentPort {
 
 
     private <T extends IpgBaseResponseDto> T getResponse(ResponseEntity<T> responseEntity, String... params) {
+        IpgBaseResponseDto responseBody = responseEntity.getBody();
+
         if (isNull(responseEntity) || !responseEntity.getStatusCode().is2xxSuccessful()
                 || isNull(responseEntity.getBody()) ) {
-            var detailError = new ErrorDto.DetailError(
-                    nonNull(responseEntity) ? responseEntity.getStatusCodeValue() : ErrorCode.IPG_INTEGRATION_ISSUE);
+            var detailError = new ErrorDto.DetailError(responseEntity.getStatusCode().value(), responseBody.getResult().getDescription());
+
 
             var error = ErrorDto.builder()
                     .code(ErrorCode.IPG_INTEGRATION_ISSUE)
-                    .message(nonNull(responseEntity) ? responseEntity.getStatusCode().getReasonPhrase() : "Error occurred while processing payment")
+                    .message("Error occurred while processing ...")
                     .detailError(detailError)
                     .build();
 
             throw new IpgVendorIntegrationException(error);
         }
 
-        IpgBaseResponseDto responseBody = responseEntity.getBody();
+
         if(!ipgPropertiesConfig.getSuccessResponseCodes().contains(responseBody.getResult().getCode())) {
 
-            var detailError = new ErrorDto.DetailError(responseEntity.getStatusCodeValue());
+            var detailError = new ErrorDto.DetailError(Integer.parseInt(responseBody.getResult().getCode()), responseBody.getResult().getDescription());
 
             var error = ErrorDto.builder()
                     .code(ErrorCode.IPG_INTEGRATION_ISSUE)
-                    .message(responseEntity.getStatusCode().getReasonPhrase())
+                    .message("Error occurred while processing ...")
                     .detailError(detailError)
                     .build();
 

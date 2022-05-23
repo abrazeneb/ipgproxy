@@ -17,10 +17,13 @@ spring:
     port: ${REDIS_PORT:6379}
     password: ${REDIS_PASSWORD:""}
 
+
   cloud.stream:
     bindings:
       payment-processed-out:
         destination: ${KAFKA_IPG_PAYMENT_PROCESSED_TOPIC:ipg.payment.processed} #topic name
+      payment-failed-out:
+        destination: ${KAFKA_IPG_PAYMENT_FAILED_TOPIC:ipg.payment.failed} #topic name
     kafka.streams:
       binder:
         brokers: ${KAFKA_BROKERS:localhost:9092}
