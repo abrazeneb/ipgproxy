@@ -30,14 +30,14 @@ spring:
     import: optional:configserver:https://sepa-cyber.com/api/production/config
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://${MARIADB_HOST:62.171.137.149}:${MARIADB_PORT:3308}/ipg_proxy
-    username: ${MARIADB_USERNAME:abraham}
-    password: ${MARIADB_USERNAME:abraham}
+    url: jdbc:mariadb://${MARIADB_HOST}:${MARIADB_PORT:3306}/ipg_proxy
+    username: ${MARIADB_USERNAME}
+    password: ${MARIADB_USERNAME}
 
   liquibase:
     change-log: classpath:/db/liquibase/master.xml
-    user: ${MARIADB_USERNAME:abraham}
-    password: ${MARIADB_USERNAME:abraham}
+    user: ${MARIADB_USERNAME}
+    password: ${MARIADB_USERNAME}
     enabled: true
   jpa:
     generate-ddl: true
