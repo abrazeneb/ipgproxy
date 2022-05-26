@@ -1,13 +1,14 @@
 package com.sepacyber.ipgproxy.applicationcore.ports.in.dto;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper=false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class PaymentTokenizationCommandDto {
+@SuperBuilder(toBuilder = true)
+public class PaymentTokenizationCommandDto extends AbstractPaymentCommandDto {
     private static final long serialVersionUID = -6780259160549888376L;
     private PayWithCardCommandDto.ShippingAddress shipping;
     private CommandShippingAddress customer;

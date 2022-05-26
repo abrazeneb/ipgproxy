@@ -57,9 +57,20 @@ public interface IpgPaymentApiClient {
     ResponseEntity<IpgCardsAndAccountsResponse> getCardsAndAccounts (
             @RequestBody final AuthenticationDto requestDto);
 
-
     @PostMapping("/payments/register ")
     ResponseEntity<IpgTokenizationPaymentResponse> registerPayment (
             @RequestBody final IpgStandalonePaymentStoreRequest requestDto);
+
+    @PostMapping("/payments/fromStoredToken")
+    ResponseEntity<IpgPayWithTokenResponse> payFromStoredToken (
+            @RequestBody final IpgPayWithStoredTokenRequest requestDto);
+
+    @PostMapping("/payments/delete")
+    ResponseEntity<IpgDeleteStoredPaymentResponse> deleteStoredPaymentData (
+            @RequestBody final IpgDeleteStoredPaymentDataRequest requestDto);
+
+    @PostMapping("/payments/installments")
+    ResponseEntity<IpgQueryPaymentInstallmentsResponse> queryPaymentInstallments (
+            @RequestBody final IpgQueryPaymentInstallmentsRequest requestDto);
 
 }

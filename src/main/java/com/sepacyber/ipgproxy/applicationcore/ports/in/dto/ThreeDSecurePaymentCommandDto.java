@@ -25,5 +25,14 @@ public class ThreeDSecurePaymentCommandDto extends AbstractPaymentCommandDto {
     private CardCommandDto card;
     private String attemptThreeD;
     private String paymentProvider;
+    private String merchantTransactionId;
+    private Double amount;
+    private String currency;
+    private String paymentBrand;
+    private String paymentMode;
+    private String paymentType;
+    private String merchantRedirectUrl;
+    private Long accountId;
+    private Long terminalId;
     private String virtualPrivateAddress;
 }

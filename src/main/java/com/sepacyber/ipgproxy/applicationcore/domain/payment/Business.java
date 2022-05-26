@@ -2,34 +2,53 @@ package com.sepacyber.ipgproxy.applicationcore.domain.payment;
 
 import com.sepacyber.ipgproxy.applicationcore.domain.Entity;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 
-@Data
-@javax.persistence.Entity
-@Table(name = "order")
-public class Business implements Entity {
+@Getter
+@Embeddable
+public class Business {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
     @Column(name = "name")
     private String name;
-    @Column(name = "tenantId")
-    private String tenantId;
-    @Column(name = "tenantName")
+    @Column(name = "tenant_id")
+    private Long tenantId;
+    @Column(name = "tenant_name")
     private String tenantName;
-    @OneToOne
-    private Payment payment;
+    @Column
+    private String organizationId;
 
-    @ElementCollection
-    @MapKeyColumn(name="name")
-    @Column(name="value")
-    @CollectionTable(name="business_data", joinColumns=@JoinColumn(name="id"))
-    private Map<String, String> businessData;
+    @SuppressWarnings("unused")
+    protected Business() {
+    }
+
+    public Business(String name, Long tenantId, String tenantName, String organizationId) {
+        this.name = name;
+        this.tenantId = tenantId;
+        this.tenantName = tenantName;
+        this.organizationId = organizationId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Business business = (Business) o;
+        return name.equals(business.name)
+                && tenantId.equals(business.tenantId)
+                && tenantName.equals(business.tenantName)
+                && organizationId.equals(business.organizationId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, tenantId, tenantName, organizationId);
+    }
 }

@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TokenizationResponse implements Serializable {
+public class TokenizationResponse extends AbstractPaymentResponse {
     private static final long serialVersionUID = -4308276522518985855L;
     private Long memberId;
     private String registrationId;

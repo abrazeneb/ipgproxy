@@ -23,4 +23,13 @@ public class AsyncPaymentCommandDto extends AbstractPaymentCommandDto {
     private Boolean createRegistration;
     private String paymentId;
     private String registrationId;
+    private String merchantTransactionId;
+    private Double amount;
+    private String currency;
+    private String paymentBrand;
+    private String paymentMode;
+    private String paymentType;
+    private String merchantRedirectUrl;
+    private Long accountId;
+    private Long terminalId;
 }

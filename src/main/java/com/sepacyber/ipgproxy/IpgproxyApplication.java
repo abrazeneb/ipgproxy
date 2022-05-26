@@ -14,9 +14,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.function.context.config.ContextFunctionCatalogAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.net.ssl.*;
 import java.net.InetAddress;
@@ -26,6 +29,8 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @SpringBootApplication(exclude= ContextFunctionCatalogAutoConfiguration.class)
+@EnableConfigurationProperties(LiquibaseProperties.class)
+@EnableScheduling
 public class IpgproxyApplication  implements InitializingBean {
 
     public static void main(String[] args) {
@@ -77,6 +82,7 @@ public class IpgproxyApplication  implements InitializingBean {
 
         if(activeProfiles.contains(ApplicationConstants.SPRING_PROFILE_DEVELOPMENT))
             ignoreSSL();
+
     }
 
 
@@ -126,5 +132,4 @@ public class IpgproxyApplication  implements InitializingBean {
                 .with(notificationHandlers::stream)
                 .with(middlewares::orderedStream);
     }
-
 }

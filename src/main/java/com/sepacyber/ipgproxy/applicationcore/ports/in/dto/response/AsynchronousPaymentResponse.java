@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AsynchronousPaymentResponse extends AbstractPaymentResponse implements Serializable {
+public class AsynchronousPaymentResponse extends AbstractPaymentActionResponse {
     private static final long serialVersionUID = -1082669989318920381L;
     private String status;
     private String firstName;

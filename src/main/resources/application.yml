@@ -11,11 +11,9 @@ spring:
     name: ipg-proxy
   profiles:
     active: dev,swagger
-
   redis:
     host: ${REDIS_SERVER:localhost}
     port: ${REDIS_PORT:6379}
-    password: ${REDIS_PASSWORD:""}
 
   cloud.stream:
     bindings:
@@ -32,10 +30,19 @@ spring:
     import: optional:configserver:https://sepa-cyber.com/api/production/config
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://${MARIADB_HOST:localhost}:${MARIADB_PORT:3306}/ipg_proxy
-    username: ${MARIADB_USERNAME:root}
-    password: ${MARIADB_USERNAME:rootpw}
+    url: jdbc:mariadb://${MARIADB_HOST:62.171.137.149}:${MARIADB_PORT:3308}/ipg_proxy
+    username: ${MARIADB_USERNAME:abraham}
+    password: ${MARIADB_USERNAME:abraham}
 
+  liquibase:
+    change-log: classpath:/db/liquibase/master.xml
+    user: ${MARIADB_USERNAME:abraham}
+    password: ${MARIADB_USERNAME:abraham}
+    enabled: true
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: none
 business:
   service:
     url: ${BUSINESS_MS_API_URL:http://localhost:3000}
@@ -79,3 +86,10 @@ application:
       - "00031"
       - "00010"
       - "00030"
+  status:
+    poll:
+      schedule: '*/10 * * * * *'
+
+config:
+  sidecar:
+    event-topic: config-sidecar_tenant_config_event_channel

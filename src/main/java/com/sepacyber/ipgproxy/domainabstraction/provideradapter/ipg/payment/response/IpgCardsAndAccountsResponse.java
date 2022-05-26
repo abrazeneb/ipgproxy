@@ -16,7 +16,7 @@ public class IpgCardsAndAccountsResponse extends IpgBaseResponseDto {
     private Long memberId;
     private Long customerId;
     private List<Card> cards;
-    private List<Bankaccount> bankaccounts;
+    private List<Bankaccount> bankAccounts;
 
     @Data
     @AllArgsConstructor

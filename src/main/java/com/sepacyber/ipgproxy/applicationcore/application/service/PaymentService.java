@@ -1,20 +1,24 @@
 package com.sepacyber.ipgproxy.applicationcore.application.service;
 
 import an.awesome.pipelinr.Pipeline;
+import com.sepacyber.ipgproxy.applicationcore.domain.payment.Payment;
+import com.sepacyber.ipgproxy.applicationcore.domain.payment.PaymentStatus;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.PaymentUseCase;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.*;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.AbstractPaymentResponse;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ExistingPaymentActionResponse;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.*;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.BusinessServicePort;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.CardPaymentPort;
+import com.sepacyber.ipgproxy.applicationcore.ports.out.PaymentPersistencePort;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.PaymentProcessedEvent;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.dto.OrganizationDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
+import org.springframework.scheduling.annotation.Scheduled;
 
-import java.util.List;
+import java.util.*;
 
+import static java.util.stream.Collectors.groupingBy;
 @Slf4j
 @RequiredArgsConstructor
 @CoreBean
@@ -24,7 +28,7 @@ public class PaymentService implements PaymentUseCase {
     private final CardPaymentPort cardPaymentPort;
     private final Pipeline pipeline;
     private final MapperFacade mapper;
-
+    private final PaymentPersistencePort paymentPersistencePort;
     //TODO: handle PaymentFailedEvent, Exceptions
 
     @Override
@@ -42,7 +46,12 @@ public class PaymentService implements PaymentUseCase {
         else if(command instanceof ThreeDSecurePaymentCommandDto){
             response = cardPaymentPort.pay3DSecure((ThreeDSecurePaymentCommandDto) command,organizationDto);
         }
+        else if(command instanceof PaymentTokenizationCommandDto){
+            response = cardPaymentPort.tokenizePayment((PaymentTokenizationCommandDto) command,organizationDto);
+        }
 
+        //Persist response
+        paymentPersistencePort.save(mapper.map(response, Payment.class));
         notifyPaymentProcessed(command, organizationDto);
 
         return response;
@@ -52,7 +61,9 @@ public class PaymentService implements PaymentUseCase {
     public ExistingPaymentActionResponse processActionOnExistingPayment(AbstractActionOnPaymentCommandDto actionOnPaymentCommandDto) {
         var businessAdditionalData = businessServicePort.getOrganization(actionOnPaymentCommandDto.getTenantId(), actionOnPaymentCommandDto.getOrganizationId());
         if(actionOnPaymentCommandDto instanceof PaymentStatusCommandDto) {
-            return cardPaymentPort.getPaymentStatus(actionOnPaymentCommandDto.getPaymentId(), (PaymentStatusCommandDto) actionOnPaymentCommandDto, businessAdditionalData);
+            ExistingPaymentActionResponse paymentStatus = cardPaymentPort.getPaymentStatus(actionOnPaymentCommandDto.getPaymentId(), (PaymentStatusCommandDto) actionOnPaymentCommandDto, businessAdditionalData);
+            paymentPersistencePort.bulkUpdatePaymentStatus(Collections.singletonList(paymentStatus));
+            return paymentStatus;
         }
         if(actionOnPaymentCommandDto instanceof PaymentCaptureCommandDto) {
             return cardPaymentPort.capturePayment(actionOnPaymentCommandDto.getPaymentId(), (PaymentCaptureCommandDto) actionOnPaymentCommandDto, businessAdditionalData);
@@ -69,7 +80,47 @@ public class PaymentService implements PaymentUseCase {
     @Override
     public List<ExistingPaymentActionResponse> getPaymentStatusList(PaymentTransactionBulkQueryCommandDto paymentTransactionBulkQueryCommandDto) {
         var businessAdditionalData = businessServicePort.getOrganization(paymentTransactionBulkQueryCommandDto.getTenantId(), paymentTransactionBulkQueryCommandDto.getOrganizationId());
-        return cardPaymentPort.getPaymentStatusList(paymentTransactionBulkQueryCommandDto, businessAdditionalData);
+        List<ExistingPaymentActionResponse> paymentStatusList = cardPaymentPort.getPaymentStatusList(paymentTransactionBulkQueryCommandDto, businessAdditionalData);
+        paymentPersistencePort.bulkUpdatePaymentStatus(paymentStatusList);
+        return paymentStatusList;
+    }
+
+    @Override
+    public StoredTokenPaymentResponse payWithStoredToken(PayWithStoredTokenCommandDto payWithStoredTokenCommandDto) {
+        var businessAdditionalData = businessServicePort.getOrganization(payWithStoredTokenCommandDto.getTenantId(), payWithStoredTokenCommandDto.getOrganizationId());
+        return cardPaymentPort.payWithStoredData(payWithStoredTokenCommandDto, businessAdditionalData);
+    }
+
+    @Override
+    public DeleteStoredPaymentDataResponse deleteStoredPaymentData(DeleteStoredPaymentDataCommandDto deleteStoredPaymentDataCommandDto) {
+        var businessAdditionalData = businessServicePort.getOrganization(deleteStoredPaymentDataCommandDto.getTenantId(), deleteStoredPaymentDataCommandDto.getOrganizationId());
+        return cardPaymentPort.deleteStoredPaymentData(deleteStoredPaymentDataCommandDto, businessAdditionalData);
+    }
+
+    @Override
+    public QueryPaymentInstallmentsResponse queryPaymentInstallments(QueryPaymentInstallmentsCommandDto queryPaymentInstallmentsCommandDto) {
+        var businessAdditionalData = businessServicePort.getOrganization(queryPaymentInstallmentsCommandDto.getTenantId(), queryPaymentInstallmentsCommandDto.getOrganizationId());
+        return cardPaymentPort.queryPaymentInstallments(queryPaymentInstallmentsCommandDto, businessAdditionalData);
+    }
+
+    @Scheduled(cron="${application.status.poll.schedule: '*/10 * * * * *' }")
+    @Override
+    public void pollPaymentStatus(){
+        List<Payment> pendingPayments = paymentPersistencePort.getPaymentsByStatus(PaymentStatus.PENDING);
+        pendingPayments.stream()
+                .collect(groupingBy(Payment::getBusiness))
+                .entrySet()
+                .stream()
+                .map(Map.Entry::getValue)
+                .flatMap(Collection::stream)
+                .forEach(payment -> {
+                    List<ExistingPaymentActionResponse> paymentStatusList =
+                            getPaymentStatusList(PaymentTransactionBulkQueryCommandDto.builder()
+                            .tenantId(payment.getBusiness().getTenantId())
+                            .organizationId(payment.getBusiness().getOrganizationId())
+                            .build());
+                    paymentPersistencePort.bulkUpdatePaymentStatus(paymentStatusList);
+                });
     }
 
     private void notifyPaymentProcessed(AbstractPaymentCommandDto paymentCommandDto, OrganizationDto organizationDto){

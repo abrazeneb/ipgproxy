@@ -1,11 +1,9 @@
 package com.sepacyber.ipgproxy.applicationcore.ports.out;
 
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.*;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.AsynchronousPaymentResponse;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ExistingPaymentActionResponse;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.SynchronousPaymentResponse;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ThreeDSecurePaymentResponse;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.*;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.dto.OrganizationDto;
+import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.request.IpgPayWithStoredTokenRequest;
 
 import java.util.List;
 
@@ -18,4 +16,8 @@ public interface CardPaymentPort {
     ExistingPaymentActionResponse capturePayment(final String transactionId, final PaymentCaptureCommandDto captureCommandDto, OrganizationDto organizationDto);
     ExistingPaymentActionResponse refundPayment(final String transactionId, final PaymentRefundCommandDto captureCommandDto, OrganizationDto organizationDto);
     ExistingPaymentActionResponse reversePayment(final String transactionId, final PaymentReversalCommandDto reversalCommandDto, OrganizationDto organizationDto);
+    TokenizationResponse tokenizePayment(final PaymentTokenizationCommandDto paymentTokenizationCommandDto, final OrganizationDto businessWithAdditionalDataDto);
+    StoredTokenPaymentResponse payWithStoredData(final PayWithStoredTokenCommandDto payWithStoredTokenRequest, final OrganizationDto businessWithAdditionalDataDto);
+    DeleteStoredPaymentDataResponse deleteStoredPaymentData(final DeleteStoredPaymentDataCommandDto deleteStoredPaymentDataCommandDto, final OrganizationDto businessWithAdditionalDataDto);
+    QueryPaymentInstallmentsResponse queryPaymentInstallments(final QueryPaymentInstallmentsCommandDto queryPaymentInstallmentsCommandDto, final OrganizationDto businessWithAdditionalDataDto);
 }

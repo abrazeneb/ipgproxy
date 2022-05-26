@@ -1,10 +1,7 @@
 package com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg;
 
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.*;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.AsynchronousPaymentResponse;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ExistingPaymentActionResponse;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.SynchronousPaymentResponse;
-import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.ThreeDSecurePaymentResponse;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.*;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.CardPaymentPort;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.dto.OrganizationDto;
 import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.request.*;
@@ -154,14 +151,42 @@ public class IpgCardPaymentService  implements CardPaymentPort {
         return mapper.map(getResponse(response), ExistingPaymentActionResponse.class);
     }
 
-    public void tokenizePayment(PaymentTokenizationCommandDto paymentTokenizationCommandDto,
-                                final OrganizationDto businessWithAdditionalDataDto) {
+    @Override
+    public TokenizationResponse tokenizePayment(PaymentTokenizationCommandDto paymentTokenizationCommandDto,
+                                                final OrganizationDto businessWithAdditionalDataDto) {
 
         IpgStandalonePaymentStoreRequest request = mapper.map(paymentTokenizationCommandDto, IpgStandalonePaymentStoreRequest.class);
         request.setPaymentAdditionalData(businessWithAdditionalDataDto.getAdditionalData());
+        ResponseEntity<IpgTokenizationPaymentResponse> response = ipgPaymentApiClient.registerPayment(request);
+        log.debug("Received response from ipg client {}", response);
+        return mapper.map(getResponse(response), TokenizationResponse.class);
+    }
 
-        ResponseEntity<IpgTokenizationPaymentResponse> responseDto = ipgPaymentApiClient.registerPayment(request);
+    @Override
+    public StoredTokenPaymentResponse payWithStoredData(PayWithStoredTokenCommandDto payWithStoredTokenRequest, OrganizationDto businessWithAdditionalDataDto) {
+        IpgPayWithStoredTokenRequest request = mapper.map(payWithStoredTokenRequest, IpgPayWithStoredTokenRequest.class);
+        request.setPaymentAdditionalData(businessWithAdditionalDataDto.getAdditionalData());
+        ResponseEntity<IpgPayWithTokenResponse> response = ipgPaymentApiClient.payFromStoredToken(request);
+        log.debug("Received response from ipg client {}", response);
+        return mapper.map(getResponse(response), StoredTokenPaymentResponse.class);
+    }
 
+    @Override
+    public DeleteStoredPaymentDataResponse deleteStoredPaymentData(DeleteStoredPaymentDataCommandDto deleteStoredPaymentDataCommandDto, OrganizationDto businessWithAdditionalDataDto) {
+        IpgDeleteStoredPaymentDataRequest request = mapper.map(deleteStoredPaymentDataCommandDto, IpgDeleteStoredPaymentDataRequest.class);
+        request.setPaymentAdditionalData(businessWithAdditionalDataDto.getAdditionalData());
+        ResponseEntity<IpgDeleteStoredPaymentResponse> response = ipgPaymentApiClient.deleteStoredPaymentData(request);
+        log.debug("Received response from ipg client {}", response);
+        return mapper.map(getResponse(response), DeleteStoredPaymentDataResponse.class);
+    }
+
+    @Override
+    public QueryPaymentInstallmentsResponse queryPaymentInstallments(QueryPaymentInstallmentsCommandDto queryPaymentInstallmentsCommandDto, OrganizationDto businessWithAdditionalDataDto) {
+        IpgQueryPaymentInstallmentsRequest request = mapper.map(queryPaymentInstallmentsCommandDto, IpgQueryPaymentInstallmentsRequest.class);
+        request.setPaymentAdditionalData(businessWithAdditionalDataDto.getAdditionalData());
+        ResponseEntity<IpgQueryPaymentInstallmentsResponse> response = ipgPaymentApiClient.queryPaymentInstallments(request);
+        log.debug("Received response from ipg client {}", response);
+        return mapper.map(response, QueryPaymentInstallmentsResponse.class);
     }
 
     private <T extends IpgBaseResponseDto> T getResponse(ResponseEntity<T> responseEntity, String... params) {

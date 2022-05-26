@@ -1,17 +1,17 @@
 package com.sepacyber.ipgproxy.applicationcore.domain.payment;
 
-import com.sepacyber.ipgproxy.applicationcore.domain.Entity;
+import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Objects;
 
-@javax.persistence.Entity
-@Table(name = "customer")
-public class Customer implements Entity {
+@Getter
+@Embeddable
+public class Customer {
+
     @Column(name = "email")
     private String email;
-    @Column(name = "givenName")
+    @Column(name = "given_name")
     private String givenName;
     @Column(name = "surname")
     private String surname;
@@ -21,6 +21,30 @@ public class Customer implements Entity {
     private String telnocc;
     @Column(name = "phone")
     private String phone;
-    @OneToOne
-    private Payment payment;
+
+    @SuppressWarnings("unused")
+    protected Customer() {
+    }
+
+    public Customer(String email, String givenName, String surname, String ip, String telnocc, String phone) {
+        this.email = email;
+        this.givenName = givenName;
+        this.surname = surname;
+        this.ip = ip;
+        this.telnocc = telnocc;
+        this.phone = phone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return email.equals(customer.email) && givenName.equals(customer.givenName) && surname.equals(customer.surname) && ip.equals(customer.ip) && telnocc.equals(customer.telnocc) && phone.equals(customer.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, givenName, surname, ip, telnocc, phone);
+    }
 }

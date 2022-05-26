@@ -2,18 +2,24 @@ package com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.configurer;
 
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.PaginationUtil;
 import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.PayWithCardCommandDto;
+import com.sepacyber.ipgproxy.applicationcore.ports.in.dto.response.QueryPaymentInstallmentsResponse;
 import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.IpgPaginationUtil;
 import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.request.AuthenticationDto;
+import com.sepacyber.ipgproxy.domainabstraction.provideradapter.ipg.payment.response.IpgQueryPaymentInstallmentsResponse;
 import com.sepacyber.ipgproxy.shared.mapper.ConfigurableMapperConfigurer;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Slf4j
 @Component
@@ -44,5 +50,18 @@ public class IpgFactoryMapperConfigurer implements ConfigurableMapperConfigurer 
                                     : null);
                         }
                     }).register();
+
+            factory.classMap(IpgQueryPaymentInstallmentsResponse.class, QueryPaymentInstallmentsResponse.class)
+                    .customize(new CustomMapper<>() {
+                        @Override
+                        public void mapAtoB(IpgQueryPaymentInstallmentsResponse source,
+                                            QueryPaymentInstallmentsResponse destination, MappingContext context) {
+                            if(isNotBlank(source.getInstallment())) {
+                                destination.setPendingInstallments(Arrays.stream(source.getInstallment()
+                                        .split(",")).map(Integer::valueOf).collect(Collectors.toList()));
+                            }
+                        }
+                    }).byDefault()
+                    .register();
     }
 }

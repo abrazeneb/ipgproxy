@@ -25,13 +25,4 @@ public abstract class AbstractPaymentCommandDto implements Serializable {
     private static final long serialVersionUID = 2909665394413315747L;
     private long tenantId;
     private String organizationId;
-    private String merchantTransactionId;
-    private Double amount;
-    private String currency;
-    private String paymentBrand;
-    private String paymentMode;
-    private String paymentType;
-    private String merchantRedirectUrl;
-    private Long accountId;
-    private Long terminalId;
 }

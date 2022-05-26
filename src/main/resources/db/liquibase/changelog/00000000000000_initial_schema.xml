@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="000000000000001" author="abraham">
+        <createTable tableName="payment">
+            <column name="id"  type="binary(255)">
+                <constraints primaryKey="true"  nullable="false"/>
+            </column>
+            <column name="version" type="bigint(20)">
+                <constraints nullable="false" />
+            </column>
+            <column name="merchant_transaction_id"  type="varchar(300)" />
+            <column name="payment_id"  type="varchar(300)" />
+            <column name="amount"  type="double" />
+            <column name="currency"  type="varchar(100)" />
+            <column name="payment_brand"  type="varchar(300)" />
+            <column name="payment_mode"  type="varchar(300)" />
+            <column name="payment_type"  type="varchar(300)" />
+            <column name="payment_status"  type="varchar(300)" defaultValue="PENDING" />
+            <column name="account_id"  type="bigint(20)" />
+            <column name="terminal_id"  type="bigint(20)" />
+            <column name="name"  type="varchar(300)" />
+            <column name="tenant_id"  type="bigint(20)" />
+            <column name="tenant_name"  type="varchar(300)" />
+            <column name="organization_id"  type="varchar(255)" />
+            <column name="card_number"  type="varchar(300)" />
+            <column name="expiry_month"  type="varchar(50)" />
+            <column name="expiry_year"  type="varchar(50)" />
+            <column name="cvv"  type="varchar(50)" />
+            <column name="holder"  type="varchar(255)" />
+            <column name="email"  type="varchar(255)" />
+            <column name="given_name"  type="varchar(255)" />
+            <column name="surname"  type="varchar(255)" />
+            <column name="ip"  type="varchar(255)" />
+            <column name="telnocc"  type="varchar(255)" />
+            <column name="phone"  type="varchar(255)" />
+        </createTable>
+        <createTable tableName="business_data">
+            <column name="id" type="binary(255)"></column>
+            <column name="value" type="varchar(255)"></column>
+            <column name="name" type="varchar(255)"></column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="id"
+                                 baseTableName="business_data"
+                                 constraintName="fk_payment_business_data_payment_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="payment"/>
+    </changeSet>
+
+</databaseChangeLog>

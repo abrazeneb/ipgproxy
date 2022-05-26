@@ -14,18 +14,8 @@ import java.io.Serializable;
 @SuperBuilder
 public abstract class AbstractPaymentResponse implements Serializable {
     private static final long serialVersionUID = 1823301801884710772L;
-    private String paymentId;
+
     private String paymentBrand;
     private String paymentMode;
-    private String amount;
-    private String descriptor;
-    private PaymentCardResponse card;
-    private String timestamp;
-    private String currency;
-    private String transactionStatus;
-    private String merchantTransactionId;
-    private String remark;
-    private String tmplCurrency;
-    private String tmplAmount;
 
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SynchronousPaymentResponse extends AbstractPaymentResponse {
+public class SynchronousPaymentResponse extends AbstractPaymentActionResponse {
     private String status;
     private String firstName;
     private String lastName;
