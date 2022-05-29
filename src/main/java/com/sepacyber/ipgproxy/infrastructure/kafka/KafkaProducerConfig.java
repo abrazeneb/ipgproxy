@@ -1,6 +1,7 @@
 package com.sepacyber.ipgproxy.infrastructure.kafka;
 
-import com.sepacyber.ipgproxy.applicationcore.ports.out.PaymentProcessedEvent;
+import com.sepacyber.ipgproxy.applicationcore.ports.out.event.PaymentFailedEvent;
+import com.sepacyber.ipgproxy.applicationcore.ports.out.event.PaymentProcessedEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,13 +21,23 @@ public class KafkaProducerConfig {
     @Value("${spring.cloud.stream.kafka.streams.binder.brokers}")
     private String bootstrapServer;
 
-    @Bean
-    public KafkaTemplate<String, PaymentProcessedEvent> kafkaTemplate() {
+    @Bean(name = "paymentProcessedEventKafkaTemplate")
+    public KafkaTemplate<String, PaymentProcessedEvent> paymentProcessedEventKafkaTemplate() {
         return new KafkaTemplate<>(paymentProcessedProducerFactory());
+    }
+
+    @Bean(name = "paymentFailedEventKafkaTemplate")
+    public KafkaTemplate<String, PaymentFailedEvent> paymentFailedEventKafkaTemplate() {
+        return new KafkaTemplate<>(paymentFailedProducerFactory());
     }
 
     @Bean
     public ProducerFactory<String, PaymentProcessedEvent> paymentProcessedProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(jsonConfigs());
+    }
+
+    @Bean
+    public ProducerFactory<String, PaymentFailedEvent> paymentFailedProducerFactory() {
         return new DefaultKafkaProducerFactory<>(jsonConfigs());
     }
 

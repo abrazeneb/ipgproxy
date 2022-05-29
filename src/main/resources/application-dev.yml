@@ -7,9 +7,7 @@ business:
 
 spring:
   cloud.stream:
-    bindings:
-      payment-processed-out:
-        destination: ${KAFKA_IPG_PAYMENT_PROCESSED_TOPIC:ipg.payment.processed} #topic name
     kafka.streams:
       binder:
         brokers: ${KAFKA_BROKERS:odc-mqd01.local.sepa-cyber.com:9092}
+        #brokers: ${KAFKA_BROKERS:localhost:9092}
