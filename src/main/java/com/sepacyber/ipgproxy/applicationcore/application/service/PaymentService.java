@@ -12,7 +12,6 @@ import com.sepacyber.ipgproxy.applicationcore.ports.out.CardPaymentPort;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.event.PaymentFailedEvent;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.event.PaymentProcessedEvent;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.PaymentPersistencePort;
-import com.sepacyber.ipgproxy.applicationcore.ports.out.PaymentProcessedEvent;
 import com.sepacyber.ipgproxy.applicationcore.ports.out.dto.OrganizationDto;
 import com.sepacyber.ipgproxy.shared.exception.AbstractIpgException;
 import com.sepacyber.ipgproxy.shared.exception.error.ErrorCode;
@@ -77,7 +76,7 @@ public class PaymentService implements PaymentUseCase {
             var organizationDto = businessServicePort.getOrganization(actionOnPaymentCommandDto.getTenantId(), actionOnPaymentCommandDto.getOrganizationId());
 
             if(actionOnPaymentCommandDto instanceof PaymentStatusCommandDto) {
-                ExistingPaymentActionResponse paymentStatus = cardPaymentPort.getPaymentStatus(actionOnPaymentCommandDto.getPaymentId(), (PaymentStatusCommandDto) actionOnPaymentCommandDto, businessAdditionalData);
+                ExistingPaymentActionResponse paymentStatus = cardPaymentPort.getPaymentStatus(actionOnPaymentCommandDto.getPaymentId(), (PaymentStatusCommandDto) actionOnPaymentCommandDto, organizationDto);
                 paymentPersistencePort.bulkUpdatePaymentStatus(Collections.singletonList(paymentStatus));
                 return paymentStatus;
             }
